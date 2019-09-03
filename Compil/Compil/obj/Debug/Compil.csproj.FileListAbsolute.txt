@@ -1,0 +1,2 @@
+F:\Documents\GITrepos\Compil\Compil\Compil\obj\Debug\Compil.csprojAssemblyReference.cache
+F:\Documents\GITrepos\Compil\Compil\Compil\obj\Debug\Compil.csproj.CoreCompileInputs.cache
