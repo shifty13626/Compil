@@ -11,9 +11,21 @@ namespace Compil
     {
         private string code;
         private int index;
-
-        private HashSet<string> keyWord = new HashSet<string> { "if", "else", "for", "while", "do", "switch", "case", "int", "void" };
-
+        
+        private Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>()
+        {
+            {"if", TokenType.IF},
+            {"else", TokenType.ELSE},
+            {"for", TokenType.FOR},
+            {"while", TokenType.WHILE},
+            {"do", TokenType.DO},
+            {"switch", TokenType.SWITCH},
+            {"case", TokenType.CASE},
+            {"int", TokenType.INT},
+            {"void", TokenType.VOID}
+        };
+        
+        
         private Token CurrentNextToken;
         private int currentTokenLength = 0;
         private int CurrentLine;
@@ -46,20 +58,31 @@ namespace Compil
         /// </summary>
         public void Skip()
         {
-
+            index += currentTokenLength;
+            currentTokenLength = 0;
         }
 
         /// <summary>
         /// if next token is searching token -> ok
         /// else error
         /// </summary>
-        public void Accept()
+        public void Accept(TokenType type)
         {
-            
+            if (Next().Type != type)
+            {
+                throw new Exception("Bad token");
+            }
+            Skip();
         }
 
         private Token DetectNext()
         {
+            if (index == code.Length - 1)
+            {
+                return new Token() { Type = TokenType.END_OF_FILE };
+            }
+            
+            
             // Constants handle
             if (char.IsDigit(code[index]))
             {
@@ -82,7 +105,7 @@ namespace Compil
                 return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(buffer) };
             }
             
-            // Identifier handle
+            // Identifier and keywords handle
             if (char.IsLetter(code[index]))
             {
                 currentTokenLength = 1;
@@ -90,7 +113,13 @@ namespace Compil
 
                 if (index == code.Length - 1)
                 {
-                    return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(buffer) };
+                    // Look into keywords dictionnary to get the adequate token type
+                    if (keywords.ContainsKey(buffer))
+                    {
+                        return new Token() { Type = keywords[buffer], Name = buffer };
+                    }
+                    
+                    return new Token() { Type = TokenType.IDENTIFIER, Name = buffer };
                 }
                 
                 int i = index + 1;
@@ -101,7 +130,31 @@ namespace Compil
                     currentTokenLength++;
                 }
 
-                return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(buffer) };
+                // Look into keywords dictionnary to get the adequate token type
+                if (keywords.ContainsKey(buffer))
+                {
+                    return new Token() { Type = keywords[buffer], Name = buffer };
+                }
+                    
+                return new Token() { Type = TokenType.IDENTIFIER, Name = buffer };
+            }
+            
+            // ==
+            if (char.IsLetter(code[index]))
+            {
+                currentTokenLength = 1;
+                string buffer = code[index].ToString();
+                
+                if (index == code.Length - 1)
+                {
+                    return new Token() { Type = TokenType.AFFECT_EQUAL };
+                }
+
+                if (code[index + 1] == '=')
+                {
+                    currentTokenLength++;
+                    return new Token() { Type = TokenType.COMP_EQUAL };
+                }
             }
 
             currentTokenLength++;
@@ -123,6 +176,16 @@ namespace Compil
                     return new Token() { Type = TokenType.PAR_OPEN };
                 case ')':
                     return new Token() { Type = TokenType.PAR_CLOSE };
+                case '{':
+                    return new Token() { Type = TokenType.BLOCK_START };
+                case '}':
+                    return new Token() { Type = TokenType.BLOCK_END };
+                case '&':
+                    return new Token() { Type = TokenType.BOOL_AND };
+                case '|':
+                    return new Token() { Type = TokenType.BOOL_OR };
+                case ';':
+                    return new Token() { Type = TokenType.SEMICOLON };
                 case ' ':
                 case '\n':
                     // fin du token
