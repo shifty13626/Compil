@@ -8,7 +8,7 @@ using Compil.Exceptions;
 
 namespace Compil
 {
-    class LexicalAnalyser
+    public class LexicalAnalyser
     {
         private string code;
         private int index;
