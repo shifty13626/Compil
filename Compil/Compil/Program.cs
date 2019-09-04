@@ -23,9 +23,8 @@ namespace Compil
                 Console.WriteLine("code file : " + code);
 
                 // lexicalAnalyser
-                var lexicalAnalyser = new LexicalAnalyser(code, 0);
-
-
+                var lexicalAnalyser = new LexicalAnalyzer(code, 0);
+                
             }
             catch(EncoderFallbackException e)
             {
