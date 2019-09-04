@@ -10,7 +10,7 @@ namespace Compil
     class LexicalAnalyzer
     {
         private string code;
-        private int index;
+        public int index;
         
         private Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>()
         {
@@ -60,6 +60,7 @@ namespace Compil
         {
             index += currentTokenLength;
             currentTokenLength = 0;
+            CurrentNextToken = null;
         }
 
         /// <summary>
@@ -77,12 +78,17 @@ namespace Compil
 
         private Token DetectNext()
         {
-            if (index == code.Length - 1)
+
+            if (index == code.Length)
             {
                 return new Token() { Type = TokenType.END_OF_FILE };
             }
             
-            
+            while (code[index] == ' ' || code[index] == '\n')
+            {
+                index++;
+            }
+
             // Constants handle
             if (char.IsDigit(code[index]))
             {
@@ -140,7 +146,7 @@ namespace Compil
             }
             
             // ==
-            if (char.IsLetter(code[index]))
+            if (code[index] == '=')
             {
                 currentTokenLength = 1;
                 string buffer = code[index].ToString();
@@ -155,6 +161,8 @@ namespace Compil
                     currentTokenLength++;
                     return new Token() { Type = TokenType.COMP_EQUAL };
                 }
+
+                return new Token() { Type = TokenType.AFFECT_EQUAL };
             }
 
             currentTokenLength++;
@@ -186,10 +194,6 @@ namespace Compil
                     return new Token() { Type = TokenType.BOOL_OR };
                 case ';':
                     return new Token() { Type = TokenType.SEMICOLON };
-                case ' ':
-                case '\n':
-                    // fin du token
-                    break;
                 default:
                     break;
             }

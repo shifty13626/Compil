@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Compil.Utils;
 
 namespace Compil
 {
@@ -11,19 +12,22 @@ namespace Compil
     {
         static void Main(string[] args)
         {
-            string code = "";
+            string code = @"void main(int azerty) { int b = baba + 3; }";
+
             try
             {
-                // check file is .c extention
-                if (!args[args.Length - 1].Contains(".c"))
-                    throw new EncoderFallbackException();
-
-                // read file
-                code = File.ReadAllText(args[args.Length - 1]);
                 Console.WriteLine("code file : " + code);
+                Console.ReadKey();
 
                 // lexicalAnalyser
                 var lexicalAnalyser = new LexicalAnalyzer(code, 0);
+
+                while (lexicalAnalyser.Next().Type != TokenType.END_OF_FILE)
+                {
+                    Console.Write(lexicalAnalyser.Next().Type + " -> ");
+                    lexicalAnalyser.Skip();
+                }
+                Console.Write(lexicalAnalyser.Next().Type);
                 
             }
             catch(EncoderFallbackException e)
