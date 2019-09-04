@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Compil.Utils;
+using Compil.Exceptions;
 
 namespace Compil
 {
@@ -15,7 +16,6 @@ namespace Compil
         private HashSet<string> keyWord = new HashSet<string> { "if", "else", "for", "while", "do", "switch", "case", "int", "void" };
 
         private Token CurrentNextToken;
-        private int CurrentLine;
 
         public LexicalAnalyser(string code, int index)
         {
@@ -52,9 +52,12 @@ namespace Compil
         /// if next token is searching token -> ok
         /// else error
         /// </summary>
-        public void Accept()
+        public void Accept(TokenType type)
         {
-            
+            if (Next().Type == type)
+                Skip();
+            else
+                throw new NotValidCharException();
         }
 
         private Token DetectNext()
@@ -80,26 +83,26 @@ namespace Compil
                 return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(buffer) };
             }
 
-
-                switch (code[index])
-                {
-                    case '+':
-                        return new Token() { Type = TokenType.OP_PLUS };
-                    case '-':
-                        return new Token() { Type = TokenType.OP_MINUS };
-                    case '*':
-                        return new Token() { Type = TokenType.OP_MULTIPLY };
-                    case '/':
-                        return new Token() { Type = TokenType.OP_DIVIDE };
-                    case '%':
-                        return new Token() { Type = TokenType.OP_MODULO };
-                    case '^':
-                        return new Token() { Type = TokenType.OP_POWER };
-                    case ' ':
-                    case '\n':
-                        // fin du token
-                        break;
-                }
+            // Binarie operator
+            switch (code[index])
+            {
+                case '+':
+                    return new Token() { Type = TokenType.OP_PLUS };
+                case '-':
+                    return new Token() { Type = TokenType.OP_MINUS };
+                case '*':
+                    return new Token() { Type = TokenType.OP_MULTIPLY };
+                case '/':
+                    return new Token() { Type = TokenType.OP_DIVIDE };
+                case '%':
+                    return new Token() { Type = TokenType.OP_MODULO };
+                case '^':
+                    return new Token() { Type = TokenType.OP_POWER };
+                case ' ':
+                case '\n':
+                    // fin du token
+                    break;
+            }
 
             throw new NotImplementedException();
         }

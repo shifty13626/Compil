@@ -19,19 +19,5 @@ namespace Compil
         public int Column { get; set; }
         public TokenType Type {get; set;}
         #endregion
-
-        #region Constructor
-        public Token(string name, int value)
-        {
-            this.Name = name;
-            this.Value = value;
-        }
-
-        public Token()
-        {
-            this.Name = "";
-            this.Value = 0;
-        }
-        #endregion
     }
 }
