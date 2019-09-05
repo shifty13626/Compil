@@ -36,6 +36,8 @@ namespace Compil.Utils
         COMP_INFERIOR,
         COMP_SUPPERIOR_OR_EQUAL,
         COMP_INFERIOR_OR_EQUAL,
+        AND,
+        OR,
         PAR_OPEN,
         PAR_CLOSE,
         BOOL_OR,

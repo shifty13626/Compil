@@ -24,6 +24,16 @@ namespace Compil.Utils
         NODE_COMP_INFERIOR,
         NODE_COMP_SUPPERIOR_OR_EQUAL,
         NODE_COMP_INFERIOR_OR_EQUAL,
-
+        NODE_AND,
+        NODE_OR,
+        NODE_IF,
+        NODE_ELSE,
+        NODE_FOR,
+        NODE_WHILE,
+        NODE_DO,
+        NODE_SWITCH,
+        NODE_CASE,
+        NODE_INT,
+        NODE_VOID
     }
 }

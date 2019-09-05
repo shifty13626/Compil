@@ -12,7 +12,7 @@ namespace Compil
         private string code;
         public int index;
         
-        private Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>()
+        public Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>()
         {
             {"if", TokenType.IF},
             {"else", TokenType.ELSE},
@@ -97,7 +97,7 @@ namespace Compil
 
                 if (index == code.Length - 1)
                 {
-                    return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(buffer) };
+                    return new Token() { Type = TokenType.TOK_CONST, Value = int.Parse(buffer) };
                 }
                 
                 int i = index + 1;
@@ -108,7 +108,7 @@ namespace Compil
                     currentTokenLength++;
                 }
 
-                return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(buffer) };
+                return new Token() { Type = TokenType.TOK_CONST, Value = int.Parse(buffer) };
             }
             
             // Identifier and keywords handle
