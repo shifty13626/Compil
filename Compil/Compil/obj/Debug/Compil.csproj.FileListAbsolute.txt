@@ -1,2 +1,14 @@
-F:\Documents\GITrepos\Compil\Compil\Compil\obj\Debug\Compil.csprojAssemblyReference.cache
+/Users/Thomas/Documents/GitHub/Compil/Compil/Compil/bin/Debug/Compil.exe.config
+/Users/Thomas/Documents/GitHub/Compil/Compil/Compil/bin/Debug/Compil.exe
+/Users/Thomas/Documents/GitHub/Compil/Compil/Compil/bin/Debug/Compil.pdb
+/Users/Thomas/Documents/GitHub/Compil/Compil/Compil/obj/Debug/Compil.csprojAssemblyReference.cache
+/Users/Thomas/Documents/GitHub/Compil/Compil/Compil/obj/Debug/Compil.csproj.CoreCompileInputs.cache
+/Users/Thomas/Documents/GitHub/Compil/Compil/Compil/obj/Debug/Compil.exe
+/Users/Thomas/Documents/GitHub/Compil/Compil/Compil/obj/Debug/Compil.pdb
+F:\Documents\GITrepos\Compil\Compil\Compil\bin\Debug\Compil.exe.config
+F:\Documents\GITrepos\Compil\Compil\Compil\bin\Debug\Compil.exe
+F:\Documents\GITrepos\Compil\Compil\Compil\bin\Debug\Compil.pdb
 F:\Documents\GITrepos\Compil\Compil\Compil\obj\Debug\Compil.csproj.CoreCompileInputs.cache
+F:\Documents\GITrepos\Compil\Compil\Compil\obj\Debug\Compil.exe
+F:\Documents\GITrepos\Compil\Compil\Compil\obj\Debug\Compil.pdb
+F:\Documents\GITrepos\Compil\Compil\Compil\obj\Debug\Compil.csprojAssemblyReference.cache

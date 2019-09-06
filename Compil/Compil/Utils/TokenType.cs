@@ -8,7 +8,10 @@ namespace Compil.Utils
 {
     public enum TokenType
     {
-        CONSTANT,
+        TOK_CONST,
+        MINUS,
+        PLUS,
+        NOT,
         IDENTIFIER,
         END_OF_FILE,
         BEGIN_OF_FILE,
@@ -33,6 +36,8 @@ namespace Compil.Utils
         COMP_INFERIOR,
         COMP_SUPPERIOR_OR_EQUAL,
         COMP_INFERIOR_OR_EQUAL,
+        AND,
+        OR,
         PAR_OPEN,
         PAR_CLOSE,
         BOOL_OR,

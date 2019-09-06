@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Compil.Utils;
-using Compil.Analyzer;
 
 namespace Compil
 {
@@ -24,18 +23,15 @@ namespace Compil
 
                 // lexicalAnalyser
                 var lexicalAnalyser = new LexicalAnalyzer(code, 0);
-                // parserAnalyzer
-                var parserAnalyzer = new Parser(lexicalAnalyser);
 
-                Node node;
                 while (lexicalAnalyser.Next().Type != TokenType.END_OF_FILE)
                 {
-                    Console.WriteLine(lexicalAnalyser.Next().Type + " -> " + parserAnalyzer.Primary().Type + " -> " + parserAnalyzer.Primary().Value);
+                    Console.Write(lexicalAnalyser.Next().Type + " -> ");
                     lexicalAnalyser.Skip();
                 }
                 Console.Write(lexicalAnalyser.Next().Type);
 
-                Console.WriteLine();
+
 
                 // wait exit
                 Console.WriteLine("\nPress key to exit.");
