@@ -14,10 +14,13 @@ namespace Compil.Analyzer
     class Parser
     {
         private LexicalAnalyzer _lexicalAnalyzer;
+        private List<string> _listOperator = new List<string> { "+", "-", "*", "^" };
+        private List<Operator> _operators = new List<Operator>();
 
         public Parser(LexicalAnalyzer lexicalAnalyser)
         {
             this._lexicalAnalyzer = lexicalAnalyser;
+            _operators.Add(new Operator() { Token = });
         }
 
         /// <summary>
@@ -257,9 +260,31 @@ namespace Compil.Analyzer
             }                
         }
 
-        public List<Node> Expression()
+        public Node Expression(int pMin)
         {
-            return new List<Node>();
+            Node A;
+            Node A1 = Primary();
+            while(true)
+            {
+                Operator op = searchOp(_lexicalAnalyzer.Next());
+                if (op != null || op.Priority < pMin)
+                    return A1;
+                _lexicalAnalyzer.Skip();
+                Node A2 = Expression(op.Priority + op.Association);
+                A = new Node() { Type = op.Node.Type };
+                A.AddChild(A1);
+                A.AddChild(A2);
+                A1 = A;
+            }
         }
+
+        public Operator searchOp(Token token)
+        {
+            if (listOperator.Contains(token.Type))
+                return new Operator() { Token = token.Type, Node = new Node() { Value = token.Type } };
+            else
+                return null;
+        }
+
     }
 }
