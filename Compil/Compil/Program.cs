@@ -17,6 +17,14 @@ namespace Compil
 
             try
             {
+                // read source file
+                Console.WriteLine("File to read : " + args[args.Length - 1]);
+                string pathFile = Path.Combine(args[args.Length - 1]);
+                string codeTemp = File.ReadAllText(pathFile);
+                Console.WriteLine("Contenu fichier : ");
+                Console.WriteLine(codeTemp);
+
+
                 Console.WriteLine("code file : " + code);
                 Console.WriteLine("Press key to continue.");
                 Console.ReadKey();
