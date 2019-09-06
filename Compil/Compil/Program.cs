@@ -38,7 +38,7 @@ namespace Compil
                 Node node;
                 while (lexicalAnalyser.Next().Type != TokenType.END_OF_FILE)
                 {
-                    Console.WriteLine(lexicalAnalyser.Next().Type + " -> " + parserAnalyzer.Primary().Type + " -> " + parserAnalyzer.Primary().Value);
+                    Console.WriteLine(lexicalAnalyser.Next().Type + " (" + parserAnalyzer.Primary().Type + " / " + parserAnalyzer.Primary().Value + ") -> ");
                     lexicalAnalyser.Skip();
                 }
                 Console.Write(lexicalAnalyser.Next().Type);

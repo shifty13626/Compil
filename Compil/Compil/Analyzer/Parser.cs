@@ -17,6 +17,40 @@ namespace Compil.Analyzer
         private List<string> _listOperator = new List<string> { "+", "-", "*", "^" };
         private List<Operator> _operators = new List<Operator>();
 
+        private Dictionary<TokenType, (NodeType, string)> _keywordsTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string)>()
+        {
+            {TokenType.DO, (NodeType.DO, "do")},
+            {TokenType.IF, (NodeType.IF, "if")},
+            {TokenType.FOR, (NodeType.FOR, "for")},
+            {TokenType.INT, (NodeType.INT, "int")},
+            {TokenType.CASE, (NodeType.CASE, "case")},
+            {TokenType.ELSE, (NodeType.ELSE, "else")},
+            {TokenType.VOID, (NodeType.VOID, "void")},
+            {TokenType.WHILE, (NodeType.WHILE, "while")},
+            {TokenType.SWITCH, (NodeType.SWITCH, "switch")},
+        };
+
+        private Dictionary<TokenType, (NodeType, string)> _exprTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string)>()
+        {
+            {TokenType.OR, (NodeType.OR, "|")},
+            {TokenType.AND, (NodeType.AND, "&")},
+            {TokenType.NOT, (NodeType.NOT, "!")},
+            {TokenType.PLUS, (NodeType.PLUS, "+")},
+            {TokenType.COMP_EQUAL, (NodeType.COMP_EQUAL, "==")},
+            {TokenType.MINUS, (NodeType.MINUS, "-")},
+            {TokenType.OP_PLUS, (NodeType.OP_PLUS, "+")},
+            {TokenType.OP_MINUS, (NodeType.OP_MINUS, "-")},
+            {TokenType.OP_POWER, (NodeType.OP_POWER, "^")},
+            {TokenType.OP_DIVIDE, (NodeType.OP_DIVIDE, "/")},
+            {TokenType.OP_MODULO, (NodeType.OP_MODULO, "%")},
+            {TokenType.OP_MULTIPLY, (NodeType.OP_MULTIPLY, "*")},
+            {TokenType.COMP_INFERIOR, (NodeType.COMP_INFERIOR, "<")},
+            {TokenType.COMP_DIFFERENT, (NodeType.COMP_DIFFERENT, "!=")},
+            {TokenType.COMP_SUPPERIOR, (NodeType.COMP_SUPPERIOR, ">")},
+            {TokenType.COMP_INFERIOR_OR_EQUAL, (NodeType.COMP_INFERIOR_OR_EQUAL, "<=")},
+            {TokenType.COMP_SUPPERIOR_OR_EQUAL, (NodeType.COMP_SUPPERIOR_OR_EQUAL, ">=")},
+        };
+        
         public Parser(LexicalAnalyzer lexicalAnalyser)
         {
             this._lexicalAnalyzer = lexicalAnalyser;
@@ -32,232 +66,57 @@ namespace Compil.Analyzer
             {
                 Node node;
                 ////////////////////////////////
-                /// Instruction
+                /// Keywords
                 ////////////////////////////////
-                // if
-                if (_lexicalAnalyzer.Next().Type == TokenType.IF)
+                if (_keywordsTokenToNodeMatch.ContainsKey(_lexicalAnalyzer.Next().Type))
                 {
-                    node = new Node() { Type = NodeType.NODE_IF, Value = "if" };
+                    var (nodetype, val) = _keywordsTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
+                    node = new Node() {Type = nodetype, Value = val};
                     return node;
                 }
-                // else
-                if (_lexicalAnalyzer.Next().Type == TokenType.ELSE)
-                {
-                    node = new Node() { Type = NodeType.NODE_ELSE, Value = "else" };
-                    return node;
-                }
-                // for
-                if (_lexicalAnalyzer.Next().Type == TokenType.FOR)
-                {
-                    node = new Node() { Type = NodeType.NODE_FOR, Value = "for" };
-                    return node;
-                }
-                // while
-                if (_lexicalAnalyzer.Next().Type == TokenType.WHILE)
-                {
-                    node = new Node() { Type = NodeType.NODE_WHILE, Value = "while" };
-                    return node;
-                }
-                // do
-                if (_lexicalAnalyzer.Next().Type == TokenType.DO)
-                {
-                    node = new Node() { Type = NodeType.NODE_DO, Value = "do" };
-                    return node;
-                }
-                // switch
-                if (_lexicalAnalyzer.Next().Type == TokenType.SWITCH)
-                {
-                    node = new Node() { Type = NodeType.NODE_SWITCH, Value = "switch" };
-                    return node;
-                }
-                // case
-                if (_lexicalAnalyzer.Next().Type == TokenType.CASE)
-                {
-                    node = new Node() { Type = NodeType.NODE_CASE, Value = "case" };
-                    return node;
-                }
-                // int
-                if (_lexicalAnalyzer.Next().Type == TokenType.INT)
-                {
-                    node = new Node() { Type = NodeType.NODE_INT, Value = "int" };
-                    return node;
-                }
-                // void
-                if (_lexicalAnalyzer.Next().Type == TokenType.VOID)
-                {
-                    node = new Node() { Type = NodeType.NODE_VOID, Value = "void" };
-                    return node;
-                }
-                
-
 
                 // Constante
-                if (_lexicalAnalyzer.Next().Type == TokenType.TOK_CONST)
+                if (_lexicalAnalyzer.Next().Type == TokenType.CONSTANT)
                 {
-                    node = new Node() { Type = NodeType.NODE_CONST, Value = _lexicalAnalyzer.Next().Value.ToString() };
+                    node = new Node() {Type = NodeType.CONSTANT, Value = _lexicalAnalyzer.Next().Value.ToString()};
                     //_lexicalAnalyzer.Skip();
                     return node;
                 }
+
                 // Parenthese Open
                 if (_lexicalAnalyzer.Next().Type == TokenType.PAR_OPEN)
                 {
-                    _lexicalAnalyzer.Next();
-                    node = new Node() { Children = Expression(), Value = "(" };
+                    node = new Node() {Children = Expression(), Value = "("};
                     _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
                     return node;
                 }
-
-
+                
                 ////////////////////////////////
-                /// Binarie Operator Operation
+                /// Operators
                 ////////////////////////////////
-                // +
-                if(_lexicalAnalyzer.Next().Type == TokenType.OP_PLUS)
+                if (_exprTokenToNodeMatch.ContainsKey(_lexicalAnalyzer.Next().Type))
                 {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_OP_PLUS, Value = "+" };
-                    return node;
-                }
-                // -
-                if (_lexicalAnalyzer.Next().Type == TokenType.OP_MINUS)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_OP_MINUS, Value = "-" };
-                    return node;
-                }
-                // *
-                if (_lexicalAnalyzer.Next().Type == TokenType.OP_MULTIPLY)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_OP_MULTIPLY, Value = "*" };
-                    return node;
-                }
-                // /
-                if (_lexicalAnalyzer.Next().Type == TokenType.OP_DIVIDE)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_OP_DIVIDE, Value = "/" };
-                    return node;
-                }
-                // %
-                if (_lexicalAnalyzer.Next().Type == TokenType.OP_MODULO)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_OP_MODULO, Value = "%" };
-                    return node;
-                }
-                // ^
-                if (_lexicalAnalyzer.Next().Type == TokenType.OP_POWER)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_OP_POWER, Value = "^" };
-                    return node;
-                }
-
-
-                ////////////////////////////////
-                /// Binarie Operator Comparator
-                ////////////////////////////////
-                // ==
-                if (_lexicalAnalyzer.Next().Type == TokenType.COMP_EQUAL)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_COMP_EQUAL, Value = "==" };
+                    var (nodetype, val) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
+                    node = new Node() {Type = nodetype, Value = val};
                     node.AddChildren(Expression());
                     return node;
                 }
-                // !=
-                if (_lexicalAnalyzer.Next().Type == TokenType.COMP_DIFFERENT)
+                
+                
+                if (_lexicalAnalyzer.Next().Type == TokenType.IDENTIFIER)
                 {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_COMP_NOT, Value = "!=" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                // <
-                if (_lexicalAnalyzer.Next().Type == TokenType.COMP_INFERIOR)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_COMP_INFERIOR, Value = "<" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                // >
-                if (_lexicalAnalyzer.Next().Type == TokenType.COMP_SUPPERIOR)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_COMP_SUPPERIOR, Value = ">" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                // <=
-                if (_lexicalAnalyzer.Next().Type == TokenType.COMP_INFERIOR_OR_EQUAL)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_COMP_INFERIOR_OR_EQUAL, Value = "<=" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                // >=
-                if (_lexicalAnalyzer.Next().Type == TokenType.COMP_SUPPERIOR_OR_EQUAL)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_COMP_SUPPERIOR_OR_EQUAL, Value = ">=" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                // &&
-                if (_lexicalAnalyzer.Next().Type == TokenType.AND)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_AND, Value = "&&" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                // ||
-                if (_lexicalAnalyzer.Next().Type == TokenType.OR)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_OR, Value = "||" };
+                    node = new Node() {Type = NodeType.IDENTIFIER, Value = _lexicalAnalyzer.Next().Name};
                     node.AddChildren(Expression());
                     return node;
                 }
 
-
-                ////////////////////////////////
-                /// Unaire Operator
-                ////////////////////////////////
-                // Minus (negatif number)
-                if (_lexicalAnalyzer.Next().Type == TokenType.MINUS)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_MINUS, Value = "-" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                // Plus
-                if (_lexicalAnalyzer.Next().Type == TokenType.PLUS)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_PLUS, Value = "+" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                // !
-                if (_lexicalAnalyzer.Next().Type == TokenType.NOT)
-                {
-                    //_lexicalAnalyzer.Skip();
-                    node = new Node() { Type = NodeType.NODE_NOT, Value = "!" };
-                    node.AddChildren(Expression());
-                    return node;
-                }
                 throw new NotImplementedException();
             }
-            catch(NotImplementedException e)
+            catch (NotImplementedException e)
             {
                 Console.WriteLine(e.StackTrace);
                 return null;
-            }                
+            }
         }
 
         public Node Expression(int pMin)

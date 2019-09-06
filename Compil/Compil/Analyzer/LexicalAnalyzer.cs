@@ -11,7 +11,7 @@ namespace Compil
     {
         private string code;
         public int index;
-        
+
         public Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>()
         {
             {"if", TokenType.IF},
@@ -24,8 +24,8 @@ namespace Compil
             {"int", TokenType.INT},
             {"void", TokenType.VOID}
         };
-        
-        
+
+
         private Token CurrentNextToken;
         private int currentTokenLength = 0;
         private int CurrentLine;
@@ -71,19 +71,19 @@ namespace Compil
         {
             if (Next().Type != type)
             {
-                throw new Exception("Bad token");
+                throw new Exception($"Bad token: '{type.ToString()}' expected.");
             }
+
             Skip();
         }
 
         private Token DetectNext()
         {
-
             if (index == code.Length)
             {
-                return new Token() { Type = TokenType.END_OF_FILE };
+                return new Token() {Type = TokenType.END_OF_FILE};
             }
-            
+
             while (code[index] == ' ' || code[index] == '\t' || code[index] == '\n')
             {
                 index++;
@@ -97,9 +97,9 @@ namespace Compil
 
                 if (index == code.Length - 1)
                 {
-                    return new Token() { Type = TokenType.TOK_CONST, Value = int.Parse(buffer) };
+                    return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(buffer)};
                 }
-                
+
                 int i = index + 1;
                 while (char.IsDigit(code[i]))
                 {
@@ -108,9 +108,9 @@ namespace Compil
                     currentTokenLength++;
                 }
 
-                return new Token() { Type = TokenType.TOK_CONST, Value = int.Parse(buffer) };
+                return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(buffer)};
             }
-            
+
             // Identifier and keywords handle
             if (char.IsLetter(code[index]))
             {
@@ -122,12 +122,12 @@ namespace Compil
                     // Look into keywords dictionnary to get the adequate token type
                     if (keywords.ContainsKey(buffer))
                     {
-                        return new Token() { Type = keywords[buffer], Name = buffer };
+                        return new Token() {Type = keywords[buffer], Name = buffer};
                     }
-                    
-                    return new Token() { Type = TokenType.IDENTIFIER, Name = buffer };
+
+                    return new Token() {Type = TokenType.IDENTIFIER, Name = buffer};
                 }
-                
+
                 int i = index + 1;
                 while (char.IsLetter(code[i]) || char.IsDigit(code[i]))
                 {
@@ -139,61 +139,61 @@ namespace Compil
                 // Look into keywords dictionnary to get the adequate token type
                 if (keywords.ContainsKey(buffer))
                 {
-                    return new Token() { Type = keywords[buffer], Name = buffer };
+                    return new Token() {Type = keywords[buffer], Name = buffer};
                 }
-                    
-                return new Token() { Type = TokenType.IDENTIFIER, Name = buffer };
+
+                return new Token() {Type = TokenType.IDENTIFIER, Name = buffer};
             }
-            
+
             // ==
             if (code[index] == '=')
             {
                 currentTokenLength = 1;
                 string buffer = code[index].ToString();
-                
+
                 if (index == code.Length - 1)
                 {
-                    return new Token() { Type = TokenType.AFFECT_EQUAL };
+                    return new Token() {Type = TokenType.EQUAL};
                 }
 
                 if (code[index + 1] == '=')
                 {
                     currentTokenLength++;
-                    return new Token() { Type = TokenType.COMP_EQUAL };
+                    return new Token() {Type = TokenType.COMP_EQUAL};
                 }
 
-                return new Token() { Type = TokenType.AFFECT_EQUAL };
+                return new Token() {Type = TokenType.EQUAL};
             }
 
             currentTokenLength++;
             switch (code[index])
             {
                 case '+':
-                    return new Token() { Type = TokenType.OP_PLUS };
+                    return new Token() {Type = TokenType.OP_PLUS};
                 case '-':
-                    return new Token() { Type = TokenType.OP_MINUS };
+                    return new Token() {Type = TokenType.OP_MINUS};
                 case '*':
-                    return new Token() { Type = TokenType.OP_MULTIPLY };
+                    return new Token() {Type = TokenType.OP_MULTIPLY};
                 case '/':
-                    return new Token() { Type = TokenType.OP_DIVIDE };
+                    return new Token() {Type = TokenType.OP_DIVIDE};
                 case '%':
-                    return new Token() { Type = TokenType.OP_MODULO };
+                    return new Token() {Type = TokenType.OP_MODULO};
                 case '^':
-                    return new Token() { Type = TokenType.OP_POWER };
+                    return new Token() {Type = TokenType.OP_POWER};
                 case '(':
-                    return new Token() { Type = TokenType.PAR_OPEN };
+                    return new Token() {Type = TokenType.PAR_OPEN};
                 case ')':
-                    return new Token() { Type = TokenType.PAR_CLOSE };
+                    return new Token() {Type = TokenType.PAR_CLOSE};
                 case '{':
-                    return new Token() { Type = TokenType.BLOCK_START };
+                    return new Token() {Type = TokenType.BRACKET_OPEN};
                 case '}':
-                    return new Token() { Type = TokenType.BLOCK_END };
+                    return new Token() {Type = TokenType.BRACKET_CLOSE};
                 case '&':
-                    return new Token() { Type = TokenType.BOOL_AND };
+                    return new Token() {Type = TokenType.AND};
                 case '|':
-                    return new Token() { Type = TokenType.BOOL_OR };
+                    return new Token() {Type = TokenType.OR};
                 case ';':
-                    return new Token() { Type = TokenType.SEMICOLON };
+                    return new Token() {Type = TokenType.SEMICOLON};
                 default:
                     break;
             }
