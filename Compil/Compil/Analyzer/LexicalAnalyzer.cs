@@ -30,6 +30,11 @@ namespace Compil
         private int currentTokenLength = 0;
         private int CurrentLine;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="index"></param>
         public LexicalAnalyzer(string code, int index)
         {
             this.code = code;
@@ -77,6 +82,11 @@ namespace Compil
             Skip();
         }
 
+
+        /// <summary>
+        /// Search nent token on code
+        /// </summary>
+        /// <returns></returns>
         private Token DetectNext()
         {
             if (index == code.Length)
