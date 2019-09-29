@@ -13,8 +13,6 @@ namespace Compil
     {
         static void Main(string[] args)
         {
-            string code = @"void main(int azerty) { int b = baba + 3; a =            123-543; }";
-
             try
             {
                 // read source file
@@ -24,18 +22,16 @@ namespace Compil
                 Console.WriteLine("Contenu fichier : ");
                 Console.WriteLine(codeTemp);
 
-
-                Console.WriteLine("code file : " + code);
                 Console.WriteLine("Press key to continue.");
                 Console.ReadKey();
                 Console.WriteLine();
 
                 // lexicalAnalyser
-                var lexicalAnalyser = new LexicalAnalyzer(code, 0);
+                var lexicalAnalyser = new LexicalAnalyzer(codeTemp, 0);
                 // parserAnalyzer
                 var parserAnalyzer = new Parser(lexicalAnalyser);
 
-                Node node;
+                // display all token
                 while (lexicalAnalyser.Next().Type != TokenType.END_OF_FILE)
                 {
                     Console.WriteLine(lexicalAnalyser.Next().Type + " (" + parserAnalyzer.Primary().Type + " / " + parserAnalyzer.Primary().Value + ") -> ");

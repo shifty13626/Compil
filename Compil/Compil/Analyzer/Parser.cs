@@ -51,6 +51,10 @@ namespace Compil.Analyzer
             {TokenType.COMP_SUPPERIOR_OR_EQUAL, (NodeType.COMP_SUPPERIOR_OR_EQUAL, ">=")},
         };
         
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="lexicalAnalyser"></param>
         public Parser(LexicalAnalyzer lexicalAnalyser)
         {
             this._lexicalAnalyzer = lexicalAnalyser;
@@ -86,7 +90,7 @@ namespace Compil.Analyzer
                 // Parenthese Open
                 if (_lexicalAnalyzer.Next().Type == TokenType.PAR_OPEN)
                 {
-                    node = new Node() {Children = Expression(), Value = "("};
+                    node = new Node() { Children = Expression(), Value = "(" };
                     _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
                     return node;
                 }
@@ -119,6 +123,11 @@ namespace Compil.Analyzer
             }
         }
 
+        /// <summary>
+        /// return node with an expression (xxxx)
+        /// </summary>
+        /// <param name="pMin"></param>
+        /// <returns></returns>
         public Node Expression(int pMin)
         {
             Node A;
@@ -136,6 +145,7 @@ namespace Compil.Analyzer
                 A1 = A;
             }
         }
+
 
         public Operator searchOp(Token token)
         {

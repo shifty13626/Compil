@@ -1,11 +1,6 @@
 ﻿
-int main(int argc, char** argv) 
+void main(int azerty)
 {
-	int a;
-	int b;
-	int c;
-	if (a == 0)
-	{
-		c = a + b;
-	}
+	int b = baba + 3;
+	a = 123 - 543;
 }
