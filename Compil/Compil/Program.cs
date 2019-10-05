@@ -29,12 +29,12 @@ namespace Compil
                 // lexicalAnalyser
                 var lexicalAnalyser = new LexicalAnalyzer(codeTemp, 0);
                 // parserAnalyzer
-                var parserAnalyzer = new Parser(lexicalAnalyser);
+                var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 
                 // display all token
                 while (lexicalAnalyser.Next().Type != TokenType.END_OF_FILE)
                 {
-                    Console.WriteLine(lexicalAnalyser.Next().Type + " (" + parserAnalyzer.Primary().Type + " / " + parserAnalyzer.Primary().Value + ") -> ");
+                    Console.WriteLine(lexicalAnalyser.Next().Type + " (" + syntaxAnalyzer.Primary().Type + " / " + syntaxAnalyzer.Primary().Value + ") -> ");
                     lexicalAnalyser.Skip();
                 }
                 Console.Write(lexicalAnalyser.Next().Type);

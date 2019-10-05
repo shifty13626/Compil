@@ -11,7 +11,7 @@ namespace Compil.Analyzer
     /// <summary>
     /// Instance of class SyntacticAnalyzer
     /// </summary>
-    class Parser
+    class SyntaxAnalyzer
     {
         private LexicalAnalyzer _lexicalAnalyzer;
         private List<string> _listOperator = new List<string> { "+", "-", "*", "^" };
@@ -55,7 +55,7 @@ namespace Compil.Analyzer
         /// Constructor
         /// </summary>
         /// <param name="lexicalAnalyser"></param>
-        public Parser(LexicalAnalyzer lexicalAnalyser)
+        public SyntaxAnalyzer(LexicalAnalyzer lexicalAnalyser)
         {
             this._lexicalAnalyzer = lexicalAnalyser;
             _operators.Add(new Operator() { Token = });
@@ -146,10 +146,14 @@ namespace Compil.Analyzer
             }
         }
 
-
+        /// <summary>
+        /// Method to return an operator if the node contain an operator
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public Operator searchOp(Token token)
         {
-            if (listOperator.Contains(token.Type))
+            if (_listOperator.Contains(token.Type))
                 return new Operator() { Token = token.Type, Node = new Node() { Value = token.Type } };
             else
                 return null;
