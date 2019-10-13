@@ -1,6 +1,1 @@
-﻿
-void main(int azerty)
-{
-	int b = baba + 3;
-	a = 123 - 543;
-}
+﻿1+4+5*6

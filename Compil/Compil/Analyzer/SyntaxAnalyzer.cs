@@ -13,25 +13,9 @@ namespace Compil
     /// </summary>
     class SyntaxAnalyzer
     {
-        private LexicalAnalyzer _lexicalAnalyzer;
-        private List<string> _listOperator = new List<string> { "+", "-", "*", "^" };
-        private List<Operator> _operators = new List<Operator>();
+        private readonly LexicalAnalyzer _lexicalAnalyzer;
 
-        
-        private Dictionary<TokenType, (NodeType, string)> _keywordsTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string)>()
-        {
-            {TokenType.DO, (NodeType.DO, "do")},
-            {TokenType.IF, (NodeType.IF, "if")},
-            {TokenType.FOR, (NodeType.FOR, "for")},
-            {TokenType.INT, (NodeType.INT, "int")},
-            {TokenType.CASE, (NodeType.CASE, "case")},
-            {TokenType.ELSE, (NodeType.ELSE, "else")},
-            {TokenType.VOID, (NodeType.VOID, "void")},
-            {TokenType.WHILE, (NodeType.WHILE, "while")},
-            {TokenType.SWITCH, (NodeType.SWITCH, "switch")},
-        };
-
-        private Dictionary<TokenType, (NodeType, string, int, int)> _exprTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string, int, int)>()
+        private readonly Dictionary<TokenType, (NodeType, string, int, int)> _exprTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string, int, int)>()
         {
             {TokenType.OR, (NodeType.OR, "|", 2, 1)},
             {TokenType.AND, (NodeType.AND, "&", 3, 1)},
@@ -57,7 +41,6 @@ namespace Compil
         public SyntaxAnalyzer(LexicalAnalyzer lexicalAnalyser)
         {
             this._lexicalAnalyzer = lexicalAnalyser;
-            //_operators.Add(new Operator() { Token = });
         }
 
         /// <summary>
@@ -98,9 +81,14 @@ namespace Compil
                 }
                 
 
-                throw new Exception("Primary expected.");
+                throw new ArgumentNullException("Primary expected.");
             }
             catch (NotImplementedException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return null;
+            }
+            catch (ArgumentNullException e)
             {
                 Console.WriteLine(e.StackTrace);
                 return null;
