@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Compil.Utils;
-using Compil.Analyzer;
+using Compil;
 
-namespace Compil.Analyzer
+namespace Compil
 {
     /// <summary>
     /// Instance of class SyntacticAnalyzer
@@ -17,6 +17,7 @@ namespace Compil.Analyzer
         private List<string> _listOperator = new List<string> { "+", "-", "*", "^" };
         private List<Operator> _operators = new List<Operator>();
 
+        
         private Dictionary<TokenType, (NodeType, string)> _keywordsTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string)>()
         {
             {TokenType.DO, (NodeType.DO, "do")},
@@ -30,25 +31,23 @@ namespace Compil.Analyzer
             {TokenType.SWITCH, (NodeType.SWITCH, "switch")},
         };
 
-        private Dictionary<TokenType, (NodeType, string)> _exprTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string)>()
+        private Dictionary<TokenType, (NodeType, string, int, int)> _exprTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string, int, int)>()
         {
-            {TokenType.OR, (NodeType.OR, "|")},
-            {TokenType.AND, (NodeType.AND, "&")},
-            {TokenType.NOT, (NodeType.NOT, "!")},
-            {TokenType.PLUS, (NodeType.PLUS, "+")},
-            {TokenType.COMP_EQUAL, (NodeType.COMP_EQUAL, "==")},
-            {TokenType.MINUS, (NodeType.MINUS, "-")},
-            {TokenType.OP_PLUS, (NodeType.OP_PLUS, "+")},
-            {TokenType.OP_MINUS, (NodeType.OP_MINUS, "-")},
-            {TokenType.OP_POWER, (NodeType.OP_POWER, "^")},
-            {TokenType.OP_DIVIDE, (NodeType.OP_DIVIDE, "/")},
-            {TokenType.OP_MODULO, (NodeType.OP_MODULO, "%")},
-            {TokenType.OP_MULTIPLY, (NodeType.OP_MULTIPLY, "*")},
-            {TokenType.COMP_INFERIOR, (NodeType.COMP_INFERIOR, "<")},
-            {TokenType.COMP_DIFFERENT, (NodeType.COMP_DIFFERENT, "!=")},
-            {TokenType.COMP_SUPPERIOR, (NodeType.COMP_SUPPERIOR, ">")},
-            {TokenType.COMP_INFERIOR_OR_EQUAL, (NodeType.COMP_INFERIOR_OR_EQUAL, "<=")},
-            {TokenType.COMP_SUPPERIOR_OR_EQUAL, (NodeType.COMP_SUPPERIOR_OR_EQUAL, ">=")},
+            {TokenType.OR, (NodeType.OR, "|", 2, 1)},
+            {TokenType.AND, (NodeType.AND, "&", 3, 1)},
+            {TokenType.NOT, (NodeType.NOT, "!", 3, 1)},
+            {TokenType.COMP_EQUAL, (NodeType.COMP_EQUAL, "==", 4, 1)},
+            {TokenType.PLUS, (NodeType.OP_PLUS, "+", 5, 1)},
+            {TokenType.MINUS, (NodeType.OP_MINUS, "-", 5, 1)},
+            {TokenType.POWER, (NodeType.OP_POWER, "^", 7, 0)},
+            {TokenType.DIVIDE, (NodeType.OP_DIVIDE, "/", 6, 1)},
+            {TokenType.MODULO, (NodeType.OP_MODULO, "%", 6, 1)},
+            {TokenType.MULTIPLY, (NodeType.OP_MULTIPLY, "*", 6, 1)},
+            {TokenType.COMP_INFERIOR, (NodeType.COMP_INFERIOR, "<", 4, 1)},
+            {TokenType.COMP_DIFFERENT, (NodeType.COMP_DIFFERENT, "!=", 4, 1)},
+            {TokenType.COMP_SUPPERIOR, (NodeType.COMP_SUPPERIOR, ">", 4, 1)},
+            {TokenType.COMP_INFERIOR_OR_EQUAL, (NodeType.COMP_INFERIOR_OR_EQUAL, "<=", 4, 1)},
+            {TokenType.COMP_SUPPERIOR_OR_EQUAL, (NodeType.COMP_SUPPERIOR_OR_EQUAL, ">=", 4, 1)},
         };
         
         /// <summary>
@@ -58,7 +57,7 @@ namespace Compil.Analyzer
         public SyntaxAnalyzer(LexicalAnalyzer lexicalAnalyser)
         {
             this._lexicalAnalyzer = lexicalAnalyser;
-            _operators.Add(new Operator() { Token = });
+            //_operators.Add(new Operator() { Token = });
         }
 
         /// <summary>
@@ -69,52 +68,37 @@ namespace Compil.Analyzer
             try
             {
                 Node node;
-                ////////////////////////////////
-                /// Keywords
-                ////////////////////////////////
-                if (_keywordsTokenToNodeMatch.ContainsKey(_lexicalAnalyzer.Next().Type))
-                {
-                    var (nodetype, val) = _keywordsTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
-                    node = new Node() {Type = nodetype, Value = val};
-                    return node;
-                }
 
                 // Constante
                 if (_lexicalAnalyzer.Next().Type == TokenType.CONSTANT)
                 {
                     node = new Node() {Type = NodeType.CONSTANT, Value = _lexicalAnalyzer.Next().Value.ToString()};
-                    //_lexicalAnalyzer.Skip();
+                    _lexicalAnalyzer.Skip();
                     return node;
                 }
 
                 // Parenthese Open
                 if (_lexicalAnalyzer.Next().Type == TokenType.PAR_OPEN)
                 {
-                    node = new Node() { Children = Expression(), Value = "(" };
+                    _lexicalAnalyzer.Skip();
+                    node = Expression(0);
                     _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
                     return node;
                 }
-                
-                ////////////////////////////////
-                /// Operators
-                ////////////////////////////////
-                if (_exprTokenToNodeMatch.ContainsKey(_lexicalAnalyzer.Next().Type))
-                {
-                    var (nodetype, val) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
-                    node = new Node() {Type = nodetype, Value = val};
-                    node.AddChildren(Expression());
-                    return node;
-                }
-                
-                
-                if (_lexicalAnalyzer.Next().Type == TokenType.IDENTIFIER)
-                {
-                    node = new Node() {Type = NodeType.IDENTIFIER, Value = _lexicalAnalyzer.Next().Name};
-                    node.AddChildren(Expression());
-                    return node;
-                }
 
-                throw new NotImplementedException();
+                if (_lexicalAnalyzer.Next().Type == TokenType.MINUS ||
+                    _lexicalAnalyzer.Next().Type == TokenType.PLUS ||
+                    _lexicalAnalyzer.Next().Type == TokenType.NOT)
+                {
+                    var (nodetype, val, priority, assos) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
+                    node = new Node() {Type = nodetype, Value = val};
+                    _lexicalAnalyzer.Skip();
+                    node.AddChild(Expression(7));
+                    return node;
+                }
+                
+
+                throw new Exception("Primary expected.");
             }
             catch (NotImplementedException e)
             {
@@ -130,19 +114,23 @@ namespace Compil.Analyzer
         /// <returns></returns>
         public Node Expression(int pMin)
         {
-            Node A;
-            Node A1 = Primary();
-            while(true)
-            {
-                Operator op = searchOp(_lexicalAnalyzer.Next());
-                if (op != null || op.Priority < pMin)
-                    return A1;
+            var leftNode = Primary();
+            
+            while(true) {
+                if (_lexicalAnalyzer.Next() == null)
+                    return leftNode;
+                
+                var op = SearchOp(_lexicalAnalyzer.Next());
+
+                if (op == null || op.Priority < pMin)
+                    return leftNode;
+                
                 _lexicalAnalyzer.Skip();
-                Node A2 = Expression(op.Priority + op.Association);
-                A = new Node() { Type = op.Node.Type };
-                A.AddChild(A1);
-                A.AddChild(A2);
-                A1 = A;
+                var rightNode = Expression(op.Priority + op.Association);
+                var tree = new Node() { Type = op.Node.Type };
+                tree.AddChild(leftNode);
+                tree.AddChild(rightNode);
+                leftNode = tree;
             }
         }
 
@@ -151,12 +139,13 @@ namespace Compil.Analyzer
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public Operator searchOp(Token token)
+        public Operator SearchOp(Token token)
         {
-            if (_listOperator.Contains(token.Type))
-                return new Operator() { Token = token.Type, Node = new Node() { Value = token.Type } };
-            else
-                return null;
+            if (_exprTokenToNodeMatch.TryGetValue(token.Type, out var vals)) {
+                var (nodetype, val, priority, assos) = vals;
+                return new Operator() { Token = token, Node = new Node() {Type = nodetype}, Priority = priority, Association = assos};
+            }
+            return null;
         }
 
     }

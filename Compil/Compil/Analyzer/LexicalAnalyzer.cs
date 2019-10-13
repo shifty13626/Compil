@@ -26,8 +26,8 @@ namespace Compil
         };
 
 
-        private Token CurrentNextToken;
-        private int currentTokenLength = 0;
+        private Token _currentNextToken;
+        private int _currentTokenLength = 0;
         private int CurrentLine;
 
         /// <summary>
@@ -48,13 +48,13 @@ namespace Compil
         /// <returns></returns>
         public Token Next()
         {
-            if (CurrentNextToken != null)
+            if (_currentNextToken != null)
             {
-                return CurrentNextToken;
+                return _currentNextToken;
             }
 
-            Token result = DetectNext();
-            CurrentNextToken = result;
+            var result = DetectNext();
+            _currentNextToken = result;
             return result;
         }
 
@@ -63,9 +63,9 @@ namespace Compil
         /// </summary>
         public void Skip()
         {
-            index += currentTokenLength;
-            currentTokenLength = 0;
-            CurrentNextToken = null;
+            index += _currentTokenLength;
+            _currentTokenLength = 0;
+            _currentNextToken = null;
         }
 
         /// <summary>
@@ -102,20 +102,20 @@ namespace Compil
             // Constants handle
             if (char.IsDigit(code[index]))
             {
-                currentTokenLength = 1;
-                string buffer = code[index].ToString();
+                _currentTokenLength = 1;
+                var buffer = code[index].ToString();
 
                 if (index == code.Length - 1)
                 {
                     return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(buffer)};
                 }
 
-                int i = index + 1;
+                var i = index + 1;
                 while (char.IsDigit(code[i]))
                 {
                     buffer += code[i].ToString();
                     i++;
-                    currentTokenLength++;
+                    _currentTokenLength++;
                 }
 
                 return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(buffer)};
@@ -124,8 +124,8 @@ namespace Compil
             // Identifier and keywords handle
             if (char.IsLetter(code[index]))
             {
-                currentTokenLength = 1;
-                string buffer = code[index].ToString();
+                _currentTokenLength = 1;
+                var buffer = code[index].ToString();
 
                 if (index == code.Length - 1)
                 {
@@ -138,12 +138,12 @@ namespace Compil
                     return new Token() {Type = TokenType.IDENTIFIER, Name = buffer};
                 }
 
-                int i = index + 1;
+                var i = index + 1;
                 while (char.IsLetter(code[i]) || char.IsDigit(code[i]))
                 {
                     buffer += code[i].ToString();
                     i++;
-                    currentTokenLength++;
+                    _currentTokenLength++;
                 }
 
                 // Look into keywords dictionnary to get the adequate token type
@@ -158,8 +158,8 @@ namespace Compil
             // ==
             if (code[index] == '=')
             {
-                currentTokenLength = 1;
-                string buffer = code[index].ToString();
+                _currentTokenLength = 1;
+                var buffer = code[index].ToString();
 
                 if (index == code.Length - 1)
                 {
@@ -168,28 +168,28 @@ namespace Compil
 
                 if (code[index + 1] == '=')
                 {
-                    currentTokenLength++;
+                    _currentTokenLength++;
                     return new Token() {Type = TokenType.COMP_EQUAL};
                 }
 
                 return new Token() {Type = TokenType.EQUAL};
             }
 
-            currentTokenLength++;
+            _currentTokenLength++;
             switch (code[index])
             {
                 case '+':
-                    return new Token() {Type = TokenType.OP_PLUS};
+                    return new Token() {Type = TokenType.PLUS};
                 case '-':
-                    return new Token() {Type = TokenType.OP_MINUS};
+                    return new Token() {Type = TokenType.MINUS};
                 case '*':
-                    return new Token() {Type = TokenType.OP_MULTIPLY};
+                    return new Token() {Type = TokenType.MULTIPLY};
                 case '/':
-                    return new Token() {Type = TokenType.OP_DIVIDE};
+                    return new Token() {Type = TokenType.DIVIDE};
                 case '%':
-                    return new Token() {Type = TokenType.OP_MODULO};
+                    return new Token() {Type = TokenType.MODULO};
                 case '^':
-                    return new Token() {Type = TokenType.OP_POWER};
+                    return new Token() {Type = TokenType.POWER};
                 case '(':
                     return new Token() {Type = TokenType.PAR_OPEN};
                 case ')':

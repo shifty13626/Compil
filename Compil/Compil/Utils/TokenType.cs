@@ -14,16 +14,14 @@ namespace Compil.Utils
         // Special
         END_OF_FILE,
         
-        MINUS,
-        PLUS,
         NOT,
         
-        OP_PLUS,
-        OP_MINUS,
-        OP_MULTIPLY,
-        OP_DIVIDE,
-        OP_MODULO,
-        OP_POWER,
+        PLUS,
+        MINUS,
+        MULTIPLY,
+        DIVIDE,
+        MODULO,
+        POWER,
         
         IF,
         ELSE,

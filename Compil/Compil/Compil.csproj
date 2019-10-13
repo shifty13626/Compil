@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analyzer\Parser.cs" />
+    <Compile Include="Analyzer\SyntaxAnalyzer.cs" />
     <Compile Include="Exceptions\NotValidCharException.cs" />
     <Compile Include="Objects\Node.cs" />
     <Compile Include="Analyzer\LexicalAnalyzer.cs" />
