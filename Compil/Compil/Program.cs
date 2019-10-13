@@ -10,15 +10,14 @@ using Compil;
 namespace Compil {
     class Program {
         static void Main(string[] args) {
-            try {
+            try
+            {
                 // read source file
                 Console.WriteLine("File to read : " + args[args.Length - 1]);
                 string pathFile = Path.Combine(args[args.Length - 1]);
                 string codeTemp = File.ReadAllText(pathFile);
 
-                codeTemp = @"-5+(((8+1))+2)*4";
-
-                Console.WriteLine("Contenu fichier : ");
+                Console.WriteLine("File content : ");
                 Console.WriteLine(codeTemp);
 
                 Console.WriteLine("Press key to continue.");
@@ -39,7 +38,9 @@ namespace Compil {
                 // wait exit
                 Console.WriteLine("\nPress key to exit.");
                 Console.ReadKey();
-            } catch (EncoderFallbackException e) {
+            }
+            catch (EncoderFallbackException e)
+            {
                 Console.WriteLine(e.StackTrace);
             }
         }

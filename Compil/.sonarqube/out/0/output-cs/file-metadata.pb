@@ -1,0 +1,12 @@
+N
+EF:\Documents\GITrepos\Compil\Compil\Compil\Analyzer\SyntaxAnalyzer.csutf-8W
+NF:\Documents\GITrepos\Compil\Compil\Compil\Exceptions\NotValidCharException.csutf-8C
+:F:\Documents\GITrepos\Compil\Compil\Compil\Objects\Node.csutf-8O
+FF:\Documents\GITrepos\Compil\Compil\Compil\Analyzer\LexicalAnalyzer.csutf-8>
+5F:\Documents\GITrepos\Compil\Compil\Compil\Program.csutf-8N
+EF:\Documents\GITrepos\Compil\Compil\Compil\Properties\AssemblyInfo.csutf-8D
+;F:\Documents\GITrepos\Compil\Compil\Compil\Objects\Token.csutf-8E
+<F:\Documents\GITrepos\Compil\Compil\Compil\Utils\NodeType.csutf-8E
+<F:\Documents\GITrepos\Compil\Compil\Compil\Utils\Operator.csutf-8F
+=F:\Documents\GITrepos\Compil\Compil\Compil\Utils\TokenType.csutf-8_
+TC:\Users\ludov\AppData\Local\Temp\.NETFramework,Version=v4.7.2.AssemblyAttributes.csutf-8

@@ -9,7 +9,7 @@ namespace Compil
 {
     class LexicalAnalyzer
     {
-        private string code;
+        private readonly string code;
         public int index;
 
         public Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>()
@@ -28,7 +28,6 @@ namespace Compil
 
         private Token _currentNextToken;
         private int _currentTokenLength = 0;
-        private int CurrentLine;
 
         /// <summary>
         /// Constructor
@@ -74,12 +73,19 @@ namespace Compil
         /// </summary>
         public void Accept(TokenType type)
         {
-            if (Next().Type != type)
+            try
             {
-                throw new Exception($"Bad token: '{type.ToString()}' expected.");
-            }
+                if (Next().Type != type)
+                {
+                    throw new ArgumentNullException($"Bad token: '{type.ToString()}' expected.");
+                }
 
-            Skip();
+                Skip();
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
 
