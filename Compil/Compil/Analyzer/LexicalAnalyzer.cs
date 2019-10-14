@@ -95,6 +95,8 @@ namespace Compil
         /// <returns></returns>
         private Token DetectNext()
         {
+            StringBuilder builder = new StringBuilder();
+
             if (index == code.Length)
             {
                 return new Token() {Type = TokenType.END_OF_FILE};
@@ -109,63 +111,64 @@ namespace Compil
             if (char.IsDigit(code[index]))
             {
                 _currentTokenLength = 1;
-                var buffer = code[index].ToString();
+                
+                builder.Append(code[index].ToString());
 
                 if (index == code.Length - 1)
                 {
-                    return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(buffer)};
+                    return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString())};
                 }
 
                 var i = index + 1;
                 while (i < code.Length && char.IsDigit(code[i]))
                 {
-                    buffer += code[i].ToString();
+                    builder.Append(code[i].ToString());
                     i++;
                     _currentTokenLength++;
                 }
 
-                return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(buffer)};
+                return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString())};
             }
 
             // Identifier and keywords handle
             if (char.IsLetter(code[index]))
             {
                 _currentTokenLength = 1;
-                var buffer = code[index].ToString();
+                builder.Append(code[index].ToString());
 
                 if (index == code.Length - 1)
                 {
                     // Look into keywords dictionnary to get the adequate token type
-                    if (keywords.ContainsKey(buffer))
+                    if (keywords.ContainsKey(builder.ToString()))
                     {
-                        return new Token() {Type = keywords[buffer], Name = buffer};
+                        return new Token() {Type = keywords[builder.ToString()], Name = builder.ToString() };
                     }
 
-                    return new Token() {Type = TokenType.IDENTIFIER, Name = buffer};
+                    return new Token() {Type = TokenType.IDENTIFIER, Name = builder.ToString() };
                 }
 
                 var i = index + 1;
                 while (i < code.Length && (char.IsLetter(code[i]) || char.IsDigit(code[i])))
                 {
-                    buffer += code[i].ToString();
+                    builder.Append(code[i].ToString());
                     i++;
                     _currentTokenLength++;
                 }
 
                 // Look into keywords dictionnary to get the adequate token type
-                if (keywords.ContainsKey(buffer))
+                if (keywords.ContainsKey(builder.ToString()))
                 {
-                    return new Token() {Type = keywords[buffer], Name = buffer};
+                    return new Token() {Type = keywords[builder.ToString()], Name = builder.ToString() };
                 }
 
-                return new Token() {Type = TokenType.IDENTIFIER, Name = buffer};
+                return new Token() {Type = TokenType.IDENTIFIER, Name = builder.ToString() };
             }
 
             // ==
             if (code[index] == '=')
             {
                 _currentTokenLength = 1;
-                var buffer = code[index].ToString();
+                builder.Append(code[index].ToString());
 
                 if (index == code.Length - 1)
                 {

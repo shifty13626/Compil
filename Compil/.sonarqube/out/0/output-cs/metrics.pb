@@ -1,12 +1,12 @@
-‡
-EF:\Documents\GITrepos\Compil\Compil\Compil\Analyzer\SyntaxAnalyzer.cs( 8@HR 0=0;5=0;10=1;20=0;30=0;60=0;90=0Z1=1;2=1;4=1;6=1;8=0;10=0;12=0j%&'(./07?bcdef}~ÄÅrp	
- !"#)*+,1234589:;<=@ABCDEFHIJKLMNOPQTUVWXYZ[\]^_`ghiklmoqrtuvwxyz{ÇÉÑÖÜáàâãåxÇ; !"+8:;<@BCDEHIJLMNOPTXY]^iklmoqrtuvwxyÑÖÜà∞
+Â
+EF:\Documents\GITrepos\Compil\Compil\Compil\Analyzer\SyntaxAnalyzer.cs) 8@HR 0=0;5=0;10=1;20=0;30=0;60=0;90=0Z1=1;2=1;4=1;6=1;8=0;10=0;12=0j%&'(./07?HdefghÄÅÇÉrq	
+ !"#)*+,1234589:;<=@ABCDEFIJKLMNOPQRUVWXYZ[\]^_`abijkmnoqstvwxyz{|}ÑÖÜáàâäãçéxÇ< !"+8:;<@BCDEIJKMNOPQUYZ[_`kmnoqstvwxyz{Üáàä∞
 NF:\Documents\GITrepos\Compil\Compil\Compil\Exceptions\NotValidCharException.cs 8@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=1;2=0;4=0;6=0;8=0;10=0;12=0j	
-r’
-:F:\Documents\GITrepos\Compil\Compil\Compil\Objects\Node.cs 	(08@HR 0=0;5=0;10=1;20=0;30=0;60=0;90=0Z1=7;2=1;4=1;6=0;8=0;10=0;12=0j
-14r,	 !#$%&'()*+,-./0235789=>xÇ %&()-.02578°
-FF:\Documents\GITrepos\Compil\Compil\Compil\Analyzer\LexicalAnalyzer.csG 8$@$H$R 0=0;5=0;10=0;20=0;30=1;60=0;90=0Z1=2;2=2;4=0;6=0;8=0;10=0;12=1j !"#$,-./<=>FGHI\]^_lÇäõrÚ	
-%&'()012345789:?@ABCDJKLMNOPQSTUVWXY`abcdeghijmnoprstuwxyz{|}ÄÉÑÖÜàâãåçéêëìîïñóòôúùûü°¢•¶ß®™´¨≠Ø∞±≤≥µ∂∏π∫ªºΩæø¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷◊Ÿ⁄€‹xÇu'(24789ABCNPSWbdgimoprtxz{|ÉÖÜàãçêîñóòúû°•ß®™¨Ø±≤µ∏πºæ¿¬ƒ∆» ÃŒ–“‘÷Ÿƒ
+r‚
+:F:\Documents\GITrepos\Compil\Compil\Compil\Objects\Node.cs 	(08@HR 0=0;5=0;10=1;20=0;30=0;60=0;90=0Z1=7;2=1;4=1;6=0;8=0;10=0;12=0j
+!"#$+,-./>Ar,	%&'()0123456789:;<=?@BDEFJKxÇ'(2356:;=?BDE•
+FF:\Documents\GITrepos\Compil\Compil\Compil\Analyzer\LexicalAnalyzer.csH 8&@&H&R 0=0;5=0;10=0;20=0;30=1;60=0;90=0Z1=2;2=2;4=0;6=0;8=0;10=0;12=1j !"#$,-./<=>FGHI\]^_nÖçûrı	
+%&'()012345789:?@ABCDJKLMNOPQSTUVWXY`abdefgijklopqsuvwxz{|}~ÄÇÉÜáàâãåéèêëìîñóòôöõúü†°¢§•®©™´≠ÆØ∞≤≥¥µ∂∏πªºΩæø¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷◊ÿŸ⁄‹›ﬁﬂxÇv'(24789ABCNPSWdfikoqsuw{}~ÇÜàâãéêìóôöõü°§®™´≠Ø≤¥µ∏ªºø¡√≈«…ÀÕœ—”’◊Ÿ‹ƒ
 5F:\Documents\GITrepos\Compil\Compil\Compil\Program.cs 8@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=1;2=0;4=0;6=0;8=0;10=0;12=0j &r$
 !"$'()*+,-./0xÇ!"$'(,™
 EF:\Documents\GITrepos\Compil\Compil\Compil\Properties\AssemblyInfo.csR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=0;2=0;4=0;6=0;8=0;10=0;12=0j !"r	
