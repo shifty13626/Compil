@@ -14,10 +14,7 @@ namespace Compil
     class SyntaxAnalyzer
     {
         private LexicalAnalyzer _lexicalAnalyzer;
-        private List<string> _listOperator = new List<string> { "+", "-", "*", "^" };
-        private List<Operator> _operators = new List<Operator>();
 
-        
         private Dictionary<TokenType, (NodeType, string)> _keywordsTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string)>()
         {
             {TokenType.DO, (NodeType.DO, "do")},
@@ -57,7 +54,6 @@ namespace Compil
         public SyntaxAnalyzer(LexicalAnalyzer lexicalAnalyser)
         {
             this._lexicalAnalyzer = lexicalAnalyser;
-            //_operators.Add(new Operator() { Token = });
         }
 
         /// <summary>
@@ -86,22 +82,24 @@ namespace Compil
                     return node;
                 }
 
+                // Unary operators
                 if (_lexicalAnalyzer.Next().Type == TokenType.MINUS ||
                     _lexicalAnalyzer.Next().Type == TokenType.PLUS ||
                     _lexicalAnalyzer.Next().Type == TokenType.NOT)
                 {
-                    var (nodetype, val, priority, assos) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
-                    node = new Node() {Type = nodetype, Value = val};
+                    var (nodeType, val, _, _) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
+                    node = new Node() {Type = nodeType, Value = val};
                     _lexicalAnalyzer.Skip();
                     node.AddChild(Expression(7));
                     return node;
                 }
                 
-
+                // Throw error, primary not detected.
                 throw new Exception("Primary expected.");
             }
             catch (NotImplementedException e)
             {
+                Console.WriteLine("Feature not implemented.");
                 Console.WriteLine(e.StackTrace);
                 return null;
             }
@@ -135,7 +133,7 @@ namespace Compil
         }
 
         /// <summary>
-        /// Method to return an operator if the node contain an operator
+        /// Method to return an operator if the node contains an operator.
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>

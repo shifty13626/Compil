@@ -9,19 +9,17 @@ using Compil;
 
 namespace Compil {
     class Program {
-        static void Main(string[] args) {
+        public static void Main(string[] args) {
             try {
                 // read source file
                 Console.WriteLine("File to read : " + args[args.Length - 1]);
-                string pathFile = Path.Combine(args[args.Length - 1]);
-                string codeTemp = File.ReadAllText(pathFile);
-
-                codeTemp = @"-5+(((8+1))+2)*4";
-
+                var pathFile = Path.Combine(args[args.Length - 1]);
+                var codeTemp = File.ReadAllText(pathFile);
+                
                 Console.WriteLine("Contenu fichier : ");
                 Console.WriteLine(codeTemp);
 
-                Console.WriteLine("Press key to continue.");
+                Console.WriteLine("Press any key to continue.");
                 Console.ReadKey();
                 Console.WriteLine();
 
@@ -30,14 +28,14 @@ namespace Compil {
                 // parserAnalyzer
                 var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 
-                // display all token
+                // Display all token in form of a tree.
                 var node = syntaxAnalyzer.Expression(0);
                 node.Print("", false);
                 
                 Console.WriteLine();
 
                 // wait exit
-                Console.WriteLine("\nPress key to exit.");
+                Console.WriteLine("\nPress any key to exit.");
                 Console.ReadKey();
             } catch (EncoderFallbackException e) {
                 Console.WriteLine(e.StackTrace);
