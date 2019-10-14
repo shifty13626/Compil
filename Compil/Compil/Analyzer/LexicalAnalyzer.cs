@@ -117,7 +117,7 @@ namespace Compil
                 }
 
                 var i = index + 1;
-                while (char.IsDigit(code[i]))
+                while (i < code.Length && char.IsDigit(code[i]))
                 {
                     buffer += code[i].ToString();
                     i++;
@@ -145,7 +145,7 @@ namespace Compil
                 }
 
                 var i = index + 1;
-                while (char.IsLetter(code[i]) || char.IsDigit(code[i]))
+                while (i < code.Length && (char.IsLetter(code[i]) || char.IsDigit(code[i])))
                 {
                     buffer += code[i].ToString();
                     i++;

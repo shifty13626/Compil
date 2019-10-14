@@ -21,17 +21,30 @@ namespace Compil
 
         #region Operations
 
+        /// <summary>
+        /// Add child to the tree.
+        /// </summary>
+        /// <param name="node"></param>
         public void AddChild(Node node)
         {
             Children.Add(node);
         }
 
+        /// <summary>
+        /// Add children to the tree.
+        /// </summary>
+        /// <param name="nodes"></param>
         public void AddChildren(List<Node> nodes)
         {
             foreach (var node in nodes)
                 Children.Add(node);
         }
-
+        
+        /// <summary>
+        /// Method to print a tree.
+        /// </summary>
+        /// <param name="indent"></param>
+        /// <param name="last"></param>
         public void Print(string indent, bool last) 
         {
             Console.Write(indent);

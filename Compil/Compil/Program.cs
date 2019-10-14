@@ -20,7 +20,7 @@ namespace Compil {
                 Console.WriteLine("File content : ");
                 Console.WriteLine(codeTemp);
 
-                Console.WriteLine("Press key to continue.");
+                Console.WriteLine("Press any key to continue.");
                 Console.ReadKey();
                 Console.WriteLine();
 
@@ -29,14 +29,14 @@ namespace Compil {
                 // parserAnalyzer
                 var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 
-                // display all token
+                // Display all token in form of a tree.
                 var node = syntaxAnalyzer.Expression(0);
                 node.Print("", false);
                 
                 Console.WriteLine();
 
                 // wait exit
-                Console.WriteLine("\nPress key to exit.");
+                Console.WriteLine("\nPress any key to exit.");
                 Console.ReadKey();
             }
             catch (EncoderFallbackException e)
