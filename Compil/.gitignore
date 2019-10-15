@@ -31,6 +31,8 @@ bld/
 [Ll]og/
 [Ll]ogs/
 .sonarcube/
+.idea/
+.idea/.idea.Compil/.idea/contentModel.xml
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

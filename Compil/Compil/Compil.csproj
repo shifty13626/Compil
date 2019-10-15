@@ -61,7 +61,10 @@
     <None Include="App.config" />
     <None Include="Compil.ruleset" />
   </ItemGroup>
+<<<<<<< HEAD
   <ItemGroup />
+=======
+>>>>>>> master
   <ItemGroup>
     <Content Include="Tests\test.c" />
   </ItemGroup>
