@@ -12,7 +12,9 @@ namespace Compil.Generator
             { NodeType.OP_MINUS, "sub" },
             { NodeType.OP_MULTIPLY, "mul" },
             { NodeType.OP_DIVIDE, "div" },
-            { NodeType.OP_MODULO, "mod" }
+            { NodeType.OP_MODULO, "mod" },
+            { NodeType.AND, "and" },
+            { NodeType.OR, "or" }
         };
         
         /// <summary>

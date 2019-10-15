@@ -10,7 +10,7 @@ namespace Compil
     /// <summary>
     /// Instance of class Token
     /// </summary>
-    class Token
+    public class Token
     {
         #region properties
         public string Name { get; set; }

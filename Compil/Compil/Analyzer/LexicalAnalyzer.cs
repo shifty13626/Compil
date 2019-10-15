@@ -7,7 +7,7 @@ using Compil.Utils;
 
 namespace Compil
 {
-    class LexicalAnalyzer
+    public class LexicalAnalyzer
     {
         private readonly string code;
         public int index;

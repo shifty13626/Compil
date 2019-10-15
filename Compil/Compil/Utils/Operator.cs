@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Compil.Utils
 {
-    class Operator
+    public class Operator
     {
         public Token Token { get; set; }
         public Node Node { get; set; }
