@@ -28,6 +28,12 @@ namespace Compil {
                 var lexicalAnalyser = new LexicalAnalyzer(codeTemp, 0);
                 // parserAnalyzer
                 var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
+                // File writer
+                var fileWriter = new FileWriter();
+
+                fileWriter.InitFile();
+                fileWriter.WriteFile();
+
 
                 // Display all token in form of a tree.
                 var node = syntaxAnalyzer.Expression(0);

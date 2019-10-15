@@ -50,6 +50,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\Token.cs" />
+    <Compile Include="Utils\FileWriter.cs" />
     <Compile Include="Utils\NodeType.cs" />
     <Compile Include="Utils\Operator.cs" />
     <Compile Include="Utils\TokenType.cs" />
@@ -57,9 +58,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Generator" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Tests\test.c" />
   </ItemGroup>
