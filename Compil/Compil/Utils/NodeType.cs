@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Compil.Utils
+﻿namespace Compil.Utils
 {
     public enum NodeType
     {
         IDENTIFIER,
         CONSTANT,
-        
+
         // Operators
         MINUS,
         PLUS,
         NOT,
-        
+
         OP_PLUS,
         OP_MINUS,
         OP_MULTIPLY,
         OP_DIVIDE,
         OP_MODULO,
         OP_POWER,
-        
+
         // Comparison
         COMP_EQUAL,
         COMP_DIFFERENT,
@@ -30,7 +24,7 @@ namespace Compil.Utils
         COMP_INFERIOR,
         COMP_SUPPERIOR_OR_EQUAL,
         COMP_INFERIOR_OR_EQUAL,
-        
+
         // Boolean
         AND,
         OR,

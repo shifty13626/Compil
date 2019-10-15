@@ -1,10 +1,6 @@
+using Compil.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Compil.Utils;
-using Compil;
 
 namespace Compil
 {
@@ -33,7 +29,7 @@ namespace Compil
             {TokenType.COMP_INFERIOR_OR_EQUAL, (NodeType.COMP_INFERIOR_OR_EQUAL, "<=", 4, 1)},
             {TokenType.COMP_SUPPERIOR_OR_EQUAL, (NodeType.COMP_SUPPERIOR_OR_EQUAL, ">=", 4, 1)},
         };
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -55,7 +51,7 @@ namespace Compil
                 // Constante
                 if (_lexicalAnalyzer.Next().Type == TokenType.CONSTANT)
                 {
-                    node = new Node() {Type = NodeType.CONSTANT, Value = _lexicalAnalyzer.Next().Value.ToString()};
+                    node = new Node() { Type = NodeType.CONSTANT, Value = _lexicalAnalyzer.Next().Value.ToString() };
                     _lexicalAnalyzer.Skip();
                     return node;
                 }
@@ -75,12 +71,12 @@ namespace Compil
                     _lexicalAnalyzer.Next().Type == TokenType.NOT)
                 {
                     var (nodeType, val, _, _) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
-                    node = new Node() {Type = nodeType, Value = val};
+                    node = new Node() { Type = nodeType, Value = val };
                     _lexicalAnalyzer.Skip();
                     node.AddChild(Expression(7));
                     return node;
                 }
-                
+
 
                 throw new ArgumentNullException("Primary expected.");
             }
@@ -105,16 +101,17 @@ namespace Compil
         public Node Expression(int pMin)
         {
             var leftNode = Primary();
-            
-            while(true) {
+
+            while (true)
+            {
                 if (_lexicalAnalyzer.Next() == null)
                     return leftNode;
-                
+
                 var op = SearchOp(_lexicalAnalyzer.Next());
 
                 if (op == null || op.Priority < pMin)
                     return leftNode;
-                
+
                 _lexicalAnalyzer.Skip();
                 var rightNode = Expression(op.Priority + op.Association);
                 var tree = new Node() { Type = op.Node.Type };
@@ -131,9 +128,10 @@ namespace Compil
         /// <returns></returns>
         public Operator SearchOp(Token token)
         {
-            if (_exprTokenToNodeMatch.TryGetValue(token.Type, out var vals)) {
+            if (_exprTokenToNodeMatch.TryGetValue(token.Type, out var vals))
+            {
                 var (nodetype, val, priority, assos) = vals;
-                return new Operator() { Token = token, Node = new Node() {Type = nodetype}, Priority = priority, Association = assos};
+                return new Operator() { Token = token, Node = new Node() { Type = nodetype }, Priority = priority, Association = assos };
             }
             return null;
         }

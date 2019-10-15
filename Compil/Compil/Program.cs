@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Compil.Utils;
+using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Compil.Utils;
-using Compil;
 
-namespace Compil {
-    class Program {
-        static void Main(string[] args) {
+namespace Compil
+{
+    static class Program
+    {
+        static void Main(string[] args)
+        {
             try
             {
                 // read source file
                 Console.WriteLine("File to read : " + args[args.Length - 1]);
                 string pathFile = Path.Combine(args[args.Length - 1]);
-                //string codeTemp = File.ReadAllText(pathFile);
-                string codeTemp = "1+2";
+                string codeTemp = File.ReadAllText(pathFile);
+
                 Console.WriteLine("File content : ");
                 Console.WriteLine(codeTemp);
 
@@ -38,7 +37,7 @@ namespace Compil {
                 // Display all token in form of a tree.
                 var node = syntaxAnalyzer.Expression(0);
                 node.Print("", false);
-                
+
                 Console.WriteLine();
 
                 // wait exit

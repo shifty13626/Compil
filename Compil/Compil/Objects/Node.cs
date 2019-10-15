@@ -1,9 +1,6 @@
 ﻿using Compil.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Compil
 {
@@ -39,13 +36,13 @@ namespace Compil
             foreach (var node in nodes)
                 Children.Add(node);
         }
-        
+
         /// <summary>
         /// Method to print a tree.
         /// </summary>
         /// <param name="indent"></param>
         /// <param name="last"></param>
-        public void Print(string indent, bool last) 
+        public void Print(string indent, bool last)
         {
             Console.Write(indent);
             if (last)
@@ -58,7 +55,7 @@ namespace Compil
                 Console.Write("|-");
                 indent += "| ";
             }
-            if(Type == NodeType.CONSTANT)
+            if (Type == NodeType.CONSTANT)
                 // Print a value in the tree
                 Console.WriteLine("VALUE: " + Value);
             else
@@ -66,9 +63,9 @@ namespace Compil
                 Console.WriteLine(Type);
 
             for (var i = 0; i < Children.Count; i++)
-                Children[i].Print(indent, i == Children.Count - 1);    
+                Children[i].Print(indent, i == Children.Count - 1);
         }
-        
+
         #endregion
 
     }

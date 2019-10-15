@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Compil.Utils
 {
@@ -12,8 +8,8 @@ namespace Compil.Utils
     /// </summary>
     public class FileWriter
     {
-        private static string pathFileCode;
-        private static string code;
+        private readonly string pathFileCode;
+        private string code;
 
         /// <summary>
         /// Constructor class
@@ -41,7 +37,7 @@ namespace Compil.Utils
         {
             code += cmd + "\n";
         }
-    
+
         /// <summary>
         /// Write content on string on file result code
         /// </summary>
@@ -55,7 +51,7 @@ namespace Compil.Utils
 
                 File.WriteAllText(pathFileCode, code);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.StackTrace);

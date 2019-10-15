@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Compil.Utils;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Compil.Utils;
 
 namespace Compil
 {
@@ -99,7 +97,7 @@ namespace Compil
 
             if (index == code.Length)
             {
-                return new Token() {Type = TokenType.END_OF_FILE};
+                return new Token() { Type = TokenType.END_OF_FILE };
             }
 
             while (code[index] == ' ' || code[index] == '\t' || code[index] == '\n')
@@ -111,12 +109,12 @@ namespace Compil
             if (char.IsDigit(code[index]))
             {
                 _currentTokenLength = 1;
-                
+
                 builder.Append(code[index].ToString());
 
                 if (index == code.Length - 1)
                 {
-                    return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString())};
+                    return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString()) };
                 }
 
                 var i = index + 1;
@@ -127,7 +125,7 @@ namespace Compil
                     _currentTokenLength++;
                 }
 
-                return new Token() {Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString())};
+                return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString()) };
             }
 
             // Identifier and keywords handle
@@ -141,10 +139,10 @@ namespace Compil
                     // Look into keywords dictionnary to get the adequate token type
                     if (keywords.ContainsKey(builder.ToString()))
                     {
-                        return new Token() {Type = keywords[builder.ToString()], Name = builder.ToString() };
+                        return new Token() { Type = keywords[builder.ToString()], Name = builder.ToString() };
                     }
 
-                    return new Token() {Type = TokenType.IDENTIFIER, Name = builder.ToString() };
+                    return new Token() { Type = TokenType.IDENTIFIER, Name = builder.ToString() };
                 }
 
                 var i = index + 1;
@@ -158,10 +156,10 @@ namespace Compil
                 // Look into keywords dictionnary to get the adequate token type
                 if (keywords.ContainsKey(builder.ToString()))
                 {
-                    return new Token() {Type = keywords[builder.ToString()], Name = builder.ToString() };
+                    return new Token() { Type = keywords[builder.ToString()], Name = builder.ToString() };
                 }
 
-                return new Token() {Type = TokenType.IDENTIFIER, Name = builder.ToString() };
+                return new Token() { Type = TokenType.IDENTIFIER, Name = builder.ToString() };
             }
 
             // ==
@@ -172,47 +170,47 @@ namespace Compil
 
                 if (index == code.Length - 1)
                 {
-                    return new Token() {Type = TokenType.EQUAL};
+                    return new Token() { Type = TokenType.EQUAL };
                 }
 
                 if (code[index + 1] == '=')
                 {
                     _currentTokenLength++;
-                    return new Token() {Type = TokenType.COMP_EQUAL};
+                    return new Token() { Type = TokenType.COMP_EQUAL };
                 }
 
-                return new Token() {Type = TokenType.EQUAL};
+                return new Token() { Type = TokenType.EQUAL };
             }
 
             _currentTokenLength++;
             switch (code[index])
             {
                 case '+':
-                    return new Token() {Type = TokenType.PLUS};
+                    return new Token() { Type = TokenType.PLUS };
                 case '-':
-                    return new Token() {Type = TokenType.MINUS};
+                    return new Token() { Type = TokenType.MINUS };
                 case '*':
-                    return new Token() {Type = TokenType.MULTIPLY};
+                    return new Token() { Type = TokenType.MULTIPLY };
                 case '/':
-                    return new Token() {Type = TokenType.DIVIDE};
+                    return new Token() { Type = TokenType.DIVIDE };
                 case '%':
-                    return new Token() {Type = TokenType.MODULO};
+                    return new Token() { Type = TokenType.MODULO };
                 case '^':
-                    return new Token() {Type = TokenType.POWER};
+                    return new Token() { Type = TokenType.POWER };
                 case '(':
-                    return new Token() {Type = TokenType.PAR_OPEN};
+                    return new Token() { Type = TokenType.PAR_OPEN };
                 case ')':
-                    return new Token() {Type = TokenType.PAR_CLOSE};
+                    return new Token() { Type = TokenType.PAR_CLOSE };
                 case '{':
-                    return new Token() {Type = TokenType.BRACKET_OPEN};
+                    return new Token() { Type = TokenType.BRACKET_OPEN };
                 case '}':
-                    return new Token() {Type = TokenType.BRACKET_CLOSE};
+                    return new Token() { Type = TokenType.BRACKET_CLOSE };
                 case '&':
-                    return new Token() {Type = TokenType.AND};
+                    return new Token() { Type = TokenType.AND };
                 case '|':
-                    return new Token() {Type = TokenType.OR};
+                    return new Token() { Type = TokenType.OR };
                 case ';':
-                    return new Token() {Type = TokenType.SEMICOLON};
+                    return new Token() { Type = TokenType.SEMICOLON };
                 default:
                     break;
             }
