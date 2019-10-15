@@ -5,7 +5,7 @@
       <e p="Compil" t="IncludeRecursive">
         <e p="Analyzer" t="Include">
           <e p="LexicalAnalyzer.cs" t="Include" />
-          <e p="Parser.cs" t="Include" />
+          <e p="SyntaxAnalyzer.cs" t="Include" />
         </e>
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
@@ -13,6 +13,7 @@
         <e p="Exceptions" t="Include">
           <e p="NotValidCharException.cs" t="Include" />
         </e>
+        <e p="Generator" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Objects" t="Include">
           <e p="Node.cs" t="Include" />
@@ -27,6 +28,7 @@
         </e>
         <e p="Utils" t="Include">
           <e p="NodeType.cs" t="Include" />
+          <e p="Operator.cs" t="Include" />
           <e p="TokenType.cs" t="Include" />
         </e>
       </e>
