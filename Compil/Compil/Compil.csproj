@@ -58,9 +58,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Generator" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Tests\test.c" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
