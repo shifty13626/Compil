@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Analyzer\SyntaxAnalyzer.cs" />
     <Compile Include="Exceptions\NotValidCharException.cs" />
+    <Compile Include="Generator\CodeGenerator.cs" />
     <Compile Include="Objects\Node.cs" />
     <Compile Include="Analyzer\LexicalAnalyzer.cs" />
     <Compile Include="Program.cs" />

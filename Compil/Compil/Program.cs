@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Compil.Utils;
 using Compil;
+using Compil.Generator;
 
 namespace Compil {
     class Program {
@@ -15,8 +16,8 @@ namespace Compil {
                 // read source file
                 Console.WriteLine("File to read : " + args[args.Length - 1]);
                 string pathFile = Path.Combine(args[args.Length - 1]);
-                //string codeTemp = File.ReadAllText(pathFile);
-                string codeTemp = "1+2";
+                string codeTemp = File.ReadAllText(pathFile);
+                //string codeTemp = "1+2";
                 Console.WriteLine("File content : ");
                 Console.WriteLine(codeTemp);
 
@@ -32,6 +33,9 @@ namespace Compil {
                 // Display all token in form of a tree.
                 var node = syntaxAnalyzer.Expression(0);
                 node.Print("", false);
+
+                var codeGenerator = new CodeGenerator();
+                codeGenerator.GenerateCode(node);
                 
                 Console.WriteLine();
 
