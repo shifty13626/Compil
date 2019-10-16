@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Compil
 {
-    class LexicalAnalyzer
+    public class LexicalAnalyzer
     {
         private readonly string code;
         public int index;

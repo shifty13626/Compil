@@ -2,6 +2,10 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using Compil.Utils;
+using Compil;
+using Compil.Generator;
 
 namespace Compil
 {
@@ -38,6 +42,9 @@ namespace Compil
                 var node = syntaxAnalyzer.Expression(0);
                 node.Print("", false);
 
+                var codeGenerator = new CodeGenerator();
+                codeGenerator.GenerateCode(node);
+                
                 Console.WriteLine();
 
                 // wait exit

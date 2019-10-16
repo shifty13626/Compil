@@ -7,7 +7,7 @@ namespace Compil
     /// <summary>
     /// Instance of class SyntacticAnalyzer
     /// </summary>
-    class SyntaxAnalyzer
+    public class SyntaxAnalyzer
     {
         private readonly LexicalAnalyzer _lexicalAnalyzer;
 
