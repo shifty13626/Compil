@@ -6,6 +6,10 @@ namespace Compil.Generator
 {
     public class CodeGenerator
     {
+
+        private static FileWriter _fileWriter;
+        private static bool _debug;
+
         private readonly Dictionary<NodeType, string> _operatorsToCode = new Dictionary<NodeType, string>()
         {
             { NodeType.OP_PLUS, "add" },
@@ -17,6 +21,14 @@ namespace Compil.Generator
             { NodeType.OR, "or" }
         };
         
+
+        public CodeGenerator(FileWriter fileWriter, bool debug)
+        {
+            _fileWriter = fileWriter;
+            _debug = debug;
+        }
+
+
         /// <summary>
         /// Method to generate code from expression tree.
         /// </summary>
@@ -26,7 +38,7 @@ namespace Compil.Generator
             // Constants
             if (node.Type == NodeType.CONSTANT)
             {
-                Console.WriteLine($"push {node.Value}");
+                _fileWriter.WriteCommand("push " +node.Value, _debug);
             }
 
             // Operations
@@ -34,7 +46,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                Console.WriteLine(_operatorsToCode[node.Type]);
+                _fileWriter.WriteCommand(_operatorsToCode[node.Type], _debug);
             }
 
             // Unary operations
@@ -42,14 +54,14 @@ namespace Compil.Generator
             {
                 // Unary operations
                 case NodeType.MINUS:
-                    Console.WriteLine("push 0");
+                    _fileWriter.WriteCommand("push 0", _debug);
                     GenerateCode(node.Children[0]);
-                    Console.WriteLine("sub");
+                    _fileWriter.WriteCommand("sub", _debug);
                     break;
                 case NodeType.PLUS:
-                    Console.WriteLine("push 0");
+                    _fileWriter.WriteCommand("push 0", _debug);
                     GenerateCode(node.Children[0]);
-                    Console.WriteLine("add");
+                    _fileWriter.WriteCommand("add", _debug);
                     break;
             }
         }
