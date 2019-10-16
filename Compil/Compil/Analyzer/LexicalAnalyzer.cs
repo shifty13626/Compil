@@ -1,4 +1,6 @@
 ﻿using Compil.Utils;
+using Compil.Nodes;
+using Compil.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -93,49 +95,68 @@ namespace Compil
         /// <returns></returns>
         private Token DetectNext()
         {
-            StringBuilder builder = new StringBuilder();
-
-            if (index == code.Length)
+            try
             {
-                return new Token() { Type = TokenType.END_OF_FILE };
-            }
+                StringBuilder builder = new StringBuilder();
 
-            while (code[index] == ' ' || code[index] == '\t' || code[index] == '\n')
-            {
-                index++;
-            }
-
-            // Constants handle
-            if (char.IsDigit(code[index]))
-            {
-                _currentTokenLength = 1;
-
-                builder.Append(code[index].ToString());
-
-                if (index == code.Length - 1)
+                if (index == code.Length)
                 {
+                    return new Token() { Type = TokenType.END_OF_FILE };
+                }
+
+                while (code[index] == ' ' || code[index] == '\t' || code[index] == '\n')
+                {
+                    index++;
+                }
+
+                // Constants handle
+                if (char.IsDigit(code[index]))
+                {
+                    _currentTokenLength = 1;
+
+                    builder.Append(code[index].ToString());
+
+                    if (index == code.Length - 1)
+                    {
+                        return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString()) };
+                    }
+
+                    var i = index + 1;
+                    while (i < code.Length && char.IsDigit(code[i]))
+                    {
+                        builder.Append(code[i].ToString());
+                        i++;
+                        _currentTokenLength++;
+                    }
+
                     return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString()) };
                 }
 
-                var i = index + 1;
-                while (i < code.Length && char.IsDigit(code[i]))
+                // Identifier and keywords handle
+                if (char.IsLetter(code[index]))
                 {
-                    builder.Append(code[i].ToString());
-                    i++;
-                    _currentTokenLength++;
-                }
+                    _currentTokenLength = 1;
+                    builder.Append(code[index].ToString());
 
-                return new Token() { Type = TokenType.CONSTANT, Value = int.Parse(builder.ToString()) };
-            }
+                    if (index == code.Length - 1)
+                    {
+                        // Look into keywords dictionnary to get the adequate token type
+                        if (keywords.ContainsKey(builder.ToString()))
+                        {
+                            return new Token() { Type = keywords[builder.ToString()], Name = builder.ToString() };
+                        }
 
-            // Identifier and keywords handle
-            if (char.IsLetter(code[index]))
-            {
-                _currentTokenLength = 1;
-                builder.Append(code[index].ToString());
+                        return new Token() { Type = TokenType.IDENTIFIER, Name = builder.ToString() };
+                    }
 
-                if (index == code.Length - 1)
-                {
+                    var i = index + 1;
+                    while (i < code.Length && (char.IsLetter(code[i]) || char.IsDigit(code[i])))
+                    {
+                        builder.Append(code[i].ToString());
+                        i++;
+                        _currentTokenLength++;
+                    }
+
                     // Look into keywords dictionnary to get the adequate token type
                     if (keywords.ContainsKey(builder.ToString()))
                     {
@@ -145,117 +166,106 @@ namespace Compil
                     return new Token() { Type = TokenType.IDENTIFIER, Name = builder.ToString() };
                 }
 
-                var i = index + 1;
-                while (i < code.Length && (char.IsLetter(code[i]) || char.IsDigit(code[i])))
+                // ==
+                if (code[index] == '=')
                 {
-                    builder.Append(code[i].ToString());
-                    i++;
-                    _currentTokenLength++;
-                }
+                    _currentTokenLength = 1;
+                    builder.Append(code[index].ToString());
 
-                // Look into keywords dictionnary to get the adequate token type
-                if (keywords.ContainsKey(builder.ToString()))
-                {
-                    return new Token() { Type = keywords[builder.ToString()], Name = builder.ToString() };
-                }
+                    if (index == code.Length - 1)
+                    {
+                        return new Token() { Type = TokenType.EQUAL };
+                    }
 
-                return new Token() { Type = TokenType.IDENTIFIER, Name = builder.ToString() };
-            }
+                    if (code[index + 1] == '=')
+                    {
+                        _currentTokenLength++;
+                        return new Token() { Type = TokenType.COMP_EQUAL };
+                    }
 
-            // ==
-            if (code[index] == '=')
-            {
-                _currentTokenLength = 1;
-                builder.Append(code[index].ToString());
-
-                if (index == code.Length - 1)
-                {
                     return new Token() { Type = TokenType.EQUAL };
                 }
 
-                if (code[index + 1] == '=')
+                // >= and >
+                if (code[index] == '>')
                 {
-                    _currentTokenLength++;
-                    return new Token() { Type = TokenType.COMP_EQUAL };
+                    _currentTokenLength = 1;
+                    builder.Append(code[index].ToString());
+
+                    if (index == code.Length - 1)
+                    {
+                        return new Token() { Type = TokenType.COMP_SUPPERIOR };
+                    }
+
+                    if (code[index + 1] == '=')
+                    {
+                        _currentTokenLength++;
+                        return new Token() { Type = TokenType.COMP_SUPPERIOR_OR_EQUAL };
+                    }
+
+                    return new Token() { Type = TokenType.COMP_SUPPERIOR };
                 }
 
-                return new Token() { Type = TokenType.EQUAL };
+                // <= and <
+                if (code[index] == '<')
+                {
+                    _currentTokenLength = 1;
+                    builder.Append(code[index].ToString());
+
+                    if (index == code.Length - 1)
+                    {
+                        return new Token() { Type = TokenType.COMP_INFERIOR };
+                    }
+
+                    if (code[index + 1] == '=')
+                    {
+                        _currentTokenLength++;
+                        return new Token() { Type = TokenType.COMP_INFERIOR_OR_EQUAL };
+                    }
+
+                    return new Token() { Type = TokenType.COMP_INFERIOR };
+                }
+
+                _currentTokenLength++;
+                switch (code[index])
+                {
+                    case '+':
+                        return new Token() { Type = TokenType.PLUS };
+                    case '-':
+                        return new Token() { Type = TokenType.MINUS };
+                    case '*':
+                        return new Token() { Type = TokenType.MULTIPLY };
+                    case '/':
+                        return new Token() { Type = TokenType.DIVIDE };
+                    case '%':
+                        return new Token() { Type = TokenType.MODULO };
+                    case '^':
+                        return new Token() { Type = TokenType.POWER };
+                    case '(':
+                        return new Token() { Type = TokenType.PAR_OPEN };
+                    case ')':
+                        return new Token() { Type = TokenType.PAR_CLOSE };
+                    case '{':
+                        return new Token() { Type = TokenType.BRACKET_OPEN };
+                    case '}':
+                        return new Token() { Type = TokenType.BRACKET_CLOSE };
+                    case '&':
+                        return new Token() { Type = TokenType.AND };
+                    case '|':
+                        return new Token() { Type = TokenType.OR };
+                    case ';':
+                        return new Token() { Type = TokenType.SEMICOLON };
+                    default:
+                        break;
+                }
+
+                throw new NotImplementedException();
             }
-            
-            // >= and >
-            if (code[index] == '>')
+            catch (NotImplementedException e)
             {
-                _currentTokenLength = 1;
-                builder.Append(code[index].ToString());
-
-                if (index == code.Length - 1)
-                {
-                    return new Token() {Type = TokenType.COMP_SUPPERIOR};
-                }
-
-                if (code[index + 1] == '=')
-                {
-                    _currentTokenLength++;
-                    return new Token() {Type = TokenType.COMP_SUPPERIOR_OR_EQUAL};
-                }
-
-                return new Token() {Type = TokenType.COMP_SUPPERIOR};
+                Console.WriteLine(e.Message);
+                return null;
             }
-            
-            // <= and <
-            if (code[index] == '<')
-            {
-                _currentTokenLength = 1;
-                builder.Append(code[index].ToString());
-
-                if (index == code.Length - 1)
-                {
-                    return new Token() {Type = TokenType.COMP_INFERIOR};
-                }
-
-                if (code[index + 1] == '=')
-                {
-                    _currentTokenLength++;
-                    return new Token() {Type = TokenType.COMP_INFERIOR_OR_EQUAL};
-                }
-
-                return new Token() {Type = TokenType.COMP_INFERIOR};
-            }
-
-            _currentTokenLength++;
-            switch (code[index])
-            {
-                case '+':
-                    return new Token() { Type = TokenType.PLUS };
-                case '-':
-                    return new Token() { Type = TokenType.MINUS };
-                case '*':
-                    return new Token() { Type = TokenType.MULTIPLY };
-                case '/':
-                    return new Token() { Type = TokenType.DIVIDE };
-                case '%':
-                    return new Token() { Type = TokenType.MODULO };
-                case '^':
-                    return new Token() { Type = TokenType.POWER };
-                case '(':
-                    return new Token() { Type = TokenType.PAR_OPEN };
-                case ')':
-                    return new Token() { Type = TokenType.PAR_CLOSE };
-                case '{':
-                    return new Token() { Type = TokenType.BRACKET_OPEN };
-                case '}':
-                    return new Token() { Type = TokenType.BRACKET_CLOSE };
-                case '&':
-                    return new Token() { Type = TokenType.AND };
-                case '|':
-                    return new Token() { Type = TokenType.OR };
-                case ';':
-                    return new Token() { Type = TokenType.SEMICOLON };
-                default:
-                    break;
-            }
-
-            throw new NotImplementedException();
         }
     }
 }
