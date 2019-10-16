@@ -25,7 +25,6 @@ namespace Compil.Utils
         /// </summary>
         public void InitFile()
         {
-            Console.WriteLine(".start");
             code += ".start" + "\n";
         }
 
@@ -36,13 +35,9 @@ namespace Compil.Utils
         /// <param name="cmd"></param>
         public void WriteCommand(string cmd, bool debug = false)
         {
-            Console.WriteLine(cmd);
             code += cmd + "\n";
             if (debug)
-            {
                 code += "dbg\n";
-                Console.WriteLine("dbg");
-            }
         }
 
         /// <summary>
@@ -56,6 +51,9 @@ namespace Compil.Utils
                 code += "halt";
                 if (File.Exists(pathFileCode))
                     File.Delete(pathFileCode);
+
+                Console.WriteLine();
+                Console.WriteLine(code);
 
                 File.WriteAllText(pathFileCode, code);
             }

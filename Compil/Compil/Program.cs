@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Compil.Utils;
 using Compil;
 using Compil.Generator;
 
@@ -15,6 +14,9 @@ namespace Compil
         {
             try
             {
+                if (args.Length == 0)
+                    throw new ArgumentNullException("Null arguments");
+
                 // read source file
                 Console.WriteLine("File to read : " + args[args.Length - 1]);
                 string pathFile = Path.Combine(args[args.Length - 1]);
@@ -35,17 +37,16 @@ namespace Compil
                 var fileWriter = new FileWriter();
 
                 fileWriter.InitFile();
-                fileWriter.WriteFile();
 
 
                 // Display all token in form of a tree.
                 var node = syntaxAnalyzer.Expression(0);
                 node.Print("", false);
 
-                var codeGenerator = new CodeGenerator();
+                var codeGenerator = new CodeGenerator(fileWriter, true);
                 codeGenerator.GenerateCode(node);
                 
-                Console.WriteLine();
+                fileWriter.WriteFile();
 
                 // wait exit
                 Console.WriteLine("\nPress any key to exit.");
@@ -54,6 +55,11 @@ namespace Compil
             catch (EncoderFallbackException e)
             {
                 Console.WriteLine(e.StackTrace);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("Null argument enter for launch programm");
+                Console.WriteLine(e.Message);
             }
         }
     }
