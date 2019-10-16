@@ -181,6 +181,46 @@ namespace Compil
 
                 return new Token() { Type = TokenType.EQUAL };
             }
+            
+            // >= and >
+            if (code[index] == '>')
+            {
+                _currentTokenLength = 1;
+                builder.Append(code[index].ToString());
+
+                if (index == code.Length - 1)
+                {
+                    return new Token() {Type = TokenType.COMP_SUPPERIOR};
+                }
+
+                if (code[index + 1] == '=')
+                {
+                    _currentTokenLength++;
+                    return new Token() {Type = TokenType.COMP_SUPPERIOR_OR_EQUAL};
+                }
+
+                return new Token() {Type = TokenType.COMP_SUPPERIOR};
+            }
+            
+            // <= and <
+            if (code[index] == '<')
+            {
+                _currentTokenLength = 1;
+                builder.Append(code[index].ToString());
+
+                if (index == code.Length - 1)
+                {
+                    return new Token() {Type = TokenType.COMP_INFERIOR};
+                }
+
+                if (code[index + 1] == '=')
+                {
+                    _currentTokenLength++;
+                    return new Token() {Type = TokenType.COMP_INFERIOR_OR_EQUAL};
+                }
+
+                return new Token() {Type = TokenType.COMP_INFERIOR};
+            }
 
             _currentTokenLength++;
             switch (code[index])

@@ -28,6 +28,7 @@ namespace Compil
             {TokenType.COMP_SUPPERIOR, (NodeType.COMP_SUPPERIOR, ">", 4, 1)},
             {TokenType.COMP_INFERIOR_OR_EQUAL, (NodeType.COMP_INFERIOR_OR_EQUAL, "<=", 4, 1)},
             {TokenType.COMP_SUPPERIOR_OR_EQUAL, (NodeType.COMP_SUPPERIOR_OR_EQUAL, ">=", 4, 1)},
+            {TokenType.EQUAL, (NodeType.AFFECT, "=", 1, 0)}
         };
 
         /// <summary>
@@ -77,7 +78,15 @@ namespace Compil
                     return node;
                 }
 
+                // Identifiers handling
+                if (_lexicalAnalyzer.Next().Type == TokenType.IDENTIFIER)
+                {
+                    node = new Node() { Type = NodeType.VARIABLE, Value = _lexicalAnalyzer.Next().Name.ToString() };
+                    _lexicalAnalyzer.Skip();
+                    return node;
+                }
 
+                // Primary not found
                 throw new ArgumentNullException("Primary expected.");
             }
             catch (NotImplementedException e)
@@ -98,7 +107,7 @@ namespace Compil
         /// </summary>
         /// <param name="pMin"></param>
         /// <returns></returns>
-        public Node Expression(int pMin)
+        public Node Expression(int pMin = 0)
         {
             var leftNode = Primary();
 
@@ -136,5 +145,41 @@ namespace Compil
             return null;
         }
 
+        public Node Instruction()
+        {
+            if (_lexicalAnalyzer.Next().Type == TokenType.IF)
+            {
+                _lexicalAnalyzer.Skip(); // We know it is an if statement
+                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+                var aTest = Expression();
+                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                var aCode = Instruction();
+                var node = new Node() {Type = NodeType.CONDITION};
+                node.AddChild(aTest);
+                node.AddChild(aCode);
+                return node;
+            }
+            else if (_lexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN)
+            {
+                var node = new Node() {Type = NodeType.BLOCK};
+                _lexicalAnalyzer.Accept(TokenType.BRACKET_OPEN);
+                while (_lexicalAnalyzer.Next().Type != TokenType.BRACKET_CLOSE)
+                {
+                    var x = Instruction();
+                    node.AddChild(x);
+                }
+                _lexicalAnalyzer.Accept(TokenType.BRACKET_CLOSE);
+                return node;
+            }
+            else
+            {
+                var ex = Expression();
+                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                var node = new Node() {Type = NodeType.EXPRESSION};
+                node.AddChild(ex);
+                return node;
+            }
+        }
+        
     }
 }

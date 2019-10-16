@@ -40,7 +40,7 @@ namespace Compil
 
 
                 // Display all token in form of a tree.
-                var node = syntaxAnalyzer.Expression(0);
+                var node = syntaxAnalyzer.Instruction();
                 node.Print("", false);
 
                 var codeGenerator = new CodeGenerator(fileWriter, true);

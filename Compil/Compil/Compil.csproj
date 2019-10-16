@@ -49,15 +49,20 @@
     <Compile Include="Compilator.cs" />
     <Compile Include="Exceptions\NotValidCharException.cs" />
     <Compile Include="Generator\CodeGenerator.cs" />
-    <Compile Include="Objects\Node.cs" />
     <Compile Include="Analyzer\LexicalAnalyzer.cs" />
+    <Compile Include="Nodes\Node.cs" />
+    <Compile Include="Nodes\NodeType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <Compile Include="Objects\Token.cs" />
     <Compile Include="Utils\FileWriter.cs" />
     <Compile Include="Utils\NodeType.cs" />
+=======
+    <Compile Include="Tokens\Token.cs" />
+    <Compile Include="Tokens\TokenType.cs" />
+>>>>>>> Generator
     <Compile Include="Utils\Operator.cs" />
-    <Compile Include="Utils\TokenType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -66,6 +71,9 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Tests\test.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Objects" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
