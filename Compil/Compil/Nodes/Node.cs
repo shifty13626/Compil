@@ -60,7 +60,9 @@ namespace Compil
             }
             if(Type == NodeType.CONSTANT)
                 // Print a value in the tree
-                Console.WriteLine("VALUE: " + Value);
+                Console.WriteLine($"VALUE: {Value}");
+            else if(Type == NodeType.VARIABLE)
+                Console.WriteLine($"VARIABLE: name={Value}");
             else
                 // Print a node type only
                 Console.WriteLine(Type);

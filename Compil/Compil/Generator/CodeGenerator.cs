@@ -52,6 +52,42 @@ namespace Compil.Generator
                     Console.WriteLine("add");
                     break;
             }
+
+            if (node.Type == NodeType.VARIABLE)
+            {
+                Console.WriteLine("get 0");
+            }
+
+            if (node.Type == NodeType.AFFECT)
+            {
+                GenerateCode(node.Children[1]);
+                Console.WriteLine("dup");
+                Console.WriteLine("set 0");
+            }
+
+            if (node.Type == NodeType.BLOCK)
+            {
+                foreach (var child in node.Children)
+                {
+                    GenerateCode(child);
+                }
+            }
+
+            if (node.Type == NodeType.EXPRESSION)
+            {
+                GenerateCode(node.Children[0]);
+                Console.WriteLine("drop");
+            }
+
+            if (node.Type == NodeType.CONDITION)
+            {
+                GenerateCode(node.Children[0]);
+            }
+
+            if (node.Type == NodeType.COMP_EQUAL)
+            {
+                // TODO: gérer les branchements
+            }
         }
     }
 }

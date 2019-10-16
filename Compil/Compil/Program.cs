@@ -17,7 +17,7 @@ namespace Compil {
                 Console.WriteLine("File to read : " + args[args.Length - 1]);
                 string pathFile = Path.Combine(args[args.Length - 1]);
                 string codeTemp = File.ReadAllText(pathFile);
-                //string codeTemp = "1+2";
+
                 Console.WriteLine("File content : ");
                 Console.WriteLine(codeTemp);
 
@@ -31,7 +31,7 @@ namespace Compil {
                 var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 
                 // Display all token in form of a tree.
-                var node = syntaxAnalyzer.Expression(0);
+                var node = syntaxAnalyzer.Instruction();
                 node.Print("", false);
 
                 var codeGenerator = new CodeGenerator();

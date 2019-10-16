@@ -8,7 +8,7 @@ namespace Compil.Utils
 {
     public enum NodeType
     {
-        IDENTIFIER,
+        VARIABLE,
         CONSTANT,
         
         // Operators
@@ -23,6 +23,8 @@ namespace Compil.Utils
         OP_MODULO,
         OP_POWER,
         
+        AFFECT,
+        
         // Comparison
         COMP_EQUAL,
         COMP_DIFFERENT,
@@ -34,7 +36,7 @@ namespace Compil.Utils
         // Boolean
         AND,
         OR,
-        IF,
+        CONDITION,
         ELSE,
         FOR,
         WHILE,
@@ -42,6 +44,9 @@ namespace Compil.Utils
         SWITCH,
         CASE,
         INT,
-        VOID
+        VOID,
+        
+        BLOCK,
+        EXPRESSION
     }
 }
