@@ -11,7 +11,7 @@
   <AdditionalConfig>
     <ConfigSetting Id="BuildUri" />
     <ConfigSetting Id="TfsUri" />
-    <ConfigSetting Id="settings.file.path" Value="F:\Téléchargement\sonar-scanner-msbuild-4.7.1.2311-net46\SonarQube.Analysis.xml" />
+    <ConfigSetting Id="settings.file.path" Value="C:\sonar-scanner-msbuild-4.7.1.2311-net46\SonarQube.Analysis.xml" />
   </AdditionalConfig>
   <ServerSettings>
     <Property Name="sonaranalyzer-cs.nuget.packageVersion">7.15.0.8572</Property>
@@ -100,7 +100,7 @@
     <Property Name="sonar.java.collectAnalysisErrors">false</Property>
     <Property Name="sonar.updatecenter.url">https://update.sonarsource.org/update-center.properties</Property>
     <Property Name="sonar.core.id">BF41A1F2-AW2nXzeLmXF5MvZB3Am_</Property>
-    <Property Name="sonar.core.startTime">15/10/2019 16:29:39</Property>
+    <Property Name="sonar.core.startTime">15/10/2019 18:36:50</Property>
   </ServerSettings>
   <LocalSettings>
     <Property Name="sonar.host.url">http://localhost:9000</Property>
