@@ -1,4 +1,4 @@
-﻿namespace Compil.Utils
+﻿namespace Compil.Tokens
 {
     public enum TokenType
     {

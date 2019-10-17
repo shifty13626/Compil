@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Compil.Utils;
+using Compil.Nodes;
 
 namespace Compil.Generator
 {
@@ -21,7 +22,11 @@ namespace Compil.Generator
             { NodeType.OR, "or" }
         };
         
-
+        /// <summary>
+        /// Constructor of class
+        /// </summary>
+        /// <param name="fileWriter"></param>
+        /// <param name="debug"></param>
         public CodeGenerator(FileWriter fileWriter, bool debug)
         {
             _fileWriter = fileWriter;
@@ -65,18 +70,20 @@ namespace Compil.Generator
                     break;
             }
 
+            // Variables
             if (node.Type == NodeType.VARIABLE)
             {
-                Console.WriteLine("get 0");
+                _fileWriter.WriteCommand("get 0");
             }
 
             if (node.Type == NodeType.AFFECT)
             {
                 GenerateCode(node.Children[1]);
-                Console.WriteLine("dup");
-                Console.WriteLine("set 0");
+                _fileWriter.WriteCommand("dup");
+                _fileWriter.WriteCommand("set 0");
             }
 
+            // Block
             if (node.Type == NodeType.BLOCK)
             {
                 foreach (var child in node.Children)
@@ -85,17 +92,20 @@ namespace Compil.Generator
                 }
             }
 
+            // Expressions
             if (node.Type == NodeType.EXPRESSION)
             {
                 GenerateCode(node.Children[0]);
-                Console.WriteLine("drop");
+                _fileWriter.WriteCommand("drop");
             }
 
+            // Conditions
             if (node.Type == NodeType.CONDITION)
             {
                 GenerateCode(node.Children[0]);
             }
 
+            // Comparaison equals
             if (node.Type == NodeType.COMP_EQUAL)
             {
                 // TODO: gérer les branchements

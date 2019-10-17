@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using NUnit.Framework;
 using Compil;
+using Compil.Utils;
 using CodeGenerator = Compil.Generator.CodeGenerator;
 
 namespace CompilTest
@@ -19,7 +20,8 @@ namespace CompilTest
             var lexicalAnalyser = new LexicalAnalyzer(expression, 0);
             var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
             var node = syntaxAnalyzer.Expression(0);
-            var codeGenerator = new CodeGenerator();
+            var fileWriter = new FileWriter();
+            var codeGenerator = new CodeGenerator(fileWriter, true);
             codeGenerator.GenerateCode(node);
             Assert.True(File.Exists(path) && new FileInfo( path).Length != 0);
         }

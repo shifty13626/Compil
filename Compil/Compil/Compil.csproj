@@ -54,14 +54,9 @@
     <Compile Include="Nodes\NodeType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
-    <Compile Include="Objects\Token.cs" />
     <Compile Include="Utils\FileWriter.cs" />
-    <Compile Include="Utils\NodeType.cs" />
-=======
     <Compile Include="Tokens\Token.cs" />
     <Compile Include="Tokens\TokenType.cs" />
->>>>>>> Generator
     <Compile Include="Utils\Operator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,8 +67,6 @@
   <ItemGroup>
     <Content Include="Tests\test.c" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Objects" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
