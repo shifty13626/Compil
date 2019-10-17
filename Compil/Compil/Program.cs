@@ -35,7 +35,7 @@ namespace Compil
                 var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
                 // File writer
                 var fileWriter = new FileWriter();
-
+                // write first command of code
                 fileWriter.InitFile();
 
 
@@ -46,6 +46,7 @@ namespace Compil
                 var codeGenerator = new CodeGenerator(fileWriter, true);
                 codeGenerator.GenerateCode(node);
                 
+                // add code generate on the file output code
                 fileWriter.WriteFile();
 
                 // wait exit
