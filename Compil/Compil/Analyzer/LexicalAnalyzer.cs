@@ -104,7 +104,7 @@ namespace Compil
                     return new Token() { Type = TokenType.END_OF_FILE };
                 }
 
-                while (code[index] == ' ' || code[index] == '\t' || code[index] == '\n')
+                while (code[index] == ' ' || code[index] == '\t' || code[index] == '\n' || code[index] == '\r')
                 {
                     index++;
                 }

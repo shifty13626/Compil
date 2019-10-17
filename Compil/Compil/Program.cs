@@ -38,7 +38,6 @@ namespace Compil
                 // write first command of code
                 fileWriter.InitFile();
 
-
                 // Display all token in form of a tree.
                 var node = syntaxAnalyzer.Instruction();
                 node.Print("", false);
