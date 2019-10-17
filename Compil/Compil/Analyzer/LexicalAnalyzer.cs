@@ -10,9 +10,9 @@ namespace Compil
     public class LexicalAnalyzer
     {
         private readonly string code;
-        public int index;
+        private int index;
 
-        public Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>()
+        private readonly Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>()
         {
             {"if", TokenType.IF},
             {"else", TokenType.ELSE},
