@@ -8,8 +8,8 @@ namespace Compil.Generator
     public class CodeGenerator
     {
 
-        private static FileWriter _fileWriter;
-        private static bool _debug;
+        private readonly FileWriter _fileWriter;
+        private readonly bool _debug;
 
         private readonly Dictionary<NodeType, string> _operatorsToCode = new Dictionary<NodeType, string>()
         {
