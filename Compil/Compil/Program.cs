@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Compil;
 using Compil.Generator;
+using System.Linq;
 
 namespace Compil
 {
@@ -14,8 +15,20 @@ namespace Compil
         {
             try
             {
+                bool debug = false;
+
                 if (args.Length == 0)
-                    throw new ArgumentNullException("Null arguments");
+                {
+                    Help();
+                    Console.ReadKey();
+                    return;
+                }
+
+                if (args.Contains("-d"))
+                {
+                    debug = true;
+                    Console.WriteLine("Debug activate");
+                }
 
                 // read source file
                 Console.WriteLine("File to read : " + args[args.Length - 1]);
@@ -42,7 +55,7 @@ namespace Compil
                 var node = syntaxAnalyzer.Instruction();
                 node.Print("", false);
 
-                var codeGenerator = new CodeGenerator(fileWriter, true);
+                var codeGenerator = new CodeGenerator(fileWriter, debug);
                 codeGenerator.GenerateCode(node);
                 
                 // add code generate on the file output code
@@ -61,6 +74,16 @@ namespace Compil
                 Console.WriteLine("Null argument enter for launch programm");
                 Console.WriteLine(e.Message);
             }
+        }
+
+
+
+        public static void Help()
+        {
+            Console.WriteLine("Compil APP4 Capodano-Hamel");
+            Console.WriteLine("Compil.exe [options] [fileCToRead]");
+            Console.WriteLine("Parameters :");
+            Console.WriteLine("\t" +"-d : Debug on code generate");
         }
     }
 }

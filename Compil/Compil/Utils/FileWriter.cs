@@ -53,6 +53,7 @@ namespace Compil.Utils
                     File.Delete(pathFileCode);
 
                 Console.WriteLine();
+                Console.WriteLine("Code generated :");
                 Console.WriteLine(code);
 
                 File.WriteAllText(pathFileCode, code);
