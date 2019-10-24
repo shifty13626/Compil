@@ -77,13 +77,16 @@ namespace Compil
         }
 
 
-
+        /// <summary>
+        /// Method to display parameters of programm on console
+        /// </summary>
         public static void Help()
         {
             Console.WriteLine("Compil APP4 Capodano-Hamel");
             Console.WriteLine("Compil.exe [options] [fileCToRead]");
             Console.WriteLine("Parameters :");
             Console.WriteLine("\t" +"-d : Debug on code generate");
+            Console.WriteLine("Press a key to exit...");
         }
     }
 }
