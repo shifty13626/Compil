@@ -14,7 +14,8 @@ namespace Compil
         public NodeType Type { get; set; }
         public string Value { get; set; }
         public List<Node> Children { get; set; } = new List<Node>();
-
+        public int Slot { get; set; }
+        
         #endregion
 
         #region Operations

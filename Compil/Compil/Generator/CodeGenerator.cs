@@ -73,14 +73,14 @@ namespace Compil.Generator
             // Variables
             if (node.Type == NodeType.VARIABLE)
             {
-                _fileWriter.WriteCommand("get 0");
+                _fileWriter.WriteCommand("get 0", _debug);
             }
 
             if (node.Type == NodeType.AFFECT)
             {
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("dup");
-                _fileWriter.WriteCommand("set 0");
+                _fileWriter.WriteCommand("dup", _debug);
+                _fileWriter.WriteCommand("set 0", _debug);
             }
 
             // Block
@@ -102,13 +102,19 @@ namespace Compil.Generator
             // Conditions
             if (node.Type == NodeType.CONDITION)
             {
-                GenerateCode(node.Children[0]);
+                foreach (var child in node.Children)
+                {
+                    GenerateCode(child);
+                }
             }
 
             // Comparaison equals
             if (node.Type == NodeType.COMP_EQUAL)
             {
-                // TODO: gérer les branchements
+                GenerateCode(node.Children[0]);
+                GenerateCode(node.Children[1]);
+                _fileWriter.WriteCommand("cmpeq");
+                
             }
         }
     }

@@ -47,6 +47,7 @@ namespace Compil.Nodes
         VOID,
         
         BLOCK,
-        EXPRESSION
+        EXPRESSION,
+        DECLARE
     }
 }
