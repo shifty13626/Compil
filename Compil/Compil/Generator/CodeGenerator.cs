@@ -108,13 +108,53 @@ namespace Compil.Generator
                 }
             }
 
-            // Comparaison equals
+            // Comparaison
+            // ==
             if (node.Type == NodeType.COMP_EQUAL)
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
                 _fileWriter.WriteCommand("cmpeq");
-                
+            }
+
+            // !=
+            if (node.Type == NodeType.COMP_DIFFERENT)
+            {
+                GenerateCode(node.Children[0]);
+                GenerateCode(node.Children[1]);
+                _fileWriter.WriteCommand("cmpne");
+            }
+
+            // <
+            if (node.Type == NodeType.COMP_INFERIOR)
+            {
+                GenerateCode(node.Children[0]);
+                GenerateCode(node.Children[1]);
+                _fileWriter.WriteCommand("cmplt");
+            }
+
+            // <=
+            if (node.Type == NodeType.COMP_INFERIOR_OR_EQUAL)
+            {
+                GenerateCode(node.Children[0]);
+                GenerateCode(node.Children[1]);
+                _fileWriter.WriteCommand("cmple");
+            }
+
+            // > 
+            if (node.Type == NodeType.COMP_SUPPERIOR)
+            {
+                GenerateCode(node.Children[0]);
+                GenerateCode(node.Children[1]);
+                _fileWriter.WriteCommand("cmpgt");
+            }
+
+            // >=
+            if (node.Type == NodeType.COMP_SUPPERIOR_OR_EQUAL)
+            {
+                GenerateCode(node.Children[0]);
+                GenerateCode(node.Children[1]);
+                _fileWriter.WriteCommand("cmpge");
             }
         }
     }

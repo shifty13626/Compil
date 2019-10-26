@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Compil;
 using Compil.Generator;
 using System.Linq;
+using Compil.LauncherVM;
 
 namespace Compil
 {
@@ -61,10 +62,12 @@ namespace Compil
                 // add code generate on the file output code
                 fileWriter.WriteFile();
 
-                // Copy out file on folder msm (virtual machine)
-                File.Copy(Path.Combine(Environment.CurrentDirectory, "code.txt"),
-                    Path.Combine("D:\\Documents\\Projets\\Compil\\msm\\msm", "code.txt"),
-                    true);
+                /*
+                // Launch code on VM
+                var launcher = new Launcher(Path.Combine("D:\\Documents\\Projets\\Compil\\msm\\msm"), "msm");
+                launcher.CopyOutFile();
+                launcher.LaunchCodeOnVm();
+                */
 
                 // wait exit
                 Console.WriteLine("\nPress any key to exit.");

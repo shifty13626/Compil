@@ -51,6 +51,7 @@
     <Compile Include="Exceptions\NotValidCharException.cs" />
     <Compile Include="Generator\CodeGenerator.cs" />
     <Compile Include="Analyzer\LexicalAnalyzer.cs" />
+    <Compile Include="LauncherVM\Launcher.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\NodeType.cs" />
     <Compile Include="Program.cs" />
