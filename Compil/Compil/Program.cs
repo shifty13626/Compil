@@ -61,6 +61,11 @@ namespace Compil
                 // add code generate on the file output code
                 fileWriter.WriteFile();
 
+                // Copy out file on folder msm (virtual machine)
+                File.Copy(Path.Combine(Environment.CurrentDirectory, "code.txt"),
+                    Path.Combine("D:\\Documents\\Projets\\Compil\\msm\\msm", "code.txt"),
+                    true);
+
                 // wait exit
                 Console.WriteLine("\nPress any key to exit.");
                 Console.ReadKey();
