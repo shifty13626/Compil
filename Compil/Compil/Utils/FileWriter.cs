@@ -37,7 +37,10 @@ namespace Compil.Utils
         {
             code += cmd + "\n";
             if (debug)
-                code += "dbg\n";
+            {
+                code += "dup" + "\n";
+                code += "dbg" + "\n";
+            }
         }
 
         /// <summary>

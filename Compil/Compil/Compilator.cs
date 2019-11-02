@@ -13,7 +13,7 @@ namespace Compil
             var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
             var fileWriter = new FileWriter();
             var node = syntaxAnalyzer.Expression(0);
-            var codeGenerator = new CodeGenerator(fileWriter, false);
+            var codeGenerator = new CodeGenerator(fileWriter);
             codeGenerator.GenerateCode(node);
         }
     }
