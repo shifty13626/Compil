@@ -50,6 +50,8 @@
         COMA,
         COMMENT_LINE,
         COMMENT_BLOCK_START,
-        COMMENT_BLOCK_END
+        COMMENT_BLOCK_END,
+        
+        VAR
     }
 }
