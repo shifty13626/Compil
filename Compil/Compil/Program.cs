@@ -16,19 +16,12 @@ namespace Compil
         {
             try
             {
-                bool debug = false;
-
+                // check number parameters on command
                 if (args.Length == 0)
                 {
                     Help();
                     Console.ReadKey();
                     return;
-                }
-
-                if (args.Contains("-d"))
-                {
-                    debug = true;
-                    Console.WriteLine("Debug activate");
                 }
 
                 // read source file
@@ -56,7 +49,7 @@ namespace Compil
                 var node = syntaxAnalyzer.Instruction();
                 node.Print("", false);
 
-                var codeGenerator = new CodeGenerator(fileWriter, debug);
+                var codeGenerator = new CodeGenerator(fileWriter);
                 codeGenerator.GenerateCode(node);
                 
                 // add code generate on the file output code
@@ -91,9 +84,7 @@ namespace Compil
         public static void Help()
         {
             Console.WriteLine("Compil APP4 Capodano-Hamel");
-            Console.WriteLine("Compil.exe [options] [fileCToRead]");
-            Console.WriteLine("Parameters :");
-            Console.WriteLine("\t" +"-d : Debug on code generate");
+            Console.WriteLine("Compil.exe [fileCToRead]");
             Console.WriteLine("Press a key to exit...");
         }
     }

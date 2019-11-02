@@ -9,7 +9,6 @@ namespace Compil.Generator
     {
 
         private readonly FileWriter _fileWriter;
-        private readonly bool _debug;
 
         private readonly Dictionary<NodeType, string> _operatorsToCode = new Dictionary<NodeType, string>()
         {
@@ -26,11 +25,9 @@ namespace Compil.Generator
         /// Constructor of class
         /// </summary>
         /// <param name="fileWriter"></param>
-        /// <param name="debug"></param>
-        public CodeGenerator(FileWriter fileWriter, bool debug)
+        public CodeGenerator(FileWriter fileWriter)
         {
             _fileWriter = fileWriter;
-            _debug = debug;
         }
 
 
@@ -43,7 +40,7 @@ namespace Compil.Generator
             // Constants
             if (node.Type == NodeType.CONSTANT)
             {
-                _fileWriter.WriteCommand("push " +node.Value, _debug);
+                _fileWriter.WriteCommand("push " +node.Value, true);
             }
 
             // Operations
@@ -51,7 +48,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand(_operatorsToCode[node.Type], _debug);
+                _fileWriter.WriteCommand(_operatorsToCode[node.Type], true);
             }
 
             // Unary operations
@@ -59,28 +56,28 @@ namespace Compil.Generator
             {
                 // Unary operations
                 case NodeType.MINUS:
-                    _fileWriter.WriteCommand("push 0", _debug);
+                    _fileWriter.WriteCommand("push 0", true);
                     GenerateCode(node.Children[0]);
-                    _fileWriter.WriteCommand("sub", _debug);
+                    _fileWriter.WriteCommand("sub", true);
                     break;
                 case NodeType.PLUS:
-                    _fileWriter.WriteCommand("push 0", _debug);
+                    _fileWriter.WriteCommand("push 0", true);
                     GenerateCode(node.Children[0]);
-                    _fileWriter.WriteCommand("add", _debug);
+                    _fileWriter.WriteCommand("add", true);
                     break;
             }
 
             // Variables
             if (node.Type == NodeType.VARIABLE)
             {
-                _fileWriter.WriteCommand("get 0", _debug);
+                _fileWriter.WriteCommand("get 0", true);
             }
 
             if (node.Type == NodeType.AFFECT)
             {
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("dup", _debug);
-                _fileWriter.WriteCommand("set 0", _debug);
+                _fileWriter.WriteCommand("dup", false);
+                _fileWriter.WriteCommand("set 0", false);
             }
 
             // Block
@@ -102,7 +99,25 @@ namespace Compil.Generator
             // Conditions
             if (node.Type == NodeType.CONDITION)
             {
-                foreach (var child in node.Children)
+                var nodeTest = node.Children[0];
+                var nodeCode = node.Children[1];
+
+                GenerateCode(nodeTest);
+
+                _fileWriter.WriteCommand("jumpf endIf", false);
+
+                foreach (var child in nodeCode.Children)
+                {
+                    GenerateCode(child);
+                }
+
+                _fileWriter.WriteCommand(".endIf", false);
+            }
+            if(node.Type == NodeType.ELSE)
+            {
+                var nodeCode = node.Children[0];
+
+                foreach(var child in nodeCode.Children)
                 {
                     GenerateCode(child);
                 }
@@ -119,7 +134,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmpeq");
+                _fileWriter.WriteCommand("cmpeq", true);
             }
 
             // !=
@@ -127,7 +142,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmpne");
+                _fileWriter.WriteCommand("cmpne", true);
             }
 
             // <
@@ -135,7 +150,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmplt");
+                _fileWriter.WriteCommand("cmplt", true);
             }
 
             // <=
@@ -143,7 +158,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmple");
+                _fileWriter.WriteCommand("cmple", true);
             }
 
             // > 
@@ -151,7 +166,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmpgt");
+                _fileWriter.WriteCommand("cmpgt", true);
             }
 
             // >=
@@ -159,7 +174,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmpge");
+                _fileWriter.WriteCommand("cmpge", true);
             }
         }
     }
