@@ -1,5 +1,6 @@
 using System.CodeDom.Compiler;
 using Compil.Utils;
+using Compil.Generator;
 using CodeGenerator = Compil.Generator.CodeGenerator;
 
 namespace Compil
