@@ -174,6 +174,23 @@ namespace Compil
                 _lexicalAnalyzer.Accept(TokenType.BRACKET_CLOSE);
                 return node;
             }
+            else if (_lexicalAnalyzer.Next().Type == TokenType.VAR) {
+                _lexicalAnalyzer.Skip();
+                if (_lexicalAnalyzer.Next().Type == TokenType.IDENTIFIER) {
+                    var variableName = _lexicalAnalyzer.Next().Name;
+                    var nodeVariable = new Node() { Type = NodeType.DECLARE };
+                    nodeVariable.AddChild(new Node() {Type = NodeType.VARIABLE, Value = variableName});
+                    var ex = Expression();
+
+                    if (ex.Children[0].Type != NodeType.AFFECT) {
+                        throw new Exception("No affectation");
+                    }
+                    
+                    nodeVariable.AddChild(ex);
+                    return nodeVariable;
+                }
+                throw new Exception("Missing variable name");
+            }
             else
             {
                 var ex = Expression();

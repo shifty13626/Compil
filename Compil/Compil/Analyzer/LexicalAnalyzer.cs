@@ -226,6 +226,26 @@ namespace Compil
                     return new Token() { Type = TokenType.COMP_INFERIOR };
                 }
 
+                // ! and !=
+                if (code[index] == '!')
+                {
+                    _currentTokenLength = 1;
+                    builder.Append(code[index].ToString());
+
+                    if (index == code.Length - 1)
+                    {
+                        return new Token() { Type = TokenType.NOT };
+                    }
+
+                    if (code[index + 1] == '=')
+                    {
+                        _currentTokenLength++;
+                        return new Token() { Type = TokenType.COMP_DIFFERENT };
+                    }
+
+                    return new Token() { Type = TokenType.NOT };
+                }
+                
                 _currentTokenLength++;
                 switch (code[index])
                 {

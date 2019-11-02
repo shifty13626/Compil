@@ -108,6 +108,11 @@ namespace Compil.Generator
                 }
             }
 
+            if (node.Type == NodeType.DECLARE) 
+            {
+                
+            }
+
             // Comparaison
             // ==
             if (node.Type == NodeType.COMP_EQUAL)
