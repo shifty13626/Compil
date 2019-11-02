@@ -123,6 +123,30 @@ namespace Compil.Generator
                 }
             }
 
+
+            if(node.Type == NodeType.WHILE)
+            {
+                // condition label
+                _fileWriter.WriteCommand(".conditionWhile", false);
+
+                var nodeTest = node.Children[0];
+                var nodeCode = node.Children[1];
+
+                GenerateCode(nodeTest);
+
+                _fileWriter.WriteCommand("jumpf endWhile", false);
+
+                foreach (var child in nodeCode.Children)
+                {
+                    GenerateCode(child);
+                }
+
+                // end labels
+                _fileWriter.WriteCommand("jump conditionWhile", false);
+                _fileWriter.WriteCommand(".endWhile", false);
+            }
+
+
             if (node.Type == NodeType.DECLARE) 
             {
                 
