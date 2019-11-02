@@ -100,9 +100,15 @@ namespace Compil.Generator
             }
 
             // Conditions
-            if (node.Type == NodeType.CONDITION)
-            {
-                foreach (var child in node.Children)
+            if (node.Type == NodeType.CONDITION) {
+                var nodeTest = node.Children[0];
+                var nodeCode = node.Children[1];
+                
+                GenerateCode(nodeTest);
+                
+                _fileWriter.WriteCommand("jumpf.....");
+                
+                foreach (var child in nodeCode.Children)
                 {
                     GenerateCode(child);
                 }
