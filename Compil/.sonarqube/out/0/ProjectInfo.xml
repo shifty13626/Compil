@@ -4,14 +4,14 @@
   <ProjectLanguage>C#</ProjectLanguage>
   <ProjectType>Product</ProjectType>
   <ProjectGuid>91530051-1625-4d1f-86be-0df964757214</ProjectGuid>
-  <FullPath>F:\Documents\GITrepos\Compil\Compil\Compil\Compil.csproj</FullPath>
+  <FullPath>D:\Documents\GITrepos\Compil\Compil\Compil\Compil.csproj</FullPath>
   <IsExcluded>false</IsExcluded>
   <AnalysisResults>
-    <AnalysisResult Id="FilesToAnalyze" Location="F:\Documents\GITrepos\Compil\Compil\.sonarqube\out\0\FilesToAnalyze.txt" />
+    <AnalysisResult Id="FilesToAnalyze" Location="D:\Documents\GITrepos\Compil\Compil\.sonarqube\out\0\FilesToAnalyze.txt" />
   </AnalysisResults>
   <AnalysisSettings>
-    <Property Name="sonar.cs.roslyn.reportFilePath">F:\Documents\GITrepos\Compil\Compil\Compil\bin\Debug\Compil.exe.RoslynCA.json|F:\Documents\GITrepos\Compil\Compil\Compil\bin\Debug\Compil.exe.RoslynCA.json</Property>
-    <Property Name="sonar.cs.analyzer.projectOutPath">F:\Documents\GITrepos\Compil\Compil\.sonarqube\out\0</Property>
+    <Property Name="sonar.cs.roslyn.reportFilePath">D:\Documents\GITrepos\Compil\Compil\Compil\bin\Debug\Compil.exe.RoslynCA.json|D:\Documents\GITrepos\Compil\Compil\Compil\bin\Debug\Compil.exe.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">D:\Documents\GITrepos\Compil\Compil\.sonarqube\out\0</Property>
   </AnalysisSettings>
   <Configuration>Debug</Configuration>
   <Platform>AnyCPU</Platform>

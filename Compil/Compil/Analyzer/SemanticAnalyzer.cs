@@ -8,7 +8,7 @@ namespace Compil
     public class SemanticAnalyzer
     {
         private int _variablesCount = 0;
-        private Stack<Dictionary<string, Symbol>> _stack = new Stack<Dictionary<string, Symbol>>();
+        private readonly Stack<Dictionary<string, Symbol>> _stack = new Stack<Dictionary<string, Symbol>>();
         
         private void BeginBlock()
         {
@@ -34,7 +34,7 @@ namespace Compil
                     return value;
                 }
             }
-            throw new Exception($"Variable '{id}' does not exist.'");
+            throw new ArgumentNullException($"Variable '{id}' does not exist.'");
         }
 
         public void Analyze(Node node)
@@ -64,7 +64,7 @@ namespace Compil
                     var s2 = Search(node.Value);
                     if (s2.Type != SymbolType.VARIABLE)
                     {
-                        throw new Exception("Type is different from Variable");
+                        throw new ArgumentNullException("Type is different from Variable");
                     }
 
                     node.Slot = s2.Slot;

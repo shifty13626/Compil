@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AnalysisConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
-  <SonarConfigDir>F:\Documents\GITrepos\Compil\Compil\.sonarqube\conf</SonarConfigDir>
-  <SonarOutputDir>F:\Documents\GITrepos\Compil\Compil\.sonarqube\out</SonarOutputDir>
-  <SonarBinDir>F:\Documents\GITrepos\Compil\Compil\.sonarqube\bin</SonarBinDir>
-  <SonarScannerWorkingDirectory>F:\Documents\GITrepos\Compil\Compil</SonarScannerWorkingDirectory>
+  <SonarConfigDir>D:\Documents\GITrepos\Compil\Compil\.sonarqube\conf</SonarConfigDir>
+  <SonarOutputDir>D:\Documents\GITrepos\Compil\Compil\.sonarqube\out</SonarOutputDir>
+  <SonarBinDir>D:\Documents\GITrepos\Compil\Compil\.sonarqube\bin</SonarBinDir>
+  <SonarScannerWorkingDirectory>D:\Documents\GITrepos\Compil\Compil</SonarScannerWorkingDirectory>
   <HasBeginStepCommandLineCredentials>true</HasBeginStepCommandLineCredentials>
-  <SonarQubeHostUrl>http://localhost:9000</SonarQubeHostUrl>
+  <SonarQubeHostUrl>http://192.168.1.24:9000</SonarQubeHostUrl>
   <SonarQubeVersion>7.9.1.27448</SonarQubeVersion>
   <SonarProjectKey>CompilationProject</SonarProjectKey>
   <AdditionalConfig>
@@ -100,16 +100,16 @@
     <Property Name="sonar.java.collectAnalysisErrors">false</Property>
     <Property Name="sonar.updatecenter.url">https://update.sonarsource.org/update-center.properties</Property>
     <Property Name="sonar.core.id">BF41A1F2-AW2nXzeLmXF5MvZB3Am_</Property>
-    <Property Name="sonar.core.startTime">17/10/2019 18:38:59</Property>
+    <Property Name="sonar.core.startTime">03/11/2019 13:26:03</Property>
   </ServerSettings>
   <LocalSettings>
-    <Property Name="sonar.host.url">http://localhost:9000</Property>
+    <Property Name="sonar.host.url">http://192.168.1.24:9000</Property>
   </LocalSettings>
   <AnalyzersSettings>
     <AnalyzerSettings>
       <Language>cs</Language>
-      <RuleSetFilePath>F:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\SonarQubeRoslyn-cs.ruleset</RuleSetFilePath>
-      <TestProjectRuleSetFilePath>F:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\SonarQubeRoslyn-cs-test.ruleset</TestProjectRuleSetFilePath>
+      <RuleSetFilePath>D:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\SonarQubeRoslyn-cs.ruleset</RuleSetFilePath>
+      <TestProjectRuleSetFilePath>D:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\SonarQubeRoslyn-cs-test.ruleset</TestProjectRuleSetFilePath>
       <AnalyzerPlugins>
         <AnalyzerPlugin Key="csharp" Version="7.15.0.8572" StaticResourceName="SonarAnalyzer-7.15.0.8572.zip">
           <AssemblyPaths>
@@ -127,13 +127,13 @@
         </AnalyzerPlugin>
       </AnalyzerPlugins>
       <AdditionalFilePaths>
-        <Path>F:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\cs\SonarLint.xml</Path>
+        <Path>D:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\cs\SonarLint.xml</Path>
       </AdditionalFilePaths>
     </AnalyzerSettings>
     <AnalyzerSettings>
       <Language>vbnet</Language>
-      <RuleSetFilePath>F:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\SonarQubeRoslyn-vbnet.ruleset</RuleSetFilePath>
-      <TestProjectRuleSetFilePath>F:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\SonarQubeRoslyn-vbnet-test.ruleset</TestProjectRuleSetFilePath>
+      <RuleSetFilePath>D:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\SonarQubeRoslyn-vbnet.ruleset</RuleSetFilePath>
+      <TestProjectRuleSetFilePath>D:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\SonarQubeRoslyn-vbnet-test.ruleset</TestProjectRuleSetFilePath>
       <AnalyzerPlugins>
         <AnalyzerPlugin Key="csharp" Version="7.15.0.8572" StaticResourceName="SonarAnalyzer-7.15.0.8572.zip">
           <AssemblyPaths>
@@ -151,7 +151,7 @@
         </AnalyzerPlugin>
       </AnalyzerPlugins>
       <AdditionalFilePaths>
-        <Path>F:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\vbnet\SonarLint.xml</Path>
+        <Path>D:\Documents\GITrepos\Compil\Compil\.sonarqube\conf\vbnet\SonarLint.xml</Path>
       </AdditionalFilePaths>
     </AnalyzerSettings>
   </AnalyzersSettings>

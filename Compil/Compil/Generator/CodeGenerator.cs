@@ -113,6 +113,7 @@ namespace Compil.Generator
 
                 _fileWriter.WriteCommand(".endIf", false);
             }
+
             if(node.Type == NodeType.ELSE)
             {
                 var nodeCode = node.Children[0];
