@@ -58,9 +58,10 @@ namespace Compil
                     EndBlock();
                     break;
                 case NodeType.DECLARE:
-                    var s1 = Declare(node.Value);
+                    var s1 = Declare(node.Children[0].Value);
                     s1.Type = SymbolType.VARIABLE;
                     s1.Slot = _variablesCount++;
+                    Analyze(node.Children[1]);
                     break;
                 case NodeType.VARIABLE:
                     var s2 = Search(node.Value);
