@@ -181,6 +181,9 @@ namespace Compil
                     var nodeVariable = new Node() { Type = NodeType.DECLARE };
                     nodeVariable.AddChild(new Node() {Type = NodeType.VARIABLE, Value = variableName});
                     var ex = Expression();
+                    
+                    _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                    
 
                     if (ex.Type != NodeType.AFFECT) {
                         if(ex.Children.Count != 0)
@@ -188,8 +191,13 @@ namespace Compil
                     }
                     
                     nodeVariable.AddChild(ex);
+                    
+                    
+                    
                     return nodeVariable;
                 }
+                
+                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
                 throw new Exception("Missing variable name");
             }
             else

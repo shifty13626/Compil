@@ -116,7 +116,7 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.DECLARE) 
             {
-                
+                _fileWriter.WriteCommand($"resn {node.Slot}");
             }
 
             // Comparaison
