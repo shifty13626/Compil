@@ -174,6 +174,18 @@ namespace Compil
                 node.AddChild(aCode);
                 return node;
             }
+            else if (_lexicalAnalyzer.Next().Type == TokenType.FOR)
+            {
+                _lexicalAnalyzer.Skip(); // We know it is an if statement
+                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+                var aTest = Expression();
+                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                var aCode = Instruction();
+                var node = new Node() { Type = NodeType.FOR };
+                node.AddChild(aTest);
+                node.AddChild(aCode);
+                return node;
+            }
             else if (_lexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN)
             {
                 var node = new Node() {Type = NodeType.BLOCK};

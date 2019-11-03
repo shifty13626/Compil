@@ -129,6 +129,7 @@ namespace Compil.Generator
                 // condition label
                 _fileWriter.WriteCommand(".conditionWhile", false);
 
+                // get child nodes
                 var nodeTest = node.Children[0];
                 var nodeCode = node.Children[1];
 
@@ -144,6 +145,29 @@ namespace Compil.Generator
                 // end labels
                 _fileWriter.WriteCommand("jump conditionWhile", false);
                 _fileWriter.WriteCommand(".endWhile", false);
+            }
+
+            if(node.Type == NodeType.FOR)
+            {
+                // condition label
+                _fileWriter.WriteCommand(".conditionFor", false);
+
+                // get child nodes
+                var nodeTest = node.Children[0];
+                var nodeCode = node.Children[1];
+
+                GenerateCode(nodeTest);
+
+                _fileWriter.WriteCommand("jumpf endFor", false);
+
+                foreach (var child in nodeCode.Children)
+                {
+                    GenerateCode(child);
+                }
+
+                // end labels
+                _fileWriter.WriteCommand("jump conditionFor", false);
+                _fileWriter.WriteCommand(".endFor", false);
             }
 
 
