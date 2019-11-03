@@ -73,14 +73,14 @@ namespace Compil.Generator
             // Variables
             if (node.Type == NodeType.VARIABLE)
             {
-                _fileWriter.WriteCommand("get 0", _debug);
+                _fileWriter.WriteCommand($"get {node.Slot}", _debug);
             }
 
             if (node.Type == NodeType.AFFECT)
             {
                 GenerateCode(node.Children[1]);
                 _fileWriter.WriteCommand("dup", _debug);
-                _fileWriter.WriteCommand("set 0", _debug);
+                _fileWriter.WriteCommand($"set {node.Slot}", _debug);
             }
 
             // Block

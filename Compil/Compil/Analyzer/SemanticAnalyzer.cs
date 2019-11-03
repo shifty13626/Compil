@@ -22,7 +22,9 @@ namespace Compil
 
         private Symbol Declare(string id)
         {
-            return new Symbol() { Slot = _variablesCount, Id = id };
+            var s = new Symbol() { Slot = _variablesCount, Id = id };
+            _stack.Peek().Add(id, s);
+            return s;
         }
 
         private Symbol Search(string id)
