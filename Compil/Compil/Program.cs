@@ -49,8 +49,13 @@ namespace Compil
                 var node = syntaxAnalyzer.Instruction();
                 node.Print("", false);
 
-                var codeGenerator = new CodeGenerator(fileWriter);
+                var analyzer = new SemanticAnalyzer();
+                analyzer.Analyze(node);
+                
+                var codeGenerator = new CodeGenerator(fileWriter, debug);
                 codeGenerator.GenerateCode(node);
+                
+                
                 
                 // add code generate on the file output code
                 fileWriter.WriteFile();

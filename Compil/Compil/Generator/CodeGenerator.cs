@@ -150,6 +150,8 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.DECLARE) 
             {
+                _fileWriter.WriteCommand($"resn {node.Children[0].Slot}");
+                GenerateCode(node.Children[1]);
                 
             }
 

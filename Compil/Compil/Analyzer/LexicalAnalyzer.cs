@@ -22,7 +22,8 @@ namespace Compil
             {"switch", TokenType.SWITCH},
             {"case", TokenType.CASE},
             {"int", TokenType.INT},
-            {"void", TokenType.VOID}
+            {"void", TokenType.VOID},
+            {"var", TokenType.VAR}
         };
 
 
