@@ -61,6 +61,7 @@ namespace Compil
                     var s1 = Declare(node.Children[0].Value);
                     s1.Type = SymbolType.VARIABLE;
                     s1.Slot = _variablesCount++;
+                    node.Children[0].Slot = s1.Slot;
                     Analyze(node.Children[1]);
                     break;
                 case NodeType.VARIABLE:
