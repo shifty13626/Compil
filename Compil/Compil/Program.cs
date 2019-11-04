@@ -52,7 +52,7 @@ namespace Compil
                 var analyzer = new SemanticAnalyzer();
                 analyzer.Analyze(node);
                 
-                var codeGenerator = new CodeGenerator(fileWriter, debug);
+                var codeGenerator = new CodeGenerator(fileWriter);
                 codeGenerator.GenerateCode(node);
                 
                 
