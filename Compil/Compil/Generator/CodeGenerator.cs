@@ -152,7 +152,6 @@ namespace Compil.Generator
             {
                 _fileWriter.WriteCommand($"resn {node.Children[0].Slot}");
                 GenerateCode(node.Children[1]);
-                
             }
 
             // Comparaison
