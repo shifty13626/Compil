@@ -113,6 +113,7 @@ namespace Compil.Generator
 
                 _fileWriter.WriteCommand(".endIf", false);
             }
+
             if(node.Type == NodeType.ELSE)
             {
                 var nodeCode = node.Children[0];
@@ -173,7 +174,8 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.DECLARE) 
             {
-                
+                _fileWriter.WriteCommand($"resn {node.Children[0].Slot}");
+                GenerateCode(node.Children[1]);
             }
 
             // Comparaison

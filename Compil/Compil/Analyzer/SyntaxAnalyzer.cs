@@ -205,14 +205,23 @@ namespace Compil
                     var nodeVariable = new Node() { Type = NodeType.DECLARE };
                     nodeVariable.AddChild(new Node() {Type = NodeType.VARIABLE, Value = variableName});
                     var ex = Expression();
+                    
+                    _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                    
 
-                    if (ex.Children[0].Type != NodeType.AFFECT) {
-                        throw new Exception("No affectation");
+                    if (ex.Type != NodeType.AFFECT) {
+                        if(ex.Children.Count != 0)
+                            throw new Exception("No affectation");
                     }
                     
                     nodeVariable.AddChild(ex);
+                    
+                    
+                    
                     return nodeVariable;
                 }
+                
+                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
                 throw new Exception("Missing variable name");
             }
             else

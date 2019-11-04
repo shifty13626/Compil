@@ -23,7 +23,7 @@ namespace CompilTest
             var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
             var node = syntaxAnalyzer.Expression(0);
             var fileWriter = new FileWriter();
-            var codeGenerator = new CodeGenerator(fileWriter, true);
+            var codeGenerator = new CodeGenerator(fileWriter);
             codeGenerator.GenerateCode(node);
             Assert.True(File.Exists(path) && new FileInfo( path).Length != 0);
         }

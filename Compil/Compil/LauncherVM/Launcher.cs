@@ -11,8 +11,8 @@ namespace Compil.LauncherVM
 {
     public class Launcher
     {
-        private string pathMsm;
-        private string msmProgrammName;
+        private readonly string pathMsm;
+        private readonly string msmProgrammName;
 
         public Launcher(string pathMsm, string msmProgrammName)
         {
