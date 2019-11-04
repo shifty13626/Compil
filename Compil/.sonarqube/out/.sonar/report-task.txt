@@ -2,5 +2,5 @@ projectKey=CompilationProject
 serverUrl=http://192.168.1.24:9000
 serverVersion=7.9.1.27448
 dashboardUrl=http://192.168.1.24:9000/dashboard?id=CompilationProject
-ceTaskId=AW4xS04pGqTwnQONe62u
-ceTaskUrl=http://192.168.1.24:9000/api/ce/task?id=AW4xS04pGqTwnQONe62u
+ceTaskId=AW43tw9OGqTwnQONe62v
+ceTaskUrl=http://192.168.1.24:9000/api/ce/task?id=AW43tw9OGqTwnQONe62v
