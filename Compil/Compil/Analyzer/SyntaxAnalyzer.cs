@@ -176,20 +176,17 @@ namespace Compil
             }
             else if (_lexicalAnalyzer.Next().Type == TokenType.FOR)
             {
-                throw new NotImplementedException("For loop not implented");
-            //    _lexicalanalyzer.skip();
-            //    _lexicalanalyzer.accept(tokentype.par_open);
-            //    get declaration index
-            //   var declar =
-
-            //   var atest = expression();
-            //    _lexicalanalyzer.accept(tokentype.par_close);
-            //    var acode = instruction();
-            //    var node = new node() { type = nodetype.for };
-            //node.addchild(atest);
-            //node.addchild(acode);
-            //return node;
-        }
+                //throw new NotImplementedException("For loop not implented");
+                _lexicalAnalyzer.Skip();
+                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+                var aTest = Expression();
+                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                var aCode = Instruction();
+                var node = new Node() { Type = NodeType.FOR };
+                node.AddChild(aTest);
+                node.AddChild(aCode);
+                return node;
+            }
             else if (_lexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN)
             {
                 var node = new Node() {Type = NodeType.BLOCK};
