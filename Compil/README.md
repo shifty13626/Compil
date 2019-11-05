@@ -49,6 +49,7 @@ Le fichier de code machine est également généré dans le dossier Compil/Compi
        - While
        - For (attention, la déclaration de l'itérateur doit être faite a l'exterieur de l'entête du for!!)
        Exemple: var i; for(i = 0; i < 10; i++) {}
+         Il s'agit d'un choix de conception et non d'une erreur !
 
 - Ce qui n'est PAS implémenté :
     - DO WHILE

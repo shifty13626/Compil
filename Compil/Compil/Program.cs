@@ -19,7 +19,6 @@ namespace Compil
                 if (args.Length == 0)
                 {
                     Help();
-                    Console.ReadKey();
                     return;
                 }
 
@@ -81,6 +80,8 @@ namespace Compil
             Console.WriteLine("Compil APP4 Capodano-Hamel");
             Console.WriteLine("Compil.exe [fileCToRead]");
             Console.WriteLine("Press a key to exit...");
+            Console.ReadKey();
+            return;
         }
     }
 }
