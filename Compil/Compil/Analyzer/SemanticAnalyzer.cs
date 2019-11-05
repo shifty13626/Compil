@@ -9,7 +9,13 @@ namespace Compil
     {
         private int _variablesCount = 0;
         private readonly Stack<Dictionary<string, Symbol>> _stack = new Stack<Dictionary<string, Symbol>>();
-        
+
+        public int VariablesCount
+        {
+            get => _variablesCount;
+            set => _variablesCount = value;
+        }
+
         private void BeginBlock()
         {
             _stack.Push(new Dictionary<string, Symbol>());

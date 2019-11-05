@@ -25,9 +25,10 @@ namespace Compil.Generator
         /// Constructor of class
         /// </summary>
         /// <param name="fileWriter"></param>
-        public CodeGenerator(FileWriter fileWriter)
+        public CodeGenerator(SemanticAnalyzer semanticAnalyzer, FileWriter fileWriter)
         {
             _fileWriter = fileWriter;
+            _fileWriter.WriteCommand("resn " + semanticAnalyzer.VariablesCount);
         }
 
 
@@ -70,14 +71,14 @@ namespace Compil.Generator
             // Variables
             if (node.Type == NodeType.VARIABLE)
             {
-                _fileWriter.WriteCommand("get 0", true);
+                _fileWriter.WriteCommand($"get {node.Slot}", true);
             }
 
             if (node.Type == NodeType.AFFECT)
             {
                 GenerateCode(node.Children[1]);
                 _fileWriter.WriteCommand("dup", false);
-                _fileWriter.WriteCommand("set 0", false);
+                _fileWriter.WriteCommand($"set {node.Slot}", false);
             }
 
             // Block
@@ -150,7 +151,7 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.DECLARE) 
             {
-                _fileWriter.WriteCommand($"resn {node.Children[0].Slot}");
+                //_fileWriter.WriteCommand($"resn {node.Children[0].Slot}");
                 GenerateCode(node.Children[1]);
             }
 
