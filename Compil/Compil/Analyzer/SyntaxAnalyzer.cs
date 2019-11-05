@@ -166,6 +166,10 @@ namespace Compil
             return null;
         }
 
+        /// <summary>
+        /// Create all nodes for an instruction
+        /// </summary>
+        /// <returns></returns>
         public Node Instruction()
         {
             if (_lexicalAnalyzer.Next().Type == TokenType.IF)
@@ -193,40 +197,36 @@ namespace Compil
                 _lexicalAnalyzer.Skip();
                 _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
 
-                //Initialisation
-                Node AInit = Expression();
+                //get all part of parameters for for loop
+                Node initValue = Expression();
                 _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
-
-                //Test
-                Node ATest = Expression();
+                Node condition = Expression();
                 _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
-
-                //Avancement
-                Node AInc = Expression();
+                Node step = Expression();
                 _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
 
-                //bloc d'instruction dans la boucle
-                Node ABloc = Instruction();
+                //block commands
+                Node block = Instruction();
 
-                Node ALoop = new Node() {Type = NodeType.LOOP};
-                Node ACondition = new Node() {Type = NodeType.CONDITION};
-                Node ABlocRacine = new Node() {Type = NodeType.BLOCK};
-                Node ABlocBoucle = new Node() { Type = NodeType.BLOCK};
-                Node ABreak = new Node() {Type = NodeType.BREAK};
+                Node loopNode = new Node() {Type = NodeType.LOOP};
+                Node conditionNode = new Node() {Type = NodeType.CONDITION};
+                Node variableBlock = new Node() {Type = NodeType.BLOCK};
+                Node loopBlockNode = new Node() { Type = NodeType.BLOCK};
+                Node breakLoop = new Node() {Type = NodeType.BREAK};
 
-                ABlocRacine.AddChild(AInit);
-                ABlocRacine.AddChild(ALoop);
+                variableBlock.AddChild(initValue);
+                variableBlock.AddChild(loopNode);
 
-                ALoop.AddChild(ACondition);
+                loopNode.AddChild(conditionNode);
 
-                ACondition.AddChild(ATest);
-                ACondition.AddChild(ABlocBoucle);
-                ACondition.AddChild(ABreak);
+                conditionNode.AddChild(condition);
+                conditionNode.AddChild(loopBlockNode);
+                conditionNode.AddChild(breakLoop);
 
-                ABlocBoucle.AddChild(ABloc);
-                ABlocBoucle.AddChild(AInc);
+                loopBlockNode.AddChild(block);
+                loopBlockNode.AddChild(step);
 
-                return ABlocRacine;
+                return variableBlock;
             }
             else if(_lexicalAnalyzer.Next().Type == TokenType.WHILE)
             {
@@ -242,19 +242,6 @@ namespace Compil
                 cond.AddChild(new Node() { Type = NodeType.BREAK });
                 
                 node.AddChild(cond);
-                return node;
-            }
-            else if (_lexicalAnalyzer.Next().Type == TokenType.FOR)
-            {
-                //throw new NotImplementedException("For loop not implented");
-                _lexicalAnalyzer.Skip();
-                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
-                var aTest = Expression();
-                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
-                var aCode = Instruction();
-                var node = new Node() { Type = NodeType.FOR };
-                node.AddChild(aTest);
-                node.AddChild(aCode);
                 return node;
             }
             else if (_lexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN)

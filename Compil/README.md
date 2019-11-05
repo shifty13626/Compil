@@ -7,17 +7,18 @@ HAMEL Ludovic
 
 # Opérations fonctionnelles
  - Lecture du fichier de test (.c)
- - Analyseur lexical.
+ - Analyseur lexical:
+      - Découpage des tokens
  - Analyseur syntaxique :
     - Création de l'arbre.
  - Analyseur sémantique
  - Génération de code :
-    - opérations arithmétiques
+    - opérations arithmétiques (+, -, *, /)
     - constantes
-    - opérateurs unaires
+    - opérateurs unaires (+, -)
     - blocs
     - expressions
-    - conditions (if, else)
+    - conditions (if, else) : imbriquée les une dans les autres aussi + if sans else
     - comparaison ( =, !=, <, >, <=, >=)
  - Boucles :
     - While

@@ -10,7 +10,9 @@ namespace Compil.Generator
 
         private readonly FileWriter _fileWriter;
         private int countLoop;
-        private static int countLabel;
+        private int countLabel;
+        // stack to know who loop is it on the recursif method
+        private readonly Stack<int> _stackLoop = new Stack<int>();
 
         private readonly Dictionary<NodeType, string> _operatorsToCode = new Dictionary<NodeType, string>()
         {
@@ -35,7 +37,7 @@ namespace Compil.Generator
             _fileWriter.WriteCommand("resn " + semanticAnalyzer.VariablesCount);
         }
 
-        private Stack<int> _stackLoop = new Stack<int>();
+        
         
         /// <summary>
         /// Method to generate code from expression tree.
@@ -109,21 +111,21 @@ namespace Compil.Generator
             // Conditions
             if (node.Type == NodeType.CONDITION)
             {
-                var l1 = countLabel++;
-                var l2 = countLabel++;
+                var cpt1 = countLabel++;
+                var cpt2 = countLabel++;
                 GenerateCode(node.Children[0]);
-                _fileWriter.WriteCommand("jumpf l" + l1, false);
+                _fileWriter.WriteCommand("jumpf l" + cpt1, false);
                 GenerateCode(node.Children[1]);
                 if (node.Children.Count > 2) // if there is else
                 {
-                    _fileWriter.WriteCommand("jump l" + l2, false);
-                    _fileWriter.WriteCommand(".l" + l1, false);
+                    _fileWriter.WriteCommand("jump l" + cpt2, false);
+                    _fileWriter.WriteCommand(".l" + cpt1, false);
                     GenerateCode(node.Children[2]);
-                    _fileWriter.WriteCommand(".l" + l2, false);
+                    _fileWriter.WriteCommand(".l" + cpt2, false);
                 }
                 else
                 {
-                    _fileWriter.WriteCommand(".l" + l1, false);
+                    _fileWriter.WriteCommand(".l" + cpt1, false);
                 }
                 
             }
@@ -148,7 +150,6 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.DECLARE) 
             {
-                //_fileWriter.WriteCommand($"resn {node.Children[0].Slot}");
                 GenerateCode(node.Children[1]);
             }
 
