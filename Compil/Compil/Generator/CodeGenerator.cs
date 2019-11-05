@@ -68,6 +68,10 @@ namespace Compil.Generator
                     GenerateCode(node.Children[0]);
                     _fileWriter.WriteCommand("add", true);
                     break;
+                case NodeType.NOT:
+                    GenerateCode(node.Children[0]);
+                    _fileWriter.WriteCommand("not", false);
+                    break;
             }
 
             // Variables
@@ -128,6 +132,28 @@ namespace Compil.Generator
                 }
             }
 
+            if (node.Type == NodeType.LOOP)
+            {
+                // condition label
+                _fileWriter.WriteCommand(".loop", false);
+
+                var nodeTest = node.Children[0];
+                var nodeCode = node.Children[1];
+
+                GenerateCode(nodeTest);
+
+                _fileWriter.WriteCommand("jumpf endWhile", false);
+
+                foreach (var child in nodeCode.Children)
+                {
+                    GenerateCode(child);
+                }
+
+                // end labels
+                _fileWriter.WriteCommand("jump loop", false);
+                _fileWriter.WriteCommand(".endloop", false);
+            }
+            
 
             if(node.Type == NodeType.WHILE)
             {

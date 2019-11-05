@@ -69,16 +69,34 @@ namespace Compil
                 }
 
                 // Unary operators
-                if (_lexicalAnalyzer.Next().Type == TokenType.MINUS ||
-                    _lexicalAnalyzer.Next().Type == TokenType.PLUS ||
-                    _lexicalAnalyzer.Next().Type == TokenType.NOT)
+                if (_lexicalAnalyzer.Next().Type == TokenType.MINUS)
                 {
                     var (nodeType, val, _, _) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
-                    node = new Node() { Type = nodeType, Value = val };
+                    node = new Node() { Type = NodeType.MINUS, Value = val };
                     _lexicalAnalyzer.Skip();
                     node.AddChild(Expression(7));
                     return node;
                 }
+                
+                if (_lexicalAnalyzer.Next().Type == TokenType.PLUS)
+                {
+                    var (nodeType, val, _, _) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
+                    node = new Node() { Type = NodeType.PLUS, Value = val };
+                    _lexicalAnalyzer.Skip();
+                    node.AddChild(Expression(7));
+                    return node;
+                }
+
+                
+                if (_lexicalAnalyzer.Next().Type == TokenType.NOT)
+                {
+                    var (nodeType, val, _, _) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
+                    node = new Node() { Type = NodeType.NOT, Value = val };
+                    _lexicalAnalyzer.Skip();
+                    node.AddChild(Expression(7));
+                    return node;
+                }
+
 
                 // Identifiers handling
                 if (_lexicalAnalyzer.Next().Type == TokenType.IDENTIFIER)
@@ -195,9 +213,13 @@ namespace Compil
                 var aTest = Expression();
                 _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
                 var aCode = Instruction();
-                var node = new Node() { Type = NodeType.WHILE };
-                node.AddChild(aTest);
-                node.AddChild(aCode);
+                var node = new Node() { Type = NodeType.LOOP };
+                var cond = new Node() {Type = NodeType.CONDITION};
+                cond.AddChild(aTest);
+                cond.AddChild(aCode);
+                cond.AddChild(new Node() { Type = NodeType.BREAK });
+                
+                node.AddChild(cond);
                 return node;
             }
             else if (_lexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN)

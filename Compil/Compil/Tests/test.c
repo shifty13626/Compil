@@ -1,6 +1,12 @@
 ﻿{
-    var a;
-    for(a = 0; a < 3; a = a + 1) {
-        var e;
+    var b = -20;
+    var c = +898 + !1;
+    var a = b == !(c == b);
+    
+    while(b < c) {
+        b=b+1;
+        if(b < 0) {
+            a = -a;
+        }
     }
 }

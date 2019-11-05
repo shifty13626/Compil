@@ -7,9 +7,10 @@ HAMEL Ludovic
 
 # Opérations fonctionnelles
  - Lecture du fichier de test (.c)
- - Analyser lexical
- - Analiser syntaxique
- - Analiser sémantique
+ - Analyseur lexical.
+ - Analyseur syntaxique :
+    - Création de l'arbre.
+ - Analyseur sémantique
  - Génération de code :
     - opérations arithmétiques
     - constantes
@@ -19,7 +20,7 @@ HAMEL Ludovic
     - conditions (if, else)
     - comparaison ( =, !=, <, >, <=, >=)
  - Boucles :
-    - While
+    - While (pas encore de break)
 
 # Utilisation
 Pour lancer l'application, ouvrir un invite de commande et lancer : 
