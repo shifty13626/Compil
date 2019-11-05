@@ -208,7 +208,7 @@ namespace Compil
             }
             else if(_lexicalAnalyzer.Next().Type == TokenType.WHILE)
             {
-                _lexicalAnalyzer.Skip(); // We know it is an if statement
+                _lexicalAnalyzer.Skip();
                 _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
                 var aTest = Expression();
                 _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
@@ -220,6 +220,19 @@ namespace Compil
                 cond.AddChild(new Node() { Type = NodeType.BREAK });
                 
                 node.AddChild(cond);
+                return node;
+            }
+            else if (_lexicalAnalyzer.Next().Type == TokenType.FOR)
+            {
+                //throw new NotImplementedException("For loop not implented");
+                _lexicalAnalyzer.Skip();
+                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+                var aTest = Expression();
+                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                var aCode = Instruction();
+                var node = new Node() { Type = NodeType.FOR };
+                node.AddChild(aTest);
+                node.AddChild(aCode);
                 return node;
             }
             else if (_lexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN)
