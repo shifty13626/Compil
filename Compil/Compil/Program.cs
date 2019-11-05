@@ -26,8 +26,8 @@ namespace Compil
 
                 // read source file
                 Console.WriteLine("File to read : " + args[args.Length - 1]);
-                string pathFile = Path.Combine(args[args.Length - 1]);
-                string codeTemp = File.ReadAllText(pathFile);
+                var pathFile = Path.Combine(args[args.Length - 1]);
+                var codeTemp = File.ReadAllText(pathFile);
 
                 Console.WriteLine("File content : ");
                 Console.WriteLine(codeTemp);
@@ -52,7 +52,7 @@ namespace Compil
                 var analyzer = new SemanticAnalyzer();
                 analyzer.Analyze(node);
                 
-                var codeGenerator = new CodeGenerator(fileWriter);
+                var codeGenerator = new CodeGenerator(analyzer, fileWriter);
                 codeGenerator.GenerateCode(node);
                 
                 

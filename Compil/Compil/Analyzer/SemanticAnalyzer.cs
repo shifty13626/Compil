@@ -9,7 +9,13 @@ namespace Compil
     {
         private int _variablesCount = 0;
         private readonly Stack<Dictionary<string, Symbol>> _stack = new Stack<Dictionary<string, Symbol>>();
-        
+
+        public int VariablesCount
+        {
+            get => _variablesCount;
+            set => _variablesCount = value;
+        }
+
         private void BeginBlock()
         {
             _stack.Push(new Dictionary<string, Symbol>());
@@ -23,6 +29,12 @@ namespace Compil
         private Symbol Declare(string id)
         {
             var s = new Symbol() { Slot = _variablesCount, Id = id };
+
+            if (_stack.Peek().ContainsKey(id))
+            {
+                throw new Exception($"Variable {id} is already declared in this scope.");
+            }
+            
             _stack.Peek().Add(id, s);
             return s;
         }
@@ -60,7 +72,8 @@ namespace Compil
                 case NodeType.DECLARE:
                     var s1 = Declare(node.Children[0].Value);
                     s1.Type = SymbolType.VARIABLE;
-                    s1.Slot = _variablesCount++;
+                    s1.Slot = _variablesCount;
+                    _variablesCount++; // Increments variable count
                     node.Children[0].Slot = s1.Slot;
                     Analyze(node.Children[1]);
                     break;

@@ -1,5 +1,9 @@
 ﻿{
-    var a = 1+2;
-    a = 2 + a;
+    var a;
+    a = 3;
     var b;
+    a = b;
+    var c;
+    b = c;
+    a = c + b;
 }
