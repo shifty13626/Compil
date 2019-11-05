@@ -9,6 +9,7 @@ namespace Compil.Generator
     {
 
         private readonly FileWriter _fileWriter;
+        private int countIf;
 
         private readonly Dictionary<NodeType, string> _operatorsToCode = new Dictionary<NodeType, string>()
         {
@@ -28,6 +29,7 @@ namespace Compil.Generator
         public CodeGenerator(FileWriter fileWriter)
         {
             _fileWriter = fileWriter;
+            countIf = 0;
         }
 
 
@@ -104,14 +106,15 @@ namespace Compil.Generator
 
                 GenerateCode(nodeTest);
 
-                _fileWriter.WriteCommand("jumpf endIf", false);
+                _fileWriter.WriteCommand("jumpf endIf" +countIf, false);
 
                 foreach (var child in nodeCode.Children)
                 {
                     GenerateCode(child);
                 }
 
-                _fileWriter.WriteCommand(".endIf", false);
+                _fileWriter.WriteCommand(".endIf" +countIf, false);
+                countIf++;
             }
 
             if(node.Type == NodeType.ELSE)
