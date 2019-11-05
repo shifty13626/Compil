@@ -10,22 +10,36 @@ namespace Compil
         private int _variablesCount = 0;
         private readonly Stack<Dictionary<string, Symbol>> _stack = new Stack<Dictionary<string, Symbol>>();
 
+        /// <summary>
+        /// Getteur global value
+        /// </summary>
         public int VariablesCount
         {
             get => _variablesCount;
             set => _variablesCount = value;
         }
 
+        /// <summary>
+        /// To detect begin of a block
+        /// </summary>
         private void BeginBlock()
         {
             _stack.Push(new Dictionary<string, Symbol>());
         }
 
+        /// <summary>
+        /// To detect end of block
+        /// </summary>
         private void EndBlock()
         {
             _stack.Pop();
         }
 
+        /// <summary>
+        /// Declare a symbol identify a variable
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private Symbol Declare(string id)
         {
             var s = new Symbol() { Slot = _variablesCount, Id = id };
@@ -39,6 +53,11 @@ namespace Compil
             return s;
         }
 
+        /// <summary>
+        /// Search a symbole on symbol list to found a value (variable)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private Symbol Search(string id)
         {
             foreach (var symbolsTable in _stack)
@@ -51,6 +70,10 @@ namespace Compil
             throw new ArgumentNullException($"Variable '{id}' does not exist.");
         }
 
+        /// <summary>
+        /// To check good element of a variable declaration
+        /// </summary>
+        /// <param name="node"></param>
         public void Analyze(Node node)
         {
             switch (node.Type)

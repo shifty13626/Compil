@@ -11,9 +11,22 @@ namespace Compil
     public class Node
     {
         #region Properties
+
+        /// <summary>
+        /// Type of a Node
+        /// </summary>
         public NodeType Type { get; set; }
+        /// <summary>
+        /// Value of element prensent by a node
+        /// </summary>
         public string Value { get; set; }
+        /// <summary>
+        /// List of node child for a node
+        /// </summary>
         public List<Node> Children { get; set; } = new List<Node>();
+        /// <summary>
+        /// Index of node on stack machine
+        /// </summary>
         public int Slot { get; set; }
         
         #endregion
