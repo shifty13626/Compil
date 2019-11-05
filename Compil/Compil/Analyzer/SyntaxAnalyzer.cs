@@ -195,7 +195,6 @@ namespace Compil
                     var ex = Expression();
                     
                     _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
-                    
 
                     if (ex.Type != NodeType.AFFECT) {
                         if(ex.Children.Count != 0)
@@ -221,6 +220,5 @@ namespace Compil
                 return node;
             }
         }
-        
     }
 }

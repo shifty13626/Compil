@@ -78,7 +78,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[1]);
                 _fileWriter.WriteCommand("dup", false);
-                _fileWriter.WriteCommand($"set {node.Slot}", false);
+                _fileWriter.WriteCommand($"set {node.Children[0].Slot}", false);
             }
 
             // Block
