@@ -234,6 +234,12 @@ namespace Compil {
             // 'VAR' token handling
             if (LexicalAnalyzer.Next().Type == TokenType.VAR) {
                 LexicalAnalyzer.Skip();
+
+                if (LexicalAnalyzer.LanguageKeywords.ContainsValue(LexicalAnalyzer.Next().Type)) {
+                    throw new SyntaxErrorException(
+                        $"Cannot declare a variable with name which is language keyword. Error at line {LexicalAnalyzer.Next().Line}");
+                }
+                
                 if (LexicalAnalyzer.Next().Type == TokenType.IDENTIFIER) {
                     var variableName = LexicalAnalyzer.Next().Name;
                     var nodeVariable = new Node() {Type = NodeType.DECLARE};

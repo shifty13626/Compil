@@ -18,7 +18,7 @@ namespace Compil
         private int _currentTokenLength = 0;
         
         // All code keywords.
-        private readonly Dictionary<string, TokenType> _keywords = new Dictionary<string, TokenType>()
+        public Dictionary<string, TokenType> LanguageKeywords => new Dictionary<string, TokenType>()
         {
             {"if", TokenType.IF},
             {"else", TokenType.ELSE},
@@ -154,9 +154,9 @@ namespace Compil
                     if (_index == _code.Length - 1)
                     {
                         // Look into keywords dictionnary to get the adequate token type
-                        if (_keywords.ContainsKey(builder.ToString()))
+                        if (LanguageKeywords.ContainsKey(builder.ToString()))
                         {
-                            return new Token() { Type = _keywords[builder.ToString()], Name = builder.ToString() };
+                            return new Token() { Type = LanguageKeywords[builder.ToString()], Name = builder.ToString() };
                         }
 
                         return new Token() { Type = TokenType.IDENTIFIER, Name = builder.ToString(), Line = _currentLine, Column = _currentColumn };
@@ -171,9 +171,9 @@ namespace Compil
                     }
 
                     // Look into keywords dictionnary to get the adequate token type
-                    if (_keywords.ContainsKey(builder.ToString()))
+                    if (LanguageKeywords.ContainsKey(builder.ToString()))
                     {
-                        return new Token() { Type = _keywords[builder.ToString()], Name = builder.ToString(), Line = _currentLine, Column = _currentColumn };
+                        return new Token() { Type = LanguageKeywords[builder.ToString()], Name = builder.ToString(), Line = _currentLine, Column = _currentColumn };
                     }
 
                     return new Token() { Type = TokenType.IDENTIFIER, Name = builder.ToString(), Line = _currentLine, Column = _currentColumn };
