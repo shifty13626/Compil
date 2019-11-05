@@ -32,7 +32,7 @@ namespace Compil
 
             if (_stack.Peek().ContainsKey(id))
             {
-                throw new Exception($"Variable {id} is already declared in this scope.");
+                throw new Exception($"Variable '{id}' is already declared in this scope.");
             }
             
             _stack.Peek().Add(id, s);
@@ -48,7 +48,7 @@ namespace Compil
                     return value;
                 }
             }
-            throw new ArgumentNullException($"Variable '{id}' does not exist.'");
+            throw new ArgumentNullException($"Variable '{id}' does not exist.");
         }
 
         public void Analyze(Node node)
