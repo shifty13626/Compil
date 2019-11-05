@@ -1,9 +1,6 @@
 ﻿{
     var a;
-    a = 3;
-    var b;
-    a = b;
-    var c;
-    b = c;
-    a = c + b;
+    for(a = 0; a < 3; a = a + 1) {
+        var e;
+    }
 }

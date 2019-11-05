@@ -162,6 +162,24 @@ namespace Compil
                 node.AddChild(aCode);
                 return node;
             }
+            else if (_lexicalAnalyzer.Next().Type == TokenType.FOR)
+            {
+                _lexicalAnalyzer.Skip(); // We skip the "for" statement
+                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+                var e1 = Expression();
+                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                var e2 = Expression();
+                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                var e3 = Expression();
+                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                var code = Instruction();
+                var node = new Node() {Type = NodeType.FOR};
+                node.AddChild(e1);
+                node.AddChild(e2);
+                node.AddChild(e3);
+                node.AddChild(code);
+                return node;
+            }
             else if(_lexicalAnalyzer.Next().Type == TokenType.ELSE)
             {
                 _lexicalAnalyzer.Skip();
