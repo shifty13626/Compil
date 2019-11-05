@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Compil;
 using Compil.Generator;
 using System.Linq;
-using Compil.LauncherVM;
 
 namespace Compil
 {
@@ -20,7 +19,6 @@ namespace Compil
                 if (args.Length == 0)
                 {
                     Help();
-                    Console.ReadKey();
                     return;
                 }
 
@@ -49,24 +47,15 @@ namespace Compil
                 var node = syntaxAnalyzer.Instruction();
                 node.Print("", false);
 
-                var analyzer = new SemanticAnalyzer();
+                var analyzer = new SemanticAnalyzer(syntaxAnalyzer);
                 analyzer.Analyze(node);
                 
                 var codeGenerator = new CodeGenerator(analyzer, fileWriter);
                 codeGenerator.GenerateCode(node);
                 
-                
-                
                 // add code generate on the file output code
                 fileWriter.WriteFile();
-
-                /*
-                // Launch code on VM
-                var launcher = new Launcher(Path.Combine("D:\\Documents\\Projets\\Compil\\msm\\msm"), "msm");
-                launcher.CopyOutFile();
-                launcher.LaunchCodeOnVm();
-                */
-
+                
                 // wait exit
                 Console.WriteLine("\nPress any key to exit.");
                 Console.ReadKey();
@@ -77,20 +66,22 @@ namespace Compil
             }
             catch (ArgumentNullException e)
             {
-                Console.WriteLine("Null argument enter for launch programm");
+                Console.WriteLine("Null argument enter for launch program");
                 Console.WriteLine(e.Message);
             }
         }
 
 
         /// <summary>
-        /// Method to display parameters of programm on console
+        /// Method to display parameters of program on console
         /// </summary>
         public static void Help()
         {
             Console.WriteLine("Compil APP4 Capodano-Hamel");
             Console.WriteLine("Compil.exe [fileCToRead]");
             Console.WriteLine("Press a key to exit...");
+            Console.ReadKey();
+            return;
         }
     }
 }

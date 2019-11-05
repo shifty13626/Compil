@@ -23,7 +23,7 @@ namespace Compil.Nodes
         OP_MODULO,
         OP_POWER,
         
-        AFFECT,
+        ASSIGN,
         
         // Comparison
         COMP_EQUAL,
@@ -37,17 +37,9 @@ namespace Compil.Nodes
         AND,
         OR,
         CONDITION,
-        ELSE,
-        FOR,
-        WHILE,
         BREAK,
         LOOP,
-        DO,
-        SWITCH,
-        CASE,
-        INT,
-        VOID,
-        
+
         BLOCK,
         EXPRESSION,
         DECLARE

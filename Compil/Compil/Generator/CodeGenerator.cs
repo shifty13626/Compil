@@ -48,7 +48,7 @@ namespace Compil.Generator
             // Constants
             if (node.Type == NodeType.CONSTANT)
             {
-                _fileWriter.WriteCommand("push " +node.Value, true);
+                _fileWriter.WriteCommand($"push {node.Value}", true);
             }
 
             // Operations
@@ -64,14 +64,14 @@ namespace Compil.Generator
             {
                 // Unary operations
                 case NodeType.MINUS:
+                    // We do '0 - n'
                     _fileWriter.WriteCommand("push 0", true);
                     GenerateCode(node.Children[0]);
                     _fileWriter.WriteCommand("sub", true);
                     break;
                 case NodeType.PLUS:
-                    _fileWriter.WriteCommand("push 0", true);
+                    // Little optimisation: we do nothing because, for example, +5 = 5, the '+' disappear.
                     GenerateCode(node.Children[0]);
-                    _fileWriter.WriteCommand("add", true);
                     break;
                 case NodeType.NOT:
                     GenerateCode(node.Children[0]);
@@ -85,7 +85,7 @@ namespace Compil.Generator
                 _fileWriter.WriteCommand($"get {node.Slot}", true);
             }
 
-            if (node.Type == NodeType.AFFECT)
+            if (node.Type == NodeType.ASSIGN)
             {
                 GenerateCode(node.Children[1]);
                 _fileWriter.WriteCommand("dup", false);
@@ -114,18 +114,18 @@ namespace Compil.Generator
                 var cpt1 = countLabel++;
                 var cpt2 = countLabel++;
                 GenerateCode(node.Children[0]);
-                _fileWriter.WriteCommand("jumpf l" + cpt1, false);
+                _fileWriter.WriteCommand($"jumpf l{cpt1}", false);
                 GenerateCode(node.Children[1]);
                 if (node.Children.Count > 2) // if there is else
                 {
-                    _fileWriter.WriteCommand("jump l" + cpt2, false);
-                    _fileWriter.WriteCommand(".l" + cpt1, false);
+                    _fileWriter.WriteCommand($"jump l{cpt2}", false);
+                    _fileWriter.WriteCommand($".l{cpt1}", false);
                     GenerateCode(node.Children[2]);
-                    _fileWriter.WriteCommand(".l" + cpt2, false);
+                    _fileWriter.WriteCommand($".l{cpt2}", false);
                 }
                 else
                 {
-                    _fileWriter.WriteCommand(".l" + cpt1, false);
+                    _fileWriter.WriteCommand($".l{cpt1}", false);
                 }
                 
             }
@@ -134,18 +134,18 @@ namespace Compil.Generator
             {
                 var l = countLoop++;
                 // condition label
-                _fileWriter.WriteCommand(".loop" + l, false);
+                _fileWriter.WriteCommand($".loop{l}", false);
                 GenerateCode(node.Children[0]);
                     
                 // end labels
-                _fileWriter.WriteCommand("jump loop" + l, false);
-                _fileWriter.WriteCommand(".endLoop" + _stackLoop.Pop(), false);
+                _fileWriter.WriteCommand($"jump loop{l}", false);
+                _fileWriter.WriteCommand($".endLoop{_stackLoop.Pop()}", false);
             }
 
             if (node.Type == NodeType.BREAK)
             {
                 _stackLoop.Push(countLoop++);
-                _fileWriter.WriteCommand("jump endLoop" + (countLoop - 1), false);
+                _fileWriter.WriteCommand($"jump endLoop{(countLoop - 1)}", false);
             }
 
             if (node.Type == NodeType.DECLARE) 

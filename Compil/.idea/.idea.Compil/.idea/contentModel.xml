@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$USER_HOME$/Library/Caches/Rider2019.2/extResources" t="IncludeRecursive" />
-    <e p="$USER_HOME$/Library/Caches/Rider2019.2/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_Compil.-1678821147.00" t="ExcludeRecursive" />
-    <e p="$APPLICATION_CONFIG_DIR$/consoles/db" t="IncludeRecursive" />
-    <e p="$PROJECT_DIR$" t="IncludeFlat">
+    <e p="C:\Users\tcapo\.Rider2019.2\config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\tcapo\.Rider2019.2\config\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\tcapo\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\tcapo\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_Compil.-2037987076.00" t="ExcludeRecursive" />
+    <e p="D:\Utilisateurs\Thomas\Documents\Compil\Compil" t="IncludeFlat">
       <e p="Compil" t="IncludeRecursive">
         <e p="Analyzer" t="Include">
           <e p="LexicalAnalyzer.cs" t="Include" />
@@ -17,13 +18,14 @@
         <e p="Compil.ruleset" t="Include" />
         <e p="Compilator.cs" t="Include" />
         <e p="Exceptions" t="Include">
+          <e p="CompilerException.cs" t="Include" />
+          <e p="LexicalErrorException.cs" t="Include" />
           <e p="NotValidCharException.cs" t="Include" />
+          <e p="SemanticErrorException.cs" t="Include" />
+          <e p="SyntaxErrorException.cs" t="Include" />
         </e>
         <e p="Generator" t="Include">
           <e p="CodeGenerator.cs" t="Include" />
-        </e>
-        <e p="LauncherVM" t="Include">
-          <e p="Launcher.cs" t="Include" />
         </e>
         <e p="Nodes" t="Include">
           <e p="Node.cs" t="Include" />

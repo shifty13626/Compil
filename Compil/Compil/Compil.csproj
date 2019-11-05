@@ -48,10 +48,13 @@
     <Compile Include="Analyzer\SemanticAnalyzer.cs" />
     <Compile Include="Analyzer\SyntaxAnalyzer.cs" />
     <Compile Include="Compilator.cs" />
+    <Compile Include="Exceptions\CompilerException.cs" />
+    <Compile Include="Exceptions\LexicalErrorException.cs" />
     <Compile Include="Exceptions\NotValidCharException.cs" />
+    <Compile Include="Exceptions\SemanticErrorException.cs" />
+    <Compile Include="Exceptions\SyntaxErrorException.cs" />
     <Compile Include="Generator\CodeGenerator.cs" />
     <Compile Include="Analyzer\LexicalAnalyzer.cs" />
-    <Compile Include="LauncherVM\Launcher.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\NodeType.cs" />
     <Compile Include="Program.cs" />
