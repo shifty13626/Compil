@@ -1,110 +1,104 @@
 using System;
 using System.Collections.Generic;
+using Compil.Exceptions;
 using Compil.Nodes;
 using Compil.Symbols;
 
-namespace Compil
-{
-    public class SemanticAnalyzer
-    {
-        private int _variablesCount = 0;
+namespace Compil {
+    public class SemanticAnalyzer {
         private readonly Stack<Dictionary<string, Symbol>> _stack = new Stack<Dictionary<string, Symbol>>();
+        
+        public SemanticAnalyzer(SyntaxAnalyzer syntaxAnalyzer) {
+            this.SyntaxAnalyzer = syntaxAnalyzer;
+        }
 
         /// <summary>
         /// Getteur global value
         /// </summary>
-        public int VariablesCount
-        {
-            get => _variablesCount;
-            set => _variablesCount = value;
-        }
+        public int VariablesCount { get; set; } = 0;
+        
+        public SyntaxAnalyzer SyntaxAnalyzer { get; }
 
         /// <summary>
-        /// To detect begin of a block
+        /// When entering a new scope, this method is called to create the symbols table of the current scope.
         /// </summary>
-        private void BeginBlock()
-        {
+        private void BeginBlock() {
             _stack.Push(new Dictionary<string, Symbol>());
         }
 
         /// <summary>
-        /// To detect end of block
+        /// When exiting a scope, this method is called to remove the symbols table from the stack.
         /// </summary>
-        private void EndBlock()
-        {
+        private void EndBlock() {
             _stack.Pop();
         }
 
         /// <summary>
-        /// Declare a symbol identify a variable
+        /// Declare a symbol in the symbols table of the current scope.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private Symbol Declare(string id)
-        {
-            var s = new Symbol() { Slot = _variablesCount, Id = id };
+        private Symbol Declare(string id) {
+            var s = new Symbol() {Slot = VariablesCount, Id = id};
 
-            if (_stack.Peek().ContainsKey(id))
-            {
-                throw new Exception($"Variable '{id}' is already declared in this scope.");
+            if (_stack.Peek().ContainsKey(id)) {
+                throw new SemanticErrorException(
+                    $"Variable '{id}' is already declared in this scope. Error at line {SyntaxAnalyzer.LexicalAnalyzer.Next().Line}.");
             }
-            
+
             _stack.Peek().Add(id, s);
             return s;
         }
 
         /// <summary>
-        /// Search a symbole on symbol list to found a value (variable)
+        /// Search for a symbol in the symbols table.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private Symbol Search(string id)
-        {
-            foreach (var symbolsTable in _stack)
-            {
-                if (symbolsTable.TryGetValue(id, out var value))
-                {
+        private Symbol Search(string id) {
+            foreach (var symbolsTable in _stack) {
+                if (symbolsTable.TryGetValue(id, out var value)) {
                     return value;
                 }
             }
-            throw new ArgumentNullException($"Variable '{id}' does not exist.");
+
+            throw new SemanticErrorException(
+                $"Variable '{id}' does not exist. Error at line {SyntaxAnalyzer.LexicalAnalyzer.Next().Line}.");
         }
 
         /// <summary>
-        /// To check good element of a variable declaration
+        /// Perform the semantic analysis of the syntax tree.
         /// </summary>
         /// <param name="node"></param>
-        public void Analyze(Node node)
-        {
-            switch (node.Type)
-            {
+        public void Analyze(Node node) {
+            switch (node.Type) {
                 default:
-                    foreach (var child in node.Children)
-                    {
+                    foreach (var child in node.Children) {
                         Analyze(child);
                     }
+
                     break;
                 case NodeType.BLOCK:
                     BeginBlock();
-                    foreach (var child in node.Children)
-                    {
+                    foreach (var child in node.Children) {
                         Analyze(child);
                     }
+
                     EndBlock();
                     break;
                 case NodeType.DECLARE:
                     var s1 = Declare(node.Children[0].Value);
                     s1.Type = SymbolType.VARIABLE;
-                    s1.Slot = _variablesCount;
-                    _variablesCount++; // Increments variable count
+                    s1.Slot = VariablesCount;
+                    VariablesCount++; // Increments variable count
                     node.Children[0].Slot = s1.Slot;
                     Analyze(node.Children[1]);
                     break;
                 case NodeType.VARIABLE:
                     var s2 = Search(node.Value);
-                    if (s2.Type != SymbolType.VARIABLE)
-                    {
-                        throw new ArgumentNullException("Type is different from Variable");
+                    if (s2.Type != SymbolType.VARIABLE) {
+                        throw new SemanticErrorException(
+                            $"Type is different from Variable. Error at line {SyntaxAnalyzer.LexicalAnalyzer.Next().Line}.");
                     }
 
                     node.Slot = s2.Slot;

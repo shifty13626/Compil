@@ -3,124 +3,99 @@ using Compil.Tokens;
 using Compil.Nodes;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
-namespace Compil
-{
+namespace Compil {
     /// <summary>
     /// Instance of class SyntacticAnalyzer
     /// </summary>
-    public class SyntaxAnalyzer
-    {
-        private readonly LexicalAnalyzer _lexicalAnalyzer;
+    public class SyntaxAnalyzer {
+        public LexicalAnalyzer LexicalAnalyzer { get; }
 
-        private readonly Dictionary<TokenType, (NodeType, string, int, int)> _exprTokenToNodeMatch = new Dictionary<TokenType, (NodeType, string, int, int)>()
-        {
-            {TokenType.OR, (NodeType.OR, "|", 2, 1)},
-            {TokenType.AND, (NodeType.AND, "&", 3, 1)},
-            {TokenType.NOT, (NodeType.NOT, "!", 3, 1)},
-            {TokenType.COMP_EQUAL, (NodeType.COMP_EQUAL, "==", 4, 1)},
-            {TokenType.PLUS, (NodeType.OP_PLUS, "+", 5, 1)},
-            {TokenType.MINUS, (NodeType.OP_MINUS, "-", 5, 1)},
-            {TokenType.POWER, (NodeType.OP_POWER, "^", 7, 0)},
-            {TokenType.DIVIDE, (NodeType.OP_DIVIDE, "/", 6, 1)},
-            {TokenType.MODULO, (NodeType.OP_MODULO, "%", 6, 1)},
-            {TokenType.MULTIPLY, (NodeType.OP_MULTIPLY, "*", 6, 1)},
-            {TokenType.COMP_INFERIOR, (NodeType.COMP_INFERIOR, "<", 4, 1)},
-            {TokenType.COMP_DIFFERENT, (NodeType.COMP_DIFFERENT, "!=", 4, 1)},
-            {TokenType.COMP_SUPPERIOR, (NodeType.COMP_SUPPERIOR, ">", 4, 1)},
-            {TokenType.COMP_INFERIOR_OR_EQUAL, (NodeType.COMP_INFERIOR_OR_EQUAL, "<=", 4, 1)},
-            {TokenType.COMP_SUPPERIOR_OR_EQUAL, (NodeType.COMP_SUPPERIOR_OR_EQUAL, ">=", 4, 1)},
-            {TokenType.EQUAL, (NodeType.AFFECT, "=", 1, 0)}
-        };
+        // Dictionnary to match token and nodes.
+        private readonly Dictionary<TokenType, (NodeType, string, int, int)> _exprTokenToNodeMatch =
+            new Dictionary<TokenType, (NodeType, string, int, int)>() {
+                {TokenType.OR, (NodeType.OR, "|", 2, 1)},
+                {TokenType.AND, (NodeType.AND, "&", 3, 1)},
+                {TokenType.NOT, (NodeType.NOT, "!", 3, 1)},
+                {TokenType.COMP_EQUAL, (NodeType.COMP_EQUAL, "==", 4, 1)},
+                {TokenType.PLUS, (NodeType.OP_PLUS, "+", 5, 1)},
+                {TokenType.MINUS, (NodeType.OP_MINUS, "-", 5, 1)},
+                {TokenType.POWER, (NodeType.OP_POWER, "^", 7, 0)},
+                {TokenType.DIVIDE, (NodeType.OP_DIVIDE, "/", 6, 1)},
+                {TokenType.MODULO, (NodeType.OP_MODULO, "%", 6, 1)},
+                {TokenType.MULTIPLY, (NodeType.OP_MULTIPLY, "*", 6, 1)},
+                {TokenType.COMP_INFERIOR, (NodeType.COMP_INFERIOR, "<", 4, 1)},
+                {TokenType.COMP_DIFFERENT, (NodeType.COMP_DIFFERENT, "!=", 4, 1)},
+                {TokenType.COMP_SUPPERIOR, (NodeType.COMP_SUPPERIOR, ">", 4, 1)},
+                {TokenType.COMP_INFERIOR_OR_EQUAL, (NodeType.COMP_INFERIOR_OR_EQUAL, "<=", 4, 1)},
+                {TokenType.COMP_SUPPERIOR_OR_EQUAL, (NodeType.COMP_SUPPERIOR_OR_EQUAL, ">=", 4, 1)},
+                {TokenType.EQUAL, (NodeType.ASSIGN, "=", 1, 0)}
+            };
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="lexicalAnalyser"></param>
-        public SyntaxAnalyzer(LexicalAnalyzer lexicalAnalyser)
-        {
-            this._lexicalAnalyzer = lexicalAnalyser;
+        /// <param name="lexicalAnalyzer"></param>
+        public SyntaxAnalyzer(LexicalAnalyzer lexicalAnalyzer) {
+            this.LexicalAnalyzer = lexicalAnalyzer;
         }
 
         /// <summary>
         /// Build tree of expresion
         /// </summary>
-        public Node Primary()
-        {
-            try
-            {
-                Node node;
+        public Node Primary() {
+            Node node;
 
-                // Constante
-                if (_lexicalAnalyzer.Next().Type == TokenType.CONSTANT)
-                {
-                    node = new Node() { Type = NodeType.CONSTANT, Value = _lexicalAnalyzer.Next().Value.ToString() };
-                    _lexicalAnalyzer.Skip();
-                    return node;
-                }
-
-                // Parenthese Open
-                if (_lexicalAnalyzer.Next().Type == TokenType.PAR_OPEN)
-                {
-                    _lexicalAnalyzer.Skip();
-                    node = Expression(0);
-                    _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
-                    return node;
-                }
-
-                // Unary operators
-                if (_lexicalAnalyzer.Next().Type == TokenType.MINUS)
-                {
-                    var (nodeType, val, _, _) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
-                    node = new Node() { Type = NodeType.MINUS, Value = val };
-                    _lexicalAnalyzer.Skip();
-                    node.AddChild(Expression(7));
-                    return node;
-                }
-                
-                if (_lexicalAnalyzer.Next().Type == TokenType.PLUS)
-                {
-                    var (nodeType, val, _, _) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
-                    node = new Node() { Type = NodeType.PLUS, Value = val };
-                    _lexicalAnalyzer.Skip();
-                    node.AddChild(Expression(7));
-                    return node;
-                }
-
-                
-                if (_lexicalAnalyzer.Next().Type == TokenType.NOT)
-                {
-                    var (nodeType, val, _, _) = _exprTokenToNodeMatch[_lexicalAnalyzer.Next().Type];
-                    node = new Node() { Type = NodeType.NOT, Value = val };
-                    _lexicalAnalyzer.Skip();
-                    node.AddChild(Expression(7));
-                    return node;
-                }
-
-
-                // Identifiers handling
-                if (_lexicalAnalyzer.Next().Type == TokenType.IDENTIFIER)
-                {
-                    node = new Node() { Type = NodeType.VARIABLE, Value = _lexicalAnalyzer.Next().Name.ToString() };
-                    _lexicalAnalyzer.Skip();
-                    return node;
-                }
-
-                // Primary not found
-                throw new ArgumentNullException("Primary expected.");
+            // Constant
+            if (LexicalAnalyzer.Next().Type == TokenType.CONSTANT) {
+                node = new Node() {Type = NodeType.CONSTANT, Value = LexicalAnalyzer.Next().Value.ToString()};
+                LexicalAnalyzer.Skip();
+                return node;
             }
-            catch (NotImplementedException e)
-            {
-                Console.WriteLine("Feature not implemented.");
-                Console.WriteLine(e.StackTrace);
-                return null;
+
+            // Parenthesis Open
+            if (LexicalAnalyzer.Next().Type == TokenType.PAR_OPEN) {
+                LexicalAnalyzer.Skip();
+                node = Expression(0);
+                LexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                return node;
             }
-            catch (ArgumentNullException e)
-            {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                return null;
+
+            // Unary operators
+            if (LexicalAnalyzer.Next().Type == TokenType.MINUS) {
+                var (nodeType, val, _, _) = _exprTokenToNodeMatch[LexicalAnalyzer.Next().Type];
+                node = new Node() {Type = NodeType.MINUS, Value = val};
+                LexicalAnalyzer.Skip();
+                node.AddChild(Expression(7));
+                return node;
             }
+
+            if (LexicalAnalyzer.Next().Type == TokenType.PLUS) {
+                var (nodeType, val, _, _) = _exprTokenToNodeMatch[LexicalAnalyzer.Next().Type];
+                node = new Node() {Type = NodeType.PLUS, Value = val};
+                LexicalAnalyzer.Skip();
+                node.AddChild(Expression(7));
+                return node;
+            }
+            
+            if (LexicalAnalyzer.Next().Type == TokenType.NOT) {
+                var (nodeType, val, _, _) = _exprTokenToNodeMatch[LexicalAnalyzer.Next().Type];
+                node = new Node() {Type = NodeType.NOT, Value = val};
+                LexicalAnalyzer.Skip();
+                node.AddChild(Expression(7));
+                return node;
+            }
+            
+            // Identifiers handling
+            if (LexicalAnalyzer.Next().Type == TokenType.IDENTIFIER) {
+                node = new Node() {Type = NodeType.VARIABLE, Value = LexicalAnalyzer.Next().Name};
+                LexicalAnalyzer.Skip();
+                return node;
+            }
+
+            // Primary not found
+            throw new SyntaxErrorException($"Primary expected at line {LexicalAnalyzer.Next().Line}");
         }
 
         /// <summary>
@@ -128,23 +103,21 @@ namespace Compil
         /// </summary>
         /// <param name="pMin"></param>
         /// <returns></returns>
-        public Node Expression(int pMin = 0)
-        {
+        public Node Expression(int pMin = 0) {
             var leftNode = Primary();
 
-            while (true)
-            {
-                if (_lexicalAnalyzer.Next() == null)
+            while (true) {
+                if (LexicalAnalyzer.Next() == null)
                     return leftNode;
 
-                var op = SearchOp(_lexicalAnalyzer.Next());
+                var op = SearchOp(LexicalAnalyzer.Next());
 
                 if (op == null || op.Priority < pMin)
                     return leftNode;
 
-                _lexicalAnalyzer.Skip();
+                LexicalAnalyzer.Skip();
                 var rightNode = Expression(op.Priority + op.Association);
-                var tree = new Node() { Type = op.Node.Type };
+                var tree = new Node() {Type = op.Node.Type};
                 tree.AddChild(leftNode);
                 tree.AddChild(rightNode);
                 leftNode = tree;
@@ -156,63 +129,62 @@ namespace Compil
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public Operator SearchOp(Token token)
-        {
-            if (_exprTokenToNodeMatch.TryGetValue(token.Type, out var vals))
-            {
+        public Operator SearchOp(Token token) {
+            if (_exprTokenToNodeMatch.TryGetValue(token.Type, out var vals)) {
                 var (nodetype, val, priority, assos) = vals;
-                return new Operator() { Token = token, Node = new Node() { Type = nodetype }, Priority = priority, Association = assos };
+                return new Operator()
+                    {Token = token, Node = new Node() {Type = nodetype}, Priority = priority, Association = assos};
             }
+
             return null;
         }
 
         /// <summary>
-        /// Create all nodes for an instruction
+        /// Create all nodes for code instructions.
         /// </summary>
         /// <returns></returns>
-        public Node Instruction()
-        {
-            if (_lexicalAnalyzer.Next().Type == TokenType.IF)
-            {
-                _lexicalAnalyzer.Skip(); // We know it is an if statement
-                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+        public Node Instruction() {
+            // If condition handling
+            if (LexicalAnalyzer.Next().Type == TokenType.IF) {
+                LexicalAnalyzer.Skip(); // We know it is an 'if' statement so we skip this token
+                LexicalAnalyzer.Accept(TokenType.PAR_OPEN);
                 var aTest = Expression();
-                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                LexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
                 var aCode = Instruction();
                 var node = new Node() {Type = NodeType.CONDITION};
                 node.AddChild(aTest);
                 node.AddChild(aCode);
-                
-                if(_lexicalAnalyzer.Next().Type == TokenType.ELSE)
-                {
-                    _lexicalAnalyzer.Skip();
+
+                if (LexicalAnalyzer.Next().Type == TokenType.ELSE) {
+                    LexicalAnalyzer.Skip();
                     var aElse = Instruction();
                     node.AddChild(aElse);
                 }
-                
+
                 return node;
             }
-            else if (_lexicalAnalyzer.Next().Type == TokenType.FOR)
-            {
-                _lexicalAnalyzer.Skip();
-                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
 
-                //get all part of parameters for for loop
-                Node initValue = Expression();
-                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
-                Node condition = Expression();
-                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
-                Node step = Expression();
-                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+            // For loop handling
+            if (LexicalAnalyzer.Next().Type == TokenType.FOR) {
+                LexicalAnalyzer.Skip();
+                LexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+
+                // Get all parts of parameters for the 'for' loop
+                var initValue = Expression();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                var condition = Expression();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                var step = Expression();
+                LexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
 
                 //block commands
-                Node block = Instruction();
+                var block = Instruction();
 
-                Node loopNode = new Node() {Type = NodeType.LOOP};
-                Node conditionNode = new Node() {Type = NodeType.CONDITION};
-                Node variableBlock = new Node() {Type = NodeType.BLOCK};
-                Node loopBlockNode = new Node() { Type = NodeType.BLOCK};
-                Node breakLoop = new Node() {Type = NodeType.BREAK};
+                var loopNode = new Node() {Type = NodeType.LOOP};
+                var conditionNode = new Node() {Type = NodeType.CONDITION};
+                var variableBlock = new Node() {Type = NodeType.BLOCK};
+                var loopBlockNode = new Node() {Type = NodeType.BLOCK};
+                var breakLoop = new Node() {Type = NodeType.BREAK};
 
                 variableBlock.AddChild(initValue);
                 variableBlock.AddChild(loopNode);
@@ -228,61 +200,69 @@ namespace Compil
 
                 return variableBlock;
             }
-            else if(_lexicalAnalyzer.Next().Type == TokenType.WHILE)
-            {
-                _lexicalAnalyzer.Skip();
-                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+
+            // While loop handling
+            if (LexicalAnalyzer.Next().Type == TokenType.WHILE) {
+                LexicalAnalyzer.Skip();
+                LexicalAnalyzer.Accept(TokenType.PAR_OPEN);
                 var aTest = Expression();
-                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                LexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
                 var aCode = Instruction();
-                var node = new Node() { Type = NodeType.LOOP };
+                var node = new Node() {Type = NodeType.LOOP};
                 var cond = new Node() {Type = NodeType.CONDITION};
                 cond.AddChild(aTest);
                 cond.AddChild(aCode);
-                cond.AddChild(new Node() { Type = NodeType.BREAK });
-                
+                cond.AddChild(new Node() {Type = NodeType.BREAK});
+
                 node.AddChild(cond);
                 return node;
             }
-            else if (_lexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN)
-            {
+
+            // Block tokens handling
+            if (LexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN) {
                 var node = new Node() {Type = NodeType.BLOCK};
-                _lexicalAnalyzer.Accept(TokenType.BRACKET_OPEN);
-                while (_lexicalAnalyzer.Next().Type != TokenType.BRACKET_CLOSE)
-                {
+                LexicalAnalyzer.Accept(TokenType.BRACKET_OPEN);
+                while (LexicalAnalyzer.Next().Type != TokenType.BRACKET_CLOSE) {
                     var x = Instruction();
                     node.AddChild(x);
                 }
-                _lexicalAnalyzer.Accept(TokenType.BRACKET_CLOSE);
+
+                LexicalAnalyzer.Accept(TokenType.BRACKET_CLOSE);
                 return node;
             }
-            else if (_lexicalAnalyzer.Next().Type == TokenType.VAR) {
-                _lexicalAnalyzer.Skip();
-                if (_lexicalAnalyzer.Next().Type == TokenType.IDENTIFIER) {
-                    var variableName = _lexicalAnalyzer.Next().Name;
-                    var nodeVariable = new Node() { Type = NodeType.DECLARE };
+
+            // 'VAR' token handling
+            if (LexicalAnalyzer.Next().Type == TokenType.VAR) {
+                LexicalAnalyzer.Skip();
+                if (LexicalAnalyzer.Next().Type == TokenType.IDENTIFIER) {
+                    var variableName = LexicalAnalyzer.Next().Name;
+                    var nodeVariable = new Node() {Type = NodeType.DECLARE};
                     nodeVariable.AddChild(new Node() {Type = NodeType.VARIABLE, Value = variableName});
                     var ex = Expression();
-                    
-                    _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
 
-                    if (ex.Type != NodeType.AFFECT) {
-                        if(ex.Children.Count != 0)
-                            throw new Exception("No affectation");
+                    LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+
+                    if (ex.Type != NodeType.ASSIGN) {
+                        if (ex.Children.Count != 0) {
+                            throw new SyntaxErrorException(
+                                $"No variable assignment at line {LexicalAnalyzer.Next().Line}");
+                        }
                     }
-                    
+
                     nodeVariable.AddChild(ex);
-                    
+
                     return nodeVariable;
                 }
-                
-                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
-                throw new Exception("Missing variable name");
+
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                throw new SyntaxErrorException(
+                    $"Tried to declare a variable without name at line {LexicalAnalyzer.Next().Line}");
             }
-            else
+
+            // Other tokens
             {
                 var ex = Expression();
-                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
                 var node = new Node() {Type = NodeType.EXPRESSION};
                 node.AddChild(ex);
                 return node;
