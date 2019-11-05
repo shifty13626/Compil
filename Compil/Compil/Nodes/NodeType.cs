@@ -40,6 +40,8 @@ namespace Compil.Nodes
         ELSE,
         FOR,
         WHILE,
+        BREAK,
+        LOOP,
         DO,
         SWITCH,
         CASE,
