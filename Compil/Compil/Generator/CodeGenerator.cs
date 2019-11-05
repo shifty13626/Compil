@@ -9,6 +9,7 @@ namespace Compil.Generator
     {
 
         private readonly FileWriter _fileWriter;
+        private int countIf;
 
         private readonly Dictionary<NodeType, string> _operatorsToCode = new Dictionary<NodeType, string>()
         {
@@ -25,9 +26,11 @@ namespace Compil.Generator
         /// Constructor of class
         /// </summary>
         /// <param name="fileWriter"></param>
-        public CodeGenerator(FileWriter fileWriter)
+        public CodeGenerator(SemanticAnalyzer semanticAnalyzer, FileWriter fileWriter)
         {
             _fileWriter = fileWriter;
+            countIf = 0;
+            _fileWriter.WriteCommand("resn " + semanticAnalyzer.VariablesCount);
         }
 
 
@@ -70,14 +73,14 @@ namespace Compil.Generator
             // Variables
             if (node.Type == NodeType.VARIABLE)
             {
-                _fileWriter.WriteCommand("get 0", true);
+                _fileWriter.WriteCommand($"get {node.Slot}", true);
             }
 
             if (node.Type == NodeType.AFFECT)
             {
                 GenerateCode(node.Children[1]);
                 _fileWriter.WriteCommand("dup", false);
-                _fileWriter.WriteCommand("set 0", false);
+                _fileWriter.WriteCommand($"set {node.Children[0].Slot}", false);
             }
 
             // Block
@@ -104,14 +107,15 @@ namespace Compil.Generator
 
                 GenerateCode(nodeTest);
 
-                _fileWriter.WriteCommand("jumpf endIf", false);
+                _fileWriter.WriteCommand("jumpf endIf" +countIf, false);
 
                 foreach (var child in nodeCode.Children)
                 {
                     GenerateCode(child);
                 }
 
-                _fileWriter.WriteCommand(".endIf", false);
+                _fileWriter.WriteCommand(".endIf" +countIf, false);
+                countIf++;
             }
 
             if(node.Type == NodeType.ELSE)
@@ -174,7 +178,7 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.DECLARE) 
             {
-                _fileWriter.WriteCommand($"resn {node.Children[0].Slot}");
+                //_fileWriter.WriteCommand($"resn {node.Children[0].Slot}");
                 GenerateCode(node.Children[1]);
             }
 
