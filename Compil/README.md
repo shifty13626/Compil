@@ -20,7 +20,8 @@ HAMEL Ludovic
     - conditions (if, else)
     - comparaison ( =, !=, <, >, <=, >=)
  - Boucles :
-    - While (pas encore de break)
+    - While
+    - For (attention, la déclaration de l'itérateur doit être faite a l'exterieur de l'entête du for!!)
 
 # Utilisation
 Pour lancer l'application, ouvrir un invite de commande et lancer : 

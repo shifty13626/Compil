@@ -178,33 +178,55 @@ namespace Compil
                 var node = new Node() {Type = NodeType.CONDITION};
                 node.AddChild(aTest);
                 node.AddChild(aCode);
+                
+                if(_lexicalAnalyzer.Next().Type == TokenType.ELSE)
+                {
+                    _lexicalAnalyzer.Skip();
+                    var aElse = Instruction();
+                    node.AddChild(aElse);
+                }
+                
                 return node;
             }
             else if (_lexicalAnalyzer.Next().Type == TokenType.FOR)
             {
-                _lexicalAnalyzer.Skip(); // We skip the "for" statement
-                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
-                var e1 = Expression();
-                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
-                var e2 = Expression();
-                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
-                var e3 = Expression();
-                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
-                var code = Instruction();
-                var node = new Node() {Type = NodeType.FOR};
-                node.AddChild(e1);
-                node.AddChild(e2);
-                node.AddChild(e3);
-                node.AddChild(code);
-                return node;
-            }
-            else if(_lexicalAnalyzer.Next().Type == TokenType.ELSE)
-            {
                 _lexicalAnalyzer.Skip();
-                var aCode = Instruction();
-                var node = new Node() { Type = NodeType.ELSE };
-                node.AddChild(aCode);
-                return node;
+                _lexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+
+                //Initialisation
+                Node AInit = Expression();
+                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
+
+                //Test
+                Node ATest = Expression();
+                _lexicalAnalyzer.Accept(TokenType.SEMICOLON);
+
+                //Avancement
+                Node AInc = Expression();
+                _lexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+
+                //bloc d'instruction dans la boucle
+                Node ABloc = Instruction();
+
+                Node ALoop = new Node() {Type = NodeType.LOOP};
+                Node ACondition = new Node() {Type = NodeType.CONDITION};
+                Node ABlocRacine = new Node() {Type = NodeType.BLOCK};
+                Node ABlocBoucle = new Node() { Type = NodeType.BLOCK};
+                Node ABreak = new Node() {Type = NodeType.BREAK};
+
+                ABlocRacine.AddChild(AInit);
+                ABlocRacine.AddChild(ALoop);
+
+                ALoop.AddChild(ACondition);
+
+                ACondition.AddChild(ATest);
+                ACondition.AddChild(ABlocBoucle);
+                ACondition.AddChild(ABreak);
+
+                ABlocBoucle.AddChild(ABloc);
+                ABlocBoucle.AddChild(AInc);
+
+                return ABlocRacine;
             }
             else if(_lexicalAnalyzer.Next().Type == TokenType.WHILE)
             {
