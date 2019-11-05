@@ -9,7 +9,8 @@ namespace Compil.Generator
     {
 
         private readonly FileWriter _fileWriter;
-        private int countIf;
+        private int countLoop;
+        private static int countLabel;
 
         private readonly Dictionary<NodeType, string> _operatorsToCode = new Dictionary<NodeType, string>()
         {
@@ -29,11 +30,13 @@ namespace Compil.Generator
         public CodeGenerator(SemanticAnalyzer semanticAnalyzer, FileWriter fileWriter)
         {
             _fileWriter = fileWriter;
-            countIf = 0;
+            countLoop = 0;
+            countLabel = 0;
             _fileWriter.WriteCommand("resn " + semanticAnalyzer.VariablesCount);
         }
 
-
+        private Stack<int> _stackLoop = new Stack<int>();
+        
         /// <summary>
         /// Method to generate code from expression tree.
         /// </summary>
@@ -106,101 +109,42 @@ namespace Compil.Generator
             // Conditions
             if (node.Type == NodeType.CONDITION)
             {
-                var nodeTest = node.Children[0];
-                var nodeCode = node.Children[1];
-
-                GenerateCode(nodeTest);
-
-                _fileWriter.WriteCommand("jumpf endIf" +countIf, false);
-
-                foreach (var child in nodeCode.Children)
+                var l1 = countLabel++;
+                var l2 = countLabel++;
+                GenerateCode(node.Children[0]);
+                _fileWriter.WriteCommand("jumpf l" + l1, false);
+                GenerateCode(node.Children[1]);
+                if (node.Children.Count > 2) // if there is else
                 {
-                    GenerateCode(child);
+                    _fileWriter.WriteCommand("jump l" + l2, false);
+                    _fileWriter.WriteCommand(".l" + l1, false);
+                    GenerateCode(node.Children[2]);
+                    _fileWriter.WriteCommand(".l" + l2, false);
                 }
-
-                _fileWriter.WriteCommand(".endIf" +countIf, false);
-                countIf++;
-            }
-
-            if(node.Type == NodeType.ELSE)
-            {
-                var nodeCode = node.Children[0];
-
-                foreach(var child in nodeCode.Children)
+                else
                 {
-                    GenerateCode(child);
+                    _fileWriter.WriteCommand(".l" + l1, false);
                 }
+                
             }
 
             if (node.Type == NodeType.LOOP)
             {
+                var l = countLoop++;
                 // condition label
-                _fileWriter.WriteCommand(".loop", false);
-
-                var nodeTest = node.Children[0];
-                var nodeCode = node.Children[1];
-
-                GenerateCode(nodeTest);
-
-                _fileWriter.WriteCommand("jumpf endWhile", false);
-
-                foreach (var child in nodeCode.Children)
-                {
-                    GenerateCode(child);
-                }
-
+                _fileWriter.WriteCommand(".loop" + l, false);
+                GenerateCode(node.Children[0]);
+                    
                 // end labels
-                _fileWriter.WriteCommand("jump loop", false);
-                _fileWriter.WriteCommand(".endloop", false);
+                _fileWriter.WriteCommand("jump loop" + l, false);
+                _fileWriter.WriteCommand(".endLoop" + _stackLoop.Pop(), false);
             }
-            
 
-            if(node.Type == NodeType.WHILE)
+            if (node.Type == NodeType.BREAK)
             {
-                // condition label
-                _fileWriter.WriteCommand(".conditionWhile", false);
-
-                // get child nodes
-                var nodeTest = node.Children[0];
-                var nodeCode = node.Children[1];
-
-                GenerateCode(nodeTest);
-
-                _fileWriter.WriteCommand("jumpf endWhile", false);
-
-                foreach (var child in nodeCode.Children)
-                {
-                    GenerateCode(child);
-                }
-
-                // end labels
-                _fileWriter.WriteCommand("jump conditionWhile", false);
-                _fileWriter.WriteCommand(".endWhile", false);
+                _stackLoop.Push(countLoop++);
+                _fileWriter.WriteCommand("jump endLoop" + (countLoop - 1), false);
             }
-
-            if(node.Type == NodeType.FOR)
-            {
-                // condition label
-                _fileWriter.WriteCommand(".conditionFor", false);
-
-                // get child nodes
-                var nodeTest = node.Children[0];
-                var nodeCode = node.Children[1];
-
-                GenerateCode(nodeTest);
-
-                _fileWriter.WriteCommand("jumpf endFor", false);
-
-                foreach (var child in nodeCode.Children)
-                {
-                    GenerateCode(child);
-                }
-
-                // end labels
-                _fileWriter.WriteCommand("jump conditionFor", false);
-                _fileWriter.WriteCommand(".endFor", false);
-            }
-
 
             if (node.Type == NodeType.DECLARE) 
             {
