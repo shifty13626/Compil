@@ -162,6 +162,14 @@ namespace Compil
                 node.AddChild(aCode);
                 return node;
             }
+            else if(_lexicalAnalyzer.Next().Type == TokenType.ELSE)
+            {
+                _lexicalAnalyzer.Skip();
+                var aCode = Instruction();
+                var node = new Node() { Type = NodeType.ELSE };
+                node.AddChild(aCode);
+                return node;
+            }
             else if(_lexicalAnalyzer.Next().Type == TokenType.WHILE)
             {
                 _lexicalAnalyzer.Skip(); // We know it is an if statement
@@ -203,8 +211,6 @@ namespace Compil
                     }
                     
                     nodeVariable.AddChild(ex);
-                    
-                    
                     
                     return nodeVariable;
                 }
