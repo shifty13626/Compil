@@ -29,7 +29,8 @@ namespace Compil
             {"case", TokenType.CASE},
             {"int", TokenType.INT},
             {"void", TokenType.VOID},
-            {"var", TokenType.VAR}
+            {"var", TokenType.VAR},
+            {"return", TokenType.RETURN}
         };
 
         /// <summary>
@@ -288,6 +289,8 @@ namespace Compil
                         return new Token() { Type = TokenType.OR, Line = _currentLine, Column = _currentColumn };
                     case ';':
                         return new Token() { Type = TokenType.SEMICOLON, Line = _currentLine, Column = _currentColumn };
+                    case ',':
+                        return new Token() { Type = TokenType.COMA, Line = _currentLine, Column = _currentColumn };
                 }
 
                throw new LexicalErrorException($"Token not recognized at line {_currentLine}");

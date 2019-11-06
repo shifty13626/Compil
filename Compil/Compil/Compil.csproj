@@ -59,7 +59,7 @@
     <Compile Include="Nodes\NodeType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Symbols\NodeType.cs" />
+    <Compile Include="Symbols\SymbolType.cs" />
     <Compile Include="Symbols\Symbol.cs" />
     <Compile Include="Utils\FileWriter.cs" />
     <Compile Include="Tokens\Token.cs" />

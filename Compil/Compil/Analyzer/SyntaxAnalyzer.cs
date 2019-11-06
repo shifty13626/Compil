@@ -88,10 +88,31 @@ namespace Compil {
             }
             
             // Identifiers handling
-            if (LexicalAnalyzer.Next().Type == TokenType.IDENTIFIER) {
-                node = new Node() {Type = NodeType.VARIABLE, Value = LexicalAnalyzer.Next().Name};
+            if (LexicalAnalyzer.Next().Type == TokenType.IDENTIFIER)
+            {
+                var identifierName = LexicalAnalyzer.Next().Name; // Identifier name
                 LexicalAnalyzer.Skip();
-                return node;
+                
+                if (LexicalAnalyzer.Next().Type == TokenType.PAR_OPEN)
+                {
+                    LexicalAnalyzer.Skip();
+                    // We have a function call
+                    var callNode = new Node() {Type = NodeType.CALL, Value = identifierName};
+                    while (LexicalAnalyzer.Next().Type != TokenType.PAR_CLOSE)
+                    {
+                        var nodeArg = Expression();
+                        callNode.AddChild(nodeArg);
+                        
+                        if(LexicalAnalyzer.Next().Type != TokenType.PAR_CLOSE)
+                            LexicalAnalyzer.Accept(TokenType.COMA);
+                    }
+
+                    LexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                    return callNode;
+                }
+                
+                // Otherwise, we have a variable
+                return new Node() {Type = NodeType.VARIABLE, Value = identifierName};
             }
 
             // Primary not found
@@ -231,6 +252,16 @@ namespace Compil {
                 return node;
             }
 
+            if (LexicalAnalyzer.Next().Type == TokenType.RETURN)
+            {
+                LexicalAnalyzer.Skip();
+                var nodeReturn = new Node() {Type = NodeType.RETURN};
+                var ex = Expression();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                nodeReturn.AddChild(ex);
+                return nodeReturn;
+            }
+            
             // 'VAR' token handling
             if (LexicalAnalyzer.Next().Type == TokenType.VAR) {
                 LexicalAnalyzer.Skip();
@@ -265,6 +296,8 @@ namespace Compil {
                     $"Tried to declare a variable without name at line {LexicalAnalyzer.Next().Line}");
             }
 
+            
+            
             // Other tokens
             {
                 var ex = Expression();
