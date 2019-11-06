@@ -92,6 +92,32 @@ namespace Compil.Generator
                 _fileWriter.WriteCommand($"set {node.Children[0].Slot}", false);
             }
 
+            // Call function
+            if(node.Type == NodeType.CALL)
+            {
+                _fileWriter.WriteCommand("prep " + node.Value, false);
+                foreach (var expression in node.Children)
+                    GenerateCode(expression);
+                _fileWriter.WriteCommand("call " + node.Children.Count, false);
+            }
+
+            // Function
+            if (node.Type == NodeType.FUNCTION)
+            {
+                _fileWriter.DeclareFunction(node.Value);
+                _fileWriter.WriteCommand("resn " + (node.Slot - node.Children.Count), false);
+                GenerateCode(node.Children[0]);
+                _fileWriter.WriteCommand("push 0", false);
+                _fileWriter.WriteCommand("ret", false);
+            }
+
+            // Return
+            if(node.Type == NodeType.RETURN)
+            {
+                GenerateCode(node.Children[0]);
+                _fileWriter.WriteCommand("ret", false);
+            }
+
             // Block
             if (node.Type == NodeType.BLOCK)
             {

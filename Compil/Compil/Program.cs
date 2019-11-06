@@ -40,8 +40,6 @@ namespace Compil
                 var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
                 // File writer
                 var fileWriter = new FileWriter();
-                // write first command of code
-                fileWriter.InitFile();
 
                 // Display all token in form of a tree.
                 var node = syntaxAnalyzer.Instruction();
@@ -52,8 +50,9 @@ namespace Compil
                 
                 var codeGenerator = new CodeGenerator(analyzer, fileWriter);
                 codeGenerator.GenerateCode(node);
-                
+
                 // add code generate on the file output code
+                fileWriter.DeclareStart();
                 fileWriter.WriteFile();
                 
                 // wait exit

@@ -42,6 +42,11 @@ namespace Compil.Nodes
 
         BLOCK,
         EXPRESSION,
-        DECLARE
+        DECLARE,
+
+        // Function
+        FUNCTION,
+        CALL,
+        RETURN
     }
 }
