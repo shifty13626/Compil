@@ -30,7 +30,8 @@ namespace Compil
             {"int", TokenType.INT},
             {"void", TokenType.VOID},
             {"var", TokenType.VAR},
-            {"return", TokenType.RETURN}
+            {"return", TokenType.RETURN},
+            {"function", TokenType.FUNCTION}
         };
 
         /// <summary>

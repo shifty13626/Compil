@@ -1,3 +1,5 @@
 ﻿{
-    return 12 + 334;
+    function f(a, t) {
+        var b;
+    }
 }
