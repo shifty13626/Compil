@@ -106,7 +106,7 @@ namespace Compil.Generator
             if (node.Type == NodeType.FUNCTION)
             {
                 _fileWriter.DeclareFunction(node.Value);
-                _fileWriter.WriteCommand("resn " + (node.Slot - node.Children.Count), false);
+                _fileWriter.WriteCommand("resn " + (node.Slot - node.Children[0].Children.Count - 1), false);
                 GenerateCode(node.Children[0]);
                 _fileWriter.WriteCommand("push 0", false);
                 _fileWriter.WriteCommand("ret", false);

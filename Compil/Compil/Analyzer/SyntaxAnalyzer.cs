@@ -252,6 +252,7 @@ namespace Compil {
                 return node;
             }
 
+            // Function declare handling
             if (LexicalAnalyzer.Next().Type == TokenType.FUNCTION)
             {
                 LexicalAnalyzer.Skip();
