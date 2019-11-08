@@ -160,6 +160,52 @@ namespace Compil {
             return null;
         }
 
+
+        public Node Function()
+        {
+            // Function declare handling
+            if (LexicalAnalyzer.Next().Type != TokenType.FUNCTION)
+                throw new SyntaxErrorException($"Expected function declaration at line {LexicalAnalyzer.Next().Line}");
+            
+            LexicalAnalyzer.Skip();
+            
+            if (LexicalAnalyzer.Next().Type != TokenType.IDENTIFIER)
+            {
+                throw new SyntaxErrorException($"Expected function name at line {LexicalAnalyzer.Next().Line}");
+            }
+                
+            var functionName = LexicalAnalyzer.Next().Name;
+            var nodeFunction = new Node() {Type = NodeType.FUNCTION, Value = functionName};
+
+            LexicalAnalyzer.Skip();
+                
+            LexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+
+            var nodeBlock = new Node() { Type = NodeType.BLOCK };
+                
+            while (LexicalAnalyzer.Next().Type != TokenType.PAR_CLOSE)
+            {
+                var nameArg = LexicalAnalyzer.Next().Name;
+                var declare = new Node() {Type = NodeType.DECLARE};
+                declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
+                declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
+                nodeBlock.AddChild(declare);
+                    
+                LexicalAnalyzer.Skip();
+                    
+                if(LexicalAnalyzer.Next().Type != TokenType.PAR_CLOSE)
+                    LexicalAnalyzer.Accept(TokenType.COMA);
+            }
+            LexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+
+            var nodeInstructions = Instruction();
+                
+            nodeBlock.AddChild(nodeInstructions);
+            nodeFunction.AddChild(nodeBlock);
+                
+            return nodeFunction;
+        }
+        
         /// <summary>
         /// Create all nodes for code instructions.
         /// </summary>
@@ -252,47 +298,7 @@ namespace Compil {
                 return node;
             }
 
-            // Function declare handling
-            if (LexicalAnalyzer.Next().Type == TokenType.FUNCTION)
-            {
-                LexicalAnalyzer.Skip();
-                if (LexicalAnalyzer.Next().Type != TokenType.IDENTIFIER)
-                {
-                    throw new SyntaxErrorException($"Expected function name at line {LexicalAnalyzer.Next().Line}");
-                }
-                
-                var functionName = LexicalAnalyzer.Next().Name;
-                var nodeFunction = new Node() {Type = NodeType.FUNCTION, Value = functionName};
-
-                LexicalAnalyzer.Skip();
-                
-                LexicalAnalyzer.Accept(TokenType.PAR_OPEN);
-
-                var nodeBlock = new Node() { Type = NodeType.BLOCK };
-                
-                while (LexicalAnalyzer.Next().Type != TokenType.PAR_CLOSE)
-                {
-                    var nameArg = LexicalAnalyzer.Next().Name;
-                    var declare = new Node() {Type = NodeType.DECLARE};
-                    declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
-                    declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
-                    nodeBlock.AddChild(declare);
-                    
-                    LexicalAnalyzer.Skip();
-                    
-                    if(LexicalAnalyzer.Next().Type != TokenType.PAR_CLOSE)
-                        LexicalAnalyzer.Accept(TokenType.COMA);
-                }
-                LexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
-
-                var nodeInstructions = Instruction();
-                
-                nodeBlock.AddChild(nodeInstructions);
-                nodeFunction.AddChild(nodeBlock);
-                
-                return nodeFunction;
-            }
-            
+            // Node return
             if (LexicalAnalyzer.Next().Type == TokenType.RETURN)
             {
                 LexicalAnalyzer.Skip();

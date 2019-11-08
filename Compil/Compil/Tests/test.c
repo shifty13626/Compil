@@ -1,7 +1,6 @@
-﻿{
-	function addition(var x, var y);
+﻿
 
-	function addition(var x, var y)
+	function addition(x, y)
 	{
 		var a;
 		a = x + y;
@@ -15,4 +14,3 @@
 		var res = addition(v, w);
 		return 0;
 	}
-}

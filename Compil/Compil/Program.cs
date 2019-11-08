@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Compil;
 using Compil.Generator;
 using System.Linq;
+using Compil.Tokens;
 
 namespace Compil
 {
@@ -35,21 +36,26 @@ namespace Compil
                 Console.WriteLine();
 
                 // lexicalAnalyser
-                var lexicalAnalyser = new LexicalAnalyzer(codeTemp, 0);
+                var lexicalAnalyzer = new LexicalAnalyzer(codeTemp, 0);
                 // parserAnalyzer
-                var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
+                var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyzer);
                 // File writer
                 var fileWriter = new FileWriter();
 
                 // Display all token in form of a tree.
-                var node = syntaxAnalyzer.Instruction();
-                node.Print("", false);
-
-                var analyzer = new SemanticAnalyzer(syntaxAnalyzer);
-                analyzer.Analyze(node);
+                var semanticAnalyzer = new SemanticAnalyzer(syntaxAnalyzer);
+                var codeGenerator = new CodeGenerator(semanticAnalyzer, fileWriter);
                 
-                var codeGenerator = new CodeGenerator(analyzer, fileWriter);
-                codeGenerator.GenerateCode(node);
+                while (lexicalAnalyzer.Next().Type != TokenType.END_OF_FILE)
+                {
+                    var node = syntaxAnalyzer.Function();
+                    semanticAnalyzer.Analyze(node);
+                    node.VariablesCount = semanticAnalyzer.VariablesCount;
+                    
+                    node.Print("", false);
+                    codeGenerator.GenerateCode(node);
+                    semanticAnalyzer = new SemanticAnalyzer(syntaxAnalyzer);
+                }
 
                 // add code generate on the file output code
                 fileWriter.DeclareStart();
