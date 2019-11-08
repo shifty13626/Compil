@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Compil.Utils;
 using Compil.Nodes;
+using System.Linq;
 
 namespace Compil.Generator
 {
@@ -160,6 +161,7 @@ namespace Compil.Generator
             {
                 var l = countLoop++;
                 // condition label
+                _stackLoop.Push(countLoop++);
                 _fileWriter.WriteCommand($".loop{l}", false);
                 GenerateCode(node.Children[0]);
                     
@@ -170,8 +172,10 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.BREAK)
             {
-                _stackLoop.Push(countLoop++);
-                _fileWriter.WriteCommand($"jump endLoop{(countLoop - 1)}", false);
+                if (!_stackLoop.Any())
+                    throw new FormatException("Break out of loop");
+                else
+                    _fileWriter.WriteCommand($"jump endLoop{(_stackLoop.LastOrDefault())}", false);
             }
 
             if (node.Type == NodeType.DECLARE) 
