@@ -75,6 +75,8 @@ namespace Compil
                 Console.WriteLine($"VALUE: {Value}");
             else if(Type == NodeType.VARIABLE)
                 Console.WriteLine($"VARIABLE: name={Value}");
+            else if(Type == NodeType.CALL)
+                Console.WriteLine($"FUNCTION CALL: {Value}");
             else
                 // Print a node type only
                 Console.WriteLine(Type);
