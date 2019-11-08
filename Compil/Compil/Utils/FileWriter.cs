@@ -63,8 +63,6 @@ namespace Compil.Utils
         {
             try
             {
-                code += "dbg\n";
-                code += "halt";
                 if (File.Exists(pathFileCode))
                     File.Delete(pathFileCode);
 

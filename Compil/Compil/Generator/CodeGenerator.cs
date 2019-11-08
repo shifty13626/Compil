@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Compil.Utils;
 using Compil.Nodes;
 using System.Linq;
+using Compil.Exceptions;
 
 namespace Compil.Generator
 {
@@ -173,7 +174,7 @@ namespace Compil.Generator
             if (node.Type == NodeType.BREAK)
             {
                 if (!_stackLoop.Any())
-                    throw new FormatException("Break out of loop");
+                    throw new SyntaxErrorException ("Break out of loop");
                 else
                     _fileWriter.WriteCommand($"jump endLoop{(_stackLoop.LastOrDefault())}", false);
             }
