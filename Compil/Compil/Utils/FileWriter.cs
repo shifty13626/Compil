@@ -21,15 +21,6 @@ namespace Compil.Utils
         }
 
         /// <summary>
-        /// Write first command start
-        /// </summary>
-        public void InitFile()
-        {
-            code += ".start" + "\n";
-        }
-
-
-        /// <summary>
         /// Method to write a line on the file
         /// </summary>
         /// <param name="cmd"></param>
@@ -44,14 +35,34 @@ namespace Compil.Utils
         }
 
         /// <summary>
+        /// Write label of new function
+        /// </summary>
+        /// <param name="name"></param>
+        public void DeclareFunction(string name)
+        {
+            code += "\n";
+            code += "." + name + "\n";
+        }
+
+        /// <summary>
+        /// Write block start launcher on code generated
+        /// </summary>
+        public void DeclareStart()
+        {
+            DeclareFunction("start");
+            code += "prep main" + "\n";
+            code += "call 0" + "\n";
+            code += "halt";
+        }
+
+
+        /// <summary>
         /// Write content on string on file result code
         /// </summary>
         public void WriteFile()
         {
             try
             {
-                code += "dbg\n";
-                code += "halt";
                 if (File.Exists(pathFileCode))
                     File.Delete(pathFileCode);
 

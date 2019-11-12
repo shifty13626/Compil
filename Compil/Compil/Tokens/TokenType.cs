@@ -26,6 +26,8 @@
         CASE,
         INT,
         VOID,
+        BREAK,
+        CONTINUE,
 
         COMP_EQUAL,
         COMP_DIFFERENT,
@@ -52,6 +54,9 @@
         COMMENT_BLOCK_START,
         COMMENT_BLOCK_END,
         
-        VAR
+        VAR,
+        
+        FUNCTION,
+        RETURN
     }
 }

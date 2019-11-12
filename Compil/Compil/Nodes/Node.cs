@@ -29,6 +29,8 @@ namespace Compil
         /// </summary>
         public int Slot { get; set; }
         
+        public int VariablesCount { get; set; }
+        
         #endregion
 
         #region Operations
@@ -75,6 +77,10 @@ namespace Compil
                 Console.WriteLine($"VALUE: {Value}");
             else if(Type == NodeType.VARIABLE)
                 Console.WriteLine($"VARIABLE: name={Value}");
+            else if(Type == NodeType.FUNCTION)
+                Console.WriteLine($"FUNCTION DEFINITION: {Value}");
+            else if(Type == NodeType.CALL)
+                Console.WriteLine($"FUNCTION CALL: {Value}");
             else
                 // Print a node type only
                 Console.WriteLine(Type);

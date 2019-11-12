@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\tcapo\.Rider2019.2\config\consoles\db" t="IncludeRecursive" />
-    <e p="C:\Users\tcapo\.Rider2019.2\config\extensions" t="IncludeRecursive" />
-    <e p="C:\Users\tcapo\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\tcapo\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_Compil.-2037987076.00" t="ExcludeRecursive" />
-    <e p="D:\Utilisateurs\Thomas\Documents\Compil\Compil" t="IncludeFlat">
+    <e p="$USER_HOME$/Library/Caches/Rider2019.2/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.2/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_Compil.-1678821147.00" t="ExcludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/consoles/db" t="IncludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="Compil" t="IncludeRecursive">
         <e p="Analyzer" t="Include">
           <e p="LexicalAnalyzer.cs" t="Include" />
@@ -37,8 +36,8 @@
           <e p="AssemblyInfo.cs" t="Include" />
         </e>
         <e p="Symbols" t="Include">
-          <e p="NodeType.cs" t="Include" />
           <e p="Symbol.cs" t="Include" />
+          <e p="SymbolType.cs" t="Include" />
         </e>
         <e p="Tests" t="Include">
           <e p="test.c" t="Include" />
@@ -65,6 +64,8 @@
         <e p="Tests.cs" t="Include" />
       </e>
       <e p="packages" t="ExcludeRecursive" />
+      <e p="Solution Items" t="Include" />
+      <e p="TODO.txt" t="Include" />
     </e>
   </component>
 </project>

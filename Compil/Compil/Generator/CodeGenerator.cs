@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Compil.Utils;
 using Compil.Nodes;
+using System.Linq;
+using Compil.Exceptions;
 
 namespace Compil.Generator
 {
@@ -92,6 +94,32 @@ namespace Compil.Generator
                 _fileWriter.WriteCommand($"set {node.Children[0].Slot}", false);
             }
 
+            // Call function
+            if(node.Type == NodeType.CALL)
+            {
+                _fileWriter.WriteCommand("prep " + node.Value, false);
+                foreach (var expression in node.Children)
+                    GenerateCode(expression);
+                _fileWriter.WriteCommand("call " + node.Children.Count, false);
+            }
+
+            // Function
+            if (node.Type == NodeType.FUNCTION)
+            {
+                _fileWriter.DeclareFunction(node.Value);
+                _fileWriter.WriteCommand("resn " + (node.VariablesCount - (node.Children[0].Children.Count - 1)), false);
+                GenerateCode(node.Children[0]);
+                _fileWriter.WriteCommand("push 0", false);
+                _fileWriter.WriteCommand("ret", false);
+            }
+
+            // Return
+            if(node.Type == NodeType.RETURN)
+            {
+                GenerateCode(node.Children[0]);
+                _fileWriter.WriteCommand("ret", false);
+            }
+
             // Block
             if (node.Type == NodeType.BLOCK)
             {
@@ -134,6 +162,7 @@ namespace Compil.Generator
             {
                 var l = countLoop++;
                 // condition label
+                _stackLoop.Push(countLoop++);
                 _fileWriter.WriteCommand($".loop{l}", false);
                 GenerateCode(node.Children[0]);
                     
@@ -144,8 +173,10 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.BREAK)
             {
-                _stackLoop.Push(countLoop++);
-                _fileWriter.WriteCommand($"jump endLoop{(countLoop - 1)}", false);
+                if (!_stackLoop.Any())
+                    throw new SyntaxErrorException ("Break out of loop");
+                else
+                    _fileWriter.WriteCommand($"jump endLoop{(_stackLoop.LastOrDefault())}", false);
             }
 
             if (node.Type == NodeType.DECLARE) 

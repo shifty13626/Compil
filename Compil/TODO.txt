@@ -1,0 +1,1 @@
+- correct duble node variables
