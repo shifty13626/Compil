@@ -64,6 +64,8 @@
         <e p="Tests.cs" t="Include" />
       </e>
       <e p="packages" t="ExcludeRecursive" />
+      <e p="Solution Items" t="Include" />
+      <e p="TODO.txt" t="Include" />
     </e>
   </component>
 </project>
