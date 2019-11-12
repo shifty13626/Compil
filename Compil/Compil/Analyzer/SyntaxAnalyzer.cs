@@ -285,6 +285,32 @@ namespace Compil {
                 return node;
             }
 
+            if (LexicalAnalyzer.Next().Type == TokenType.DO)
+            {
+                LexicalAnalyzer.Skip();
+                var aCode = Instruction();
+                LexicalAnalyzer.Accept(TokenType.WHILE);
+                LexicalAnalyzer.Accept(TokenType.PAR_OPEN);
+                var aTest = Expression();
+                LexicalAnalyzer.Accept(TokenType.PAR_CLOSE);
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                var node = new Node() { Type = NodeType.LOOP };
+                
+                
+                
+                var cond = new Node() { Type = NodeType.CONDITION };
+                cond.AddChild(aTest);
+                cond.AddChild(new Node() {Type = NodeType.BLOCK});
+                cond.AddChild(new Node() {Type = NodeType.BREAK});
+                
+                aCode.AddChild(cond);
+                node.AddChild(aCode);
+                
+                return node;
+                
+            }
+
+
             // Block tokens handling
             if (LexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN) {
                 var node = new Node() {Type = NodeType.BLOCK};
