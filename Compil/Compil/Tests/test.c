@@ -1,11 +1,12 @@
-﻿
-
-	function main()
+﻿function main()
+{
+	var i;
+	var j;
+	for (i = 0; i < 2; i++)
 	{
-
-		do {
-		    var i = 0;
-		} while (1 == 1);
-		
-		return 0;
+		for (j = 1; j < 3; j++)
+			8 + 9;
 	}
+
+	return 0;
+}
