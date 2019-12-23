@@ -347,7 +347,7 @@ namespace Compil {
                 if (LexicalAnalyzer.Next().Type == TokenType.IDENTIFIER) {
                     var variableName = LexicalAnalyzer.Next().Name;
                     var nodeVariable = new Node() {Type = NodeType.DECLARE};
-                    nodeVariable.AddChild(new Node() {Type = NodeType.VARIABLE, Value = variableName});
+                    nodeVariable.Value = variableName;
                     var ex = Expression();
 
                     LexicalAnalyzer.Accept(TokenType.SEMICOLON);
