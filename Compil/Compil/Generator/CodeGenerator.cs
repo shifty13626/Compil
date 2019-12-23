@@ -91,7 +91,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[1]);
                 _fileWriter.WriteCommand("dup", false);
-                _fileWriter.WriteCommand($"set {node.Children[0].Slot}", false);
+                _fileWriter.WriteCommand($"set {node.Slot}", false);
             }
 
             // Call function
@@ -181,7 +181,7 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.DECLARE) 
             {
-                GenerateCode(node.Children[1]);
+                GenerateCode(node.Children[0]);
             }
 
             // Comparaison
