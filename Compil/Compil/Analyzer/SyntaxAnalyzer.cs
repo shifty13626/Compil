@@ -285,6 +285,7 @@ namespace Compil {
                 return node;
             }
 
+            // Do loop handling
             if (LexicalAnalyzer.Next().Type == TokenType.DO)
             {
                 LexicalAnalyzer.Skip();
