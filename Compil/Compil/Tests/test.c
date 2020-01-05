@@ -1,8 +1,8 @@
 ﻿function main()
 {
-    var i = 0;
-	do {
-	    var a = 1;
-	} while (i == 0);
+	var i = 1;
+	var j = 2;
+	var r = i + j;
+	
 	return 0;
 }
