@@ -3,7 +3,12 @@
 
 function main()
 {
-	var o = pow(2, 4);
-	print(o);
+	var i;
+	do
+	{
+		i = i + 1;
+		print(i);
+	} while (i < 5);
+
 	return 0;
 }
