@@ -33,7 +33,9 @@ namespace Compil
             {"return", TokenType.RETURN},
             {"send", TokenType.SEND},
             {"recv", TokenType.RECV},
-            {"function", TokenType.FUNCTION}
+            {"function", TokenType.FUNCTION},
+            {"break", TokenType.BREAK},
+            {"continue", TokenType.BREAK}
         };
 
         /// <summary>

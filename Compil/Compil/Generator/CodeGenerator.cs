@@ -176,24 +176,33 @@ namespace Compil.Generator
 
             if (node.Type == NodeType.LOOP)
             {
-                var l = countLoop++;
-                // condition label
-                _stackLoop.Push(countLoop++);
-                _fileWriter.WriteCommand($".loop{l}", false);
+                _stackLoop.Push(countLoop);
+                countLoop += 2;
+                
+                _fileWriter.WriteCommand($".loop{_stackLoop.Peek()}", false);
                 GenerateCode(node.Children[0]);
                     
                 // end labels
-                _fileWriter.WriteCommand($"jump loop{l}", false);
-                _fileWriter.WriteCommand($".endLoop{_stackLoop.Pop()}", false);
+                _fileWriter.WriteCommand($"jump loop{_stackLoop.Peek()}", false);
+                _fileWriter.WriteCommand($".loop{_stackLoop.Peek() + 1}", false);
+                _stackLoop.Pop();
             }
 
             if (node.Type == NodeType.BREAK)
             {
                 if (!_stackLoop.Any())
                     throw new SyntaxErrorException ("Break out of loop");
-                _fileWriter.WriteCommand($"jump endLoop{(_stackLoop.LastOrDefault())}", false);
+                _fileWriter.WriteCommand($"jump loop{(_stackLoop.Peek() + 1)}", false);
             }
 
+            if (node.Type == NodeType.CONTINUE)
+            {
+                if (!_stackLoop.Any())
+                    throw new SyntaxErrorException ("Break out of loop");
+                _fileWriter.WriteCommand($"jump loop{(_stackLoop.Peek())}", false);
+            }
+
+            
             if (node.Type == NodeType.DECLARE) 
             {
                 if(node.Children.Count >= 1)

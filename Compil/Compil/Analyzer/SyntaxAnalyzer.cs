@@ -286,6 +286,20 @@ namespace Compil {
                 return node;
             }
 
+            // Break
+            if (LexicalAnalyzer.Next().Type == TokenType.BREAK) {
+                LexicalAnalyzer.Skip();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                return new Node() {Type = NodeType.BREAK};
+            }
+            
+            // Continue
+            if (LexicalAnalyzer.Next().Type == TokenType.CONTINUE) {
+                LexicalAnalyzer.Skip();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                return new Node() {Type = NodeType.CONTINUE};
+            }
+            
             // Do loop handling
             if (LexicalAnalyzer.Next().Type == TokenType.DO)
             {
