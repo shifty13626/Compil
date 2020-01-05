@@ -187,8 +187,9 @@ namespace Compil {
             {
                 var nameArg = LexicalAnalyzer.Next().Name;
                 var declare = new Node() {Type = NodeType.DECLARE};
-                declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
-                declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
+                declare.Value = nameArg;
+                
+                //declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
                 nodeBlock.AddChild(declare);
                     
                 LexicalAnalyzer.Skip();
@@ -285,6 +286,21 @@ namespace Compil {
                 return node;
             }
 
+            // Break
+            if (LexicalAnalyzer.Next().Type == TokenType.BREAK) {
+                LexicalAnalyzer.Skip();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                return new Node() {Type = NodeType.BREAK};
+            }
+            
+            // Continue
+            if (LexicalAnalyzer.Next().Type == TokenType.CONTINUE) {
+                LexicalAnalyzer.Skip();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                return new Node() {Type = NodeType.CONTINUE};
+            }
+            
+            // Do loop handling
             if (LexicalAnalyzer.Next().Type == TokenType.DO)
             {
                 LexicalAnalyzer.Skip();
@@ -309,8 +325,7 @@ namespace Compil {
                 return node;
                 
             }
-
-
+            
             // Block tokens handling
             if (LexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN) {
                 var node = new Node() {Type = NodeType.BLOCK};
@@ -333,6 +348,16 @@ namespace Compil {
                 LexicalAnalyzer.Accept(TokenType.SEMICOLON);
                 nodeReturn.AddChild(ex);
                 return nodeReturn;
+            }
+
+            // Send
+            if (LexicalAnalyzer.Next().Type == TokenType.SEND) {
+                LexicalAnalyzer.Skip();
+                var nodeSend = new Node() {Type = NodeType.SEND};
+                var ex = Expression();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                nodeSend.AddChild(ex);
+                return nodeSend;
             }
 
             // 'VAR' token handling
@@ -359,7 +384,8 @@ namespace Compil {
                         }
                     }
 
-                    nodeVariable.AddChild(ex);
+                    if(ex.Type != NodeType.VARIABLE)
+                        nodeVariable.AddChild(ex);
 
                     return nodeVariable;
                 }

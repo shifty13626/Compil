@@ -57,6 +57,9 @@
         VAR,
         
         FUNCTION,
-        RETURN
+        RETURN,
+
+        SEND,
+        RECV
     }
 }

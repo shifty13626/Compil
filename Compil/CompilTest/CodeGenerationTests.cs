@@ -22,7 +22,7 @@ namespace CompilTest
             var lexicalAnalyser = new LexicalAnalyzer(expression, 0);
             var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
             var node = syntaxAnalyzer.Expression(0);
-            var fileWriter = new FileWriter();
+            var fileWriter = new FileWriter("");
             var semanticAnalyzer = new SemanticAnalyzer(syntaxAnalyzer);
             var codeGenerator = new CodeGenerator(semanticAnalyzer, fileWriter);
             codeGenerator.GenerateCode(node);

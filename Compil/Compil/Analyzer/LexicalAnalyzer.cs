@@ -31,7 +31,11 @@ namespace Compil
             {"void", TokenType.VOID},
             {"var", TokenType.VAR},
             {"return", TokenType.RETURN},
-            {"function", TokenType.FUNCTION}
+            {"send", TokenType.SEND},
+            {"recv", TokenType.RECV},
+            {"function", TokenType.FUNCTION},
+            {"break", TokenType.BREAK},
+            {"continue", TokenType.BREAK}
         };
 
         /// <summary>

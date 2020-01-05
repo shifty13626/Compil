@@ -38,6 +38,7 @@ namespace Compil.Nodes
         OR,
         CONDITION,
         BREAK,
+        CONTINUE,
         LOOP,
 
         BLOCK,
@@ -47,6 +48,9 @@ namespace Compil.Nodes
         // Function
         FUNCTION,
         CALL,
-        RETURN
+        RETURN,
+        
+        SEND,
+        RECEIVE
     }
 }
