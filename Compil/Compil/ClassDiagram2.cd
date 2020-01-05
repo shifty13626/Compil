@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Compil.LexicalAnalyzer">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAAAAAAAAAAAAAAAAgAAIAIAAAAAIAAAAAEAAgNAA=</HashCode>
+      <FileName>Analyzer\LexicalAnalyzer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.SemanticAnalyzer">
+    <Position X="9" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAIAAAAAAIAAAAAAAAEIAAAAAAAAAAABAAAAAAgABA=</HashCode>
+      <FileName>Analyzer\SemanticAnalyzer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.SyntaxAnalyzer">
+    <Position X="14.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAIAQAAIAAAQAAAAAACAAQA=</HashCode>
+      <FileName>Analyzer\SyntaxAnalyzer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Compilator">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Compilator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Node">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAEAAAAAAEAAAAAAAAAAAABQAgAAAEAgA=</HashCode>
+      <FileName>Nodes\Node.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Program">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Token">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAQAAAAAAAAAAQAgAAABAAA=</HashCode>
+      <FileName>Tokens\Token.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Exceptions.CompilerException">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Exceptions\CompilerException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Exceptions.LexicalErrorException">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\LexicalErrorException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Exceptions.NotValidCharException">
+    <Position X="4" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\NotValidCharException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Exceptions.SemanticErrorException">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SemanticErrorException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Exceptions.SyntaxErrorException">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SyntaxErrorException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Generator.CodeGenerator">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAEAAABAAAAIAAQAAAAACAAAA=</HashCode>
+      <FileName>Generator\CodeGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Preprocessor.SimplePreprocessor">
+    <Position X="7" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAACAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Preprocessor\SimplePreprocessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Symbols.Symbol">
+    <Position X="13.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAgA=</HashCode>
+      <FileName>Symbols\Symbol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Utils.FileWriter">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAIAQAIAAAAACACAAAAAA=</HashCode>
+      <FileName>Utils\FileWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Compil.Utils.Operator">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAEBAQA=</HashCode>
+      <FileName>Utils\Operator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Compil.Nodes.NodeType">
+    <Position X="19" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAGAAYgMCAUIAQEgAQABABAAAmIKABYEAAAgAgAACA=</HashCode>
+      <FileName>Nodes\NodeType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Compil.Symbols.SymbolType">
+    <Position X="19.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Symbols\SymbolType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Compil.Tokens.TokenType">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEFAgACOCIAIAQEQEIACACCgAkIIEBaAAAA4QoAIQg=</HashCode>
+      <FileName>Tokens\TokenType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
