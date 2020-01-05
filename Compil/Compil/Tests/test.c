@@ -1,7 +1,7 @@
 #include<stdlib>
 #include<stdio>
 
-#define LIMIT 15
+#define LIMIT 16
 
 function test(a, b)
 {
