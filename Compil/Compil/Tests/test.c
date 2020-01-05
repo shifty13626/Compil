@@ -3,7 +3,7 @@
 
 function main()
 {
-	var o = pow(2, 4);
-	print(o);
-	return 0;
+    var i = 2 ^ 3;
+    print(i);
+    return 0;
 }

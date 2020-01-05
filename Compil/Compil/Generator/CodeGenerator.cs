@@ -53,6 +53,15 @@ namespace Compil.Generator
                 _fileWriter.WriteCommand($"push {node.Value}", false);
             }
 
+            // Power
+            if (node.Type == NodeType.OP_POWER) {
+                var callPowNode = new Node() {Type = NodeType.CALL, Value = "pow"};
+                callPowNode.AddChild(node.Children[0]);
+                callPowNode.AddChild(node.Children[1]);
+                node = callPowNode;
+                GenerateCode(node);
+            }
+            
             // Operations
             if (_operatorsToCode.ContainsKey(node.Type))
             {
