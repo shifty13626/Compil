@@ -23,8 +23,10 @@ namespace Compil
                 }
 
                 // read source file
-                var pathFile = Path.Combine(args[args.Length - 1]);
+                var pathFile = Path.Combine(args[0]);
                 Console.WriteLine("File to read : " + pathFile);
+                var outputFile = Path.Combine(args[args.Length - 1]);
+                Console.WriteLine("Output file : " + outputFile);
                 var codeTemp = File.ReadAllText(pathFile);
 
                 Console.WriteLine("File content : ");
@@ -42,7 +44,7 @@ namespace Compil
                 // parserAnalyzer
                 var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyzer);
                 // File writer
-                var fileWriter = new FileWriter("code.txt");
+                var fileWriter = new FileWriter(outputFile);
 
                 // Display all token in form of a tree.
                 var semanticAnalyzer = new SemanticAnalyzer(syntaxAnalyzer);
@@ -83,6 +85,7 @@ namespace Compil
             Console.WriteLine("Compil.exe [fileCToRead]");
             Console.WriteLine("Press a key to exit...");
             Console.ReadKey();
+            return;
         }
     }
 }

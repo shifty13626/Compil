@@ -1,8 +1,9 @@
+#include<stdlib>
+#include<stdio>
+
 function main()
 {
-	var i = 1;
-	var j = 2;
-	var r = i + j;
-
+	var o = pow(2, 4);
+	print(o);
 	return 0;
 }
