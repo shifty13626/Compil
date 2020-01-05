@@ -32,9 +32,16 @@
           <e p="NodeType.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive" />
+        <e p="Preprocessor" t="Include">
+          <e p="SimplePreprocessor.cs" t="Include" />
+        </e>
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="std" t="Include">
+          <e p="stdio.c" t="Include" />
+          <e p="stdlib.c" t="Include" />
         </e>
         <e p="Symbols" t="Include">
           <e p="Symbol.cs" t="Include" />

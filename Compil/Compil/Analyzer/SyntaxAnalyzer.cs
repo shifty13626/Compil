@@ -336,6 +336,16 @@ namespace Compil {
                 return nodeReturn;
             }
 
+            // Send
+            if (LexicalAnalyzer.Next().Type == TokenType.SEND) {
+                LexicalAnalyzer.Skip();
+                var nodeSend = new Node() {Type = NodeType.SEND};
+                var ex = Expression();
+                LexicalAnalyzer.Accept(TokenType.SEMICOLON);
+                nodeSend.AddChild(ex);
+                return nodeSend;
+            }
+
             // 'VAR' token handling
             if (LexicalAnalyzer.Next().Type == TokenType.VAR) {
                 LexicalAnalyzer.Skip();
