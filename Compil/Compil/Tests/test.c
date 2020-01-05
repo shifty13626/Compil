@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function pow(a, n)
 {
 <<<<<<< HEAD
@@ -18,5 +19,13 @@ function main()
 	var j = 2;
 	var r = i + j;
 	
+=======
+#include<stdlib>
+#include<stdio>
+
+function main()
+{
+	var o = pow(2, 4);
+>>>>>>> declaration_opti
 	return 0;
 }

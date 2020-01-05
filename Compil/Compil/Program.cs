@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Compil;
 using Compil.Generator;
 using System.Linq;
+using Compil.Preprocessor;
 using Compil.Tokens;
 
 namespace Compil
@@ -35,6 +36,9 @@ namespace Compil
                 Console.ReadKey();
                 Console.WriteLine();
 
+                // Preprocessor
+                var preprocessor = new SimplePreprocessor();
+                codeTemp = preprocessor.Process(codeTemp);
                 // lexicalAnalyser
                 var lexicalAnalyzer = new LexicalAnalyzer(codeTemp, 0);
                 // parserAnalyzer

@@ -136,6 +136,13 @@ namespace Compil.Generator
                 _fileWriter.WriteCommand("drop");
             }
 
+            // Send
+            if (node.Type == NodeType.SEND) {
+                GenerateCode(node.Children[0]);
+                _fileWriter.WriteCommand("dup");
+                _fileWriter.WriteCommand("send");
+            }
+
             // Conditions
             if (node.Type == NodeType.CONDITION)
             {

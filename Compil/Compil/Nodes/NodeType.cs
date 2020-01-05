@@ -47,6 +47,9 @@ namespace Compil.Nodes
         // Function
         FUNCTION,
         CALL,
-        RETURN
+        RETURN,
+        
+        SEND,
+        RECEIVE
     }
 }
