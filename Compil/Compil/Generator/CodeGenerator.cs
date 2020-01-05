@@ -50,7 +50,7 @@ namespace Compil.Generator
             // Constants
             if (node.Type == NodeType.CONSTANT)
             {
-                _fileWriter.WriteCommand($"push {node.Value}", true);
+                _fileWriter.WriteCommand($"push {node.Value}", false);
             }
 
             // Operations
@@ -58,7 +58,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand(_operatorsToCode[node.Type], true);
+                _fileWriter.WriteCommand(_operatorsToCode[node.Type], false);
             }
 
             // Unary operations
@@ -67,9 +67,9 @@ namespace Compil.Generator
                 // Unary operations
                 case NodeType.MINUS:
                     // We do '0 - n'
-                    _fileWriter.WriteCommand("push 0", true);
+                    _fileWriter.WriteCommand("push 0", false);
                     GenerateCode(node.Children[0]);
-                    _fileWriter.WriteCommand("sub", true);
+                    _fileWriter.WriteCommand("sub", false);
                     break;
                 case NodeType.PLUS:
                     // Little optimisation: we do nothing because, for example, +5 = 5, the '+' disappear.
@@ -84,7 +84,7 @@ namespace Compil.Generator
             // Variables
             if (node.Type == NodeType.VARIABLE)
             {
-                _fileWriter.WriteCommand($"get {node.Slot}", true);
+                _fileWriter.WriteCommand($"get {node.Slot}", false);
             }
 
             if (node.Type == NodeType.ASSIGN)
@@ -197,7 +197,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmpeq", true);
+                _fileWriter.WriteCommand("cmpeq", false);
             }
 
             // !=
@@ -205,7 +205,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmpne", true);
+                _fileWriter.WriteCommand("cmpne", false);
             }
 
             // <
@@ -213,7 +213,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmplt", true);
+                _fileWriter.WriteCommand("cmplt", false);
             }
 
             // <=
@@ -221,7 +221,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmple", true);
+                _fileWriter.WriteCommand("cmple", false);
             }
 
             // > 
@@ -229,7 +229,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmpgt", true);
+                _fileWriter.WriteCommand("cmpgt", false);
             }
 
             // >=
@@ -237,7 +237,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[0]);
                 GenerateCode(node.Children[1]);
-                _fileWriter.WriteCommand("cmpge", true);
+                _fileWriter.WriteCommand("cmpge", false);
             }
         }
     }
