@@ -91,7 +91,7 @@ namespace Compil.Generator
             {
                 GenerateCode(node.Children[1]);
                 _fileWriter.WriteCommand("dup", false);
-                _fileWriter.WriteCommand($"set {node.Slot}", false);
+                _fileWriter.WriteCommand($"set {node.Children[0].Slot}", false);
             }
 
             // Call function
@@ -175,13 +175,13 @@ namespace Compil.Generator
             {
                 if (!_stackLoop.Any())
                     throw new SyntaxErrorException ("Break out of loop");
-                else
-                    _fileWriter.WriteCommand($"jump endLoop{(_stackLoop.LastOrDefault())}", false);
+                _fileWriter.WriteCommand($"jump endLoop{(_stackLoop.LastOrDefault())}", false);
             }
 
             if (node.Type == NodeType.DECLARE) 
             {
-                GenerateCode(node.Children[0]);
+                if(node.Children.Count >= 1)
+                    GenerateCode(node.Children[0]);
             }
 
             // Comparaison

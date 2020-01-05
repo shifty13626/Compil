@@ -14,18 +14,18 @@ namespace Compil
     {
         static void Main(string[] args)
         {
-            try
-            {
+            try {
                 // check number parameters on command
-                if (args.Length == 0)
-                {
+                if (args.Length == 0) {
                     Help();
                     return;
                 }
 
                 // read source file
-                Console.WriteLine("File to read : " + args[args.Length - 1]);
-                var pathFile = Path.Combine(args[args.Length - 1]);
+                var pathFile = Path.Combine(args[0]);
+                Console.WriteLine("File to read : " + pathFile);
+                var outputFile = Path.Combine(args[args.Length - 1]);
+                Console.WriteLine("Output file : " + outputFile);
                 var codeTemp = File.ReadAllText(pathFile);
 
                 Console.WriteLine("File content : ");
@@ -40,18 +40,17 @@ namespace Compil
                 // parserAnalyzer
                 var syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyzer);
                 // File writer
-                var fileWriter = new FileWriter();
+                var fileWriter = new FileWriter(outputFile);
 
                 // Display all token in form of a tree.
                 var semanticAnalyzer = new SemanticAnalyzer(syntaxAnalyzer);
                 var codeGenerator = new CodeGenerator(semanticAnalyzer, fileWriter);
-                
-                while (lexicalAnalyzer.Next().Type != TokenType.END_OF_FILE)
-                {
+
+                while (lexicalAnalyzer.Next().Type != TokenType.END_OF_FILE) {
                     var node = syntaxAnalyzer.Function();
                     semanticAnalyzer.Analyze(node);
                     node.VariablesCount = semanticAnalyzer.VariablesCount;
-                    
+
                     node.Print("", false);
                     codeGenerator.GenerateCode(node);
                     semanticAnalyzer = new SemanticAnalyzer(syntaxAnalyzer);
@@ -60,17 +59,13 @@ namespace Compil
                 // add code generate on the file output code
                 fileWriter.DeclareStart();
                 fileWriter.WriteFile();
-                
+
                 // wait exit
                 Console.WriteLine("\nPress any key to exit.");
                 Console.ReadKey();
-            }
-            catch (EncoderFallbackException e)
-            {
+            } catch (EncoderFallbackException e) {
                 Console.WriteLine(e.StackTrace);
-            }
-            catch (ArgumentNullException e)
-            {
+            } catch (ArgumentNullException e) {
                 Console.WriteLine("Null argument enter for launch program");
                 Console.WriteLine(e.Message);
             }
