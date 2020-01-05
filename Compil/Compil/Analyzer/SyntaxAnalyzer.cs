@@ -187,8 +187,9 @@ namespace Compil {
             {
                 var nameArg = LexicalAnalyzer.Next().Name;
                 var declare = new Node() {Type = NodeType.DECLARE};
-                declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
-                declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
+                declare.Value = nameArg;
+                
+                //declare.AddChild(new Node() {Type = NodeType.VARIABLE, Value = nameArg});
                 nodeBlock.AddChild(declare);
                     
                 LexicalAnalyzer.Skip();
@@ -310,8 +311,7 @@ namespace Compil {
                 return node;
                 
             }
-
-
+            
             // Block tokens handling
             if (LexicalAnalyzer.Next().Type == TokenType.BRACKET_OPEN) {
                 var node = new Node() {Type = NodeType.BLOCK};
@@ -360,7 +360,8 @@ namespace Compil {
                         }
                     }
 
-                    nodeVariable.AddChild(ex);
+                    if(ex.Type != NodeType.VARIABLE)
+                        nodeVariable.AddChild(ex);
 
                     return nodeVariable;
                 }

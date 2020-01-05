@@ -92,7 +92,12 @@ namespace Compil {
                     s1.Slot = VariablesCount;
                     VariablesCount++; // Increments variable count
                     node.Slot = s1.Slot;
-                    Analyze(node.Children[0]);
+                    
+                    if(node.Children.Count >= 1) {
+                        Analyze(node.Children[0]);
+                    }
+                    
+
                     break;
                 case NodeType.VARIABLE:
                     var s2 = Search(node.Value);

@@ -81,6 +81,8 @@ namespace Compil
                 Console.WriteLine($"FUNCTION DEFINITION: {Value}");
             else if(Type == NodeType.CALL)
                 Console.WriteLine($"FUNCTION CALL: {Value}");
+            else if(Type == NodeType.DECLARE)
+                Console.WriteLine($"DECLARE: name={Value}");
             else
                 // Print a node type only
                 Console.WriteLine(Type);
@@ -93,3 +95,4 @@ namespace Compil
 
     }
 }
+
