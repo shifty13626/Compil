@@ -14,10 +14,10 @@ namespace Compil.Utils
         /// <summary>
         /// Constructor class
         /// </summary>
-        public FileWriter()
+        public FileWriter(string fileOut)
         {
             code = String.Empty;
-            pathFileCode = Path.Combine(Environment.CurrentDirectory, "code.txt");
+            pathFileCode = Path.Combine(Environment.CurrentDirectory, "generatedCode" ,fileOut);
         }
 
         /// <summary>
@@ -63,6 +63,9 @@ namespace Compil.Utils
         {
             try
             {
+                // check directory and file exist
+                if (!Directory.Exists(Path.GetDirectoryName(pathFileCode)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(pathFileCode));
                 if (File.Exists(pathFileCode))
                     File.Delete(pathFileCode);
 
