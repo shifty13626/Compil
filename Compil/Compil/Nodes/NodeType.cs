@@ -38,6 +38,7 @@ namespace Compil.Nodes
         OR,
         CONDITION,
         BREAK,
+        CONTINUE,
         LOOP,
 
         BLOCK,
